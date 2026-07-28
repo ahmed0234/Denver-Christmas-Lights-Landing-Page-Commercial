@@ -34,11 +34,11 @@ function FormField({
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-colors duration-200 group"
+      className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-[1.5px] transition-colors duration-200 group"
       style={{
         background:
           "linear-gradient(180deg, rgba(72,22,18,0.55) 0%, rgba(38,10,9,0.72) 100%)",
-        borderColor: "rgba(142,73,56,0.55)",
+        borderColor: "rgba(142,73,56,0.8)",
         boxShadow:
           "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.25)",
       }}
@@ -128,22 +128,21 @@ export default function QuoteForm() {
         card border naturally, and position it so the string hangs just
         over the card's top edge.
       */}
+      {/*
+        Christmas Lights — attached naturally along the top edge of the card frame.
+        Positioned so the pine corner garlands hug the card's top corners and the
+        string sags cleanly above the text.
+      */}
       <div
         className="absolute z-20 pointer-events-none"
         style={{
-          top: "-52px",
-          left: "-16px",
-          right: "-16px",
+          top: "-76px",
+          left: "-18px",
+          right: "-18px",
         }}
       >
         <motion.div
-          animate={{
-            filter: [
-              "drop-shadow(0 0 6px rgba(245,198,106,0.55)) drop-shadow(0 0 14px rgba(255,220,130,0.3))",
-              "drop-shadow(0 0 14px rgba(245,198,106,0.9)) drop-shadow(0 0 28px rgba(255,220,130,0.55))",
-              "drop-shadow(0 0 6px rgba(245,198,106,0.55)) drop-shadow(0 0 14px rgba(255,220,130,0.3))",
-            ],
-          }}
+          animate={{ opacity: [0.88, 1, 0.88] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
           <Image
@@ -152,7 +151,7 @@ export default function QuoteForm() {
             width={1320}
             height={540}
             className="w-full h-auto"
-            style={{ mixBlendMode: "lighten" }}
+            style={{ mixBlendMode: "screen" }}
             priority
           />
         </motion.div>
@@ -164,7 +163,7 @@ export default function QuoteForm() {
         style={{
           background:
             "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(120,30,20,0.95) 0%, rgba(72,12,10,0.97) 38%, rgba(28,6,5,0.98) 70%, rgba(14,3,3,0.99) 100%)",
-          border: "1.5px solid rgba(139,64,54,0.6)",
+          border: "2px solid rgba(139,64,54,0.9)",
           boxShadow:
             "0 0 0 1px rgba(80,20,15,0.4), 0 4px 80px rgba(180,30,20,0.22), 0 40px 100px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,180,130,0.07)",
         }}
@@ -178,8 +177,8 @@ export default function QuoteForm() {
           }}
         />
 
-        {/* Content — extra top padding so heading clears the lights */}
-        <div className="relative px-7 pt-20 pb-7">
+        {/* Content — extra top padding so heading and GET YOUR FREE label clear the lights */}
+        <div className="relative px-7 pt-24 pb-7">
           {/* Top label */}
           <p
             className="text-[11px] font-bold tracking-[0.25em] uppercase text-center mb-2"

@@ -1,10 +1,12 @@
+import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 
 const page = () => {
   return (
-    <div>
+    <main className="relative min-h-screen">
+      <Navbar />
       <HeroSection />
-    </div>
+    </main>
   );
 };
 

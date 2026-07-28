@@ -17,15 +17,27 @@ import QuoteForm from "./QuoteForm";
 // ── Snowflake + thin red divider ───────────────────────────────────────────────
 function HeadingDivider() {
   return (
-    <div className="flex items-center gap-3 my-6">
+    <div className="flex items-center gap-3.5 my-3 w-full max-w-[480px] xl:max-w-[540px]">
       <div
-        className="h-px"
-        style={{ width: 60, backgroundColor: "var(--primary)" }}
+        className="flex-1 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--primary) 100%)",
+        }}
       />
-      <Snowflake size={14} style={{ color: "var(--primary)" }} />
+      <Snowflake
+        size={18}
+        style={{
+          color: "var(--primary)",
+          filter: "drop-shadow(0 0 6px rgba(217, 53, 53, 0.6))",
+        }}
+      />
       <div
-        className="h-px"
-        style={{ width: 60, backgroundColor: "var(--primary)" }}
+        className="flex-1 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--primary) 0%, transparent 100%)",
+        }}
       />
     </div>
   );
@@ -61,7 +73,7 @@ function TrustBadge({
         <Icon size={18} style={{ color: "var(--primary)" }} />
       </div>
       <p
-        className="text-xs font-semibold leading-tight"
+        className="text-xs font-semibold leading-tight xl:text-sm"
         style={{ color: "var(--heading)" }}
       >
         {title}
@@ -168,7 +180,7 @@ export default function HeroSection() {
       </div>
 
       {/* ── Main Content ──────────────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 py-20 md:py-24 lg:py-20">
+      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-28 md:pt-36 lg:pt-32 pb-20">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 lg:gap-12 xl:gap-12 ">
           {/* ── LEFT COLUMN ──────────────────────────────────────────────────── */}
           <div className="w-full lg:max-w-[620px] xl:max-w-[960px] flex flex-col items-start lg:pt-6 ">
@@ -179,9 +191,9 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="flex items-center gap-2 mb-5"
             >
-              <TreePine size={15} style={{ color: "var(--primary)" }} />
+              <TreePine size={22} style={{ color: "var(--primary)" }} />
               <span
-                className="text-xs font-semibold tracking-[0.22em] uppercase"
+                className="text-xs  font-semibold tracking-[0.22em] uppercase"
                 style={{ color: "var(--primary)" }}
               >
                 Professional Christmas Light Installation
@@ -197,7 +209,7 @@ export default function HeroSection() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl  font-bold leading-[1.08] tracking-tight mb-1 font-playfair"
+              className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl  font-bold leading-[1] tracking-tight mb-1 font-playfair"
               style={{ color: "var(--heading)" }}
             >
               We Make Your Home
@@ -215,7 +227,7 @@ export default function HeroSection() {
               className="relative inline-block mb-1"
             >
               <span
-                className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold leading-[1.08] tracking-tight italic font-playfair"
+                className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold leading-[1] tracking-tight italic font-playfair"
                 style={{
                   color: "var(--primary)",
                   textShadow: "0 0 40px rgba(217,53,53,0.45)",
@@ -255,7 +267,7 @@ export default function HeroSection() {
                 delay: 0.36,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold leading-[1.08] tracking-tight font-playfair"
+              className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold leading-[1] tracking-tight font-playfair"
               style={{ color: "var(--heading)" }}
             >
               on the Block
@@ -266,6 +278,7 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.55 }}
+              className="w-full"
             >
               <HeadingDivider />
             </motion.div>
@@ -275,7 +288,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-base md:text-lg leading-normal max-w-[440px] mb-6 2xl:text-xl"
+              className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-6 2xl:text-xl"
               style={{ color: "var(--body)" }}
             >
               Custom designs, expert installation, and worry free service from
@@ -331,12 +344,12 @@ export default function HeroSection() {
               </motion.a>
             </motion.div>
 
-            {/* Trust Badges — capped width so they don't stretch on wide screens */}
+            {/* Trust Badges — wider container matching design specifications */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.72 }}
-              className="w-full max-w-[580px]"
+              className="w-full max-w-[760px]"
             >
               <div
                 className="grid grid-cols-2 md:grid-cols-4 rounded-xl overflow-hidden p-5 gap-y-4"
@@ -374,8 +387,6 @@ export default function HeroSection() {
           >
             <QuoteForm />
           </div>
-
-
         </div>
       </div>
     </section>
