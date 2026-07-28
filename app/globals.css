@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #090707;
+  --background-secondary: #120b0b;
+  --background-card: #2a0f0d;
+
+  --primary: #d93535;
+  --primary-hover: #c62828;
+
+  --dark-red: #521815;
+
+  --input: #341312;
+  --input-border: #8e4938;
+
+  --heading: #f7f5f3;
+  --body: #c8c1bc;
+  --muted: #978e89;
+
+  --gold: #f5c86a;
+  --gold-dark: #c48c38;
+  --light-warm: #ffdca8;
+
+  --border: #6a2d26;
+  --border-light: #8b4036;
+
+  --foreground: #f7f5f3;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-backgroundSecondary: var(--background-secondary);
+  --color-background-card: var(--background-card);
+  --color-backgroundCard: var(--background-card);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primaryHover: var(--primary-hover);
+
+  --color-dark-red: var(--dark-red);
+  --color-darkRed: var(--dark-red);
+
+  --color-input: var(--input);
+  --color-input-border: var(--input-border);
+  --color-inputBorder: var(--input-border);
+
+  --color-heading: var(--heading);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
+  --color-goldDark: var(--gold-dark);
+  --color-light-warm: var(--light-warm);
+  --color-lightWarm: var(--light-warm);
+
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-borderLight: var(--border-light);
+
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-playfair: var(--font-playfair);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--body);
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background-color: rgba(217, 53, 53, 0.35);
+  color: var(--heading);
 }
