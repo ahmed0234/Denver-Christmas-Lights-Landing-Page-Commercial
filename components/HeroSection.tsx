@@ -293,7 +293,7 @@ export default function HeroSection() {
             >
               Custom designs, expert installation, and worry free service from
               start to finish. Enjoy a stunning holiday display without lifting
-              a ladder.
+              a ladder
             </motion.p>
 
             {/* CTA Buttons */}
