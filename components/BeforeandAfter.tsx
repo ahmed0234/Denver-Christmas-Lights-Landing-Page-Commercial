@@ -17,62 +17,48 @@ import {
 } from "lucide-react";
 
 // ─── Transformation Data ──────────────────────────────────────────────────────
-// Replace beforeImage and afterImage URLs with your real photography.
 const transformations = [
   {
     id: 1,
     title: "Before / After",
     icon: Sparkles,
-    // ↓ Replace with your actual images
-    beforeImage:
-      "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1543589077-47d81606c1bf?w=800&q=80",
+    beforeImage: "/BeforeAfter/beforeandafter/before.png",
+    afterImage: "/BeforeAfter/beforeandafter/after.png",
   },
   {
     id: 2,
     title: "Day / Night",
     icon: Sun,
-    beforeImage:
-      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    beforeImage: "/BeforeAfter/dayandnight/day.png",
+    afterImage: "/BeforeAfter/dayandnight/night.png",
   },
   {
     id: 3,
     title: "Roofline Lighting",
     icon: Home,
-    beforeImage:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=800&q=80",
+    beforeImage: "/BeforeAfter/rooflinelightning/before.png",
+    afterImage: "/BeforeAfter/rooflinelightning/after.png",
   },
   {
     id: 4,
     title: "Tree Lighting",
     icon: TreePine,
-    beforeImage:
-      "https://images.unsplash.com/photo-1501183638710-841dd1904471?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&q=80",
+    beforeImage: "/BeforeAfter/treelightning/before.png",
+    afterImage: "/BeforeAfter/treelightning/after.png",
   },
   {
     id: 5,
     title: "Entryway Lighting",
     icon: DoorOpen,
-    beforeImage:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1576769267415-9242b4a73c0b?w=800&q=80",
+    beforeImage: "/BeforeAfter/entrywaylightning/before.png",
+    afterImage: "/BeforeAfter/entrywaylightning/after.png",
   },
   {
     id: 6,
-    title: "Large Homes",
+    title: "Commercial Buildings",
     icon: Building2,
-    beforeImage:
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
-    afterImage:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    beforeImage: "/BeforeAfter/commercialbuilding/before.png",
+    afterImage: "/BeforeAfter/commercialbuilding/after.png",
   },
 ];
 
@@ -106,7 +92,7 @@ function BeforeAfterSlider({
       isDragging.current = true;
       updateSlider(e.clientX);
     },
-    [updateSlider]
+    [updateSlider],
   );
 
   useEffect(() => {
@@ -131,7 +117,7 @@ function BeforeAfterSlider({
       isDragging.current = true;
       updateSlider(e.touches[0].clientX);
     },
-    [updateSlider]
+    [updateSlider],
   );
 
   const onTouchMove = useCallback(
@@ -139,7 +125,7 @@ function BeforeAfterSlider({
       if (!isDragging.current) return;
       updateSlider(e.touches[0].clientX);
     },
-    [updateSlider]
+    [updateSlider],
   );
 
   const onTouchEnd = useCallback(() => {
@@ -222,8 +208,16 @@ function BeforeAfterSlider({
               "0 2px 16px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(255,255,255,0.35)",
           }}
         >
-          <ChevronLeft size={11} className="text-neutral-700" style={{ marginRight: "-1px" }} />
-          <ChevronRight size={11} className="text-neutral-700" style={{ marginLeft: "-1px" }} />
+          <ChevronLeft
+            size={11}
+            className="text-neutral-700"
+            style={{ marginRight: "-1px" }}
+          />
+          <ChevronRight
+            size={11}
+            className="text-neutral-700"
+            style={{ marginLeft: "-1px" }}
+          />
         </div>
       </div>
 
@@ -409,7 +403,10 @@ function BottomCTA() {
           >
             Your Home Could Be Next
           </p>
-          <p className="text-sm 2xl:text-lg mt-0.5" style={{ color: "var(--muted)" }}>
+          <p
+            className="text-sm 2xl:text-lg mt-0.5"
+            style={{ color: "var(--muted)" }}
+          >
             Let us make your home the brightest on the block.
           </p>
         </div>
@@ -441,12 +438,12 @@ function BottomCTA() {
 
 // ─── Ambient bokeh dots (static list — no Math.random in render) ──────────────
 const BOKEH = [
-  { left: "7%",  top: "10%", size: 5, color: "#f5c86a", dur: 3.5, delay: 0   },
-  { left: "93%", top: "7%",  size: 4, color: "#d93535", dur: 4.0, delay: 0.7 },
+  { left: "7%", top: "10%", size: 5, color: "#f5c86a", dur: 3.5, delay: 0 },
+  { left: "93%", top: "7%", size: 4, color: "#d93535", dur: 4.0, delay: 0.7 },
   { left: "14%", top: "86%", size: 6, color: "#f5c86a", dur: 3.2, delay: 1.2 },
   { left: "86%", top: "80%", size: 4, color: "#d93535", dur: 4.5, delay: 0.4 },
-  { left: "50%", top: "4%",  size: 3, color: "#f5c86a", dur: 3.8, delay: 1.8 },
-  { left: "3%",  top: "48%", size: 3, color: "#d93535", dur: 5.0, delay: 2.1 },
+  { left: "50%", top: "4%", size: 3, color: "#f5c86a", dur: 3.8, delay: 1.8 },
+  { left: "3%", top: "48%", size: 3, color: "#d93535", dur: 5.0, delay: 2.1 },
   { left: "97%", top: "44%", size: 5, color: "#f5c86a", dur: 3.6, delay: 0.9 },
 ];
 
@@ -497,6 +494,8 @@ export default function BeforeandAfter() {
           }}
         />
       </div>
+      {/* ── Left & Right Garland Framing Decorations ───────────────────────── */}
+
       {/* Subtle warm radial glow from top */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -537,7 +536,6 @@ export default function BeforeandAfter() {
 
       {/* ── Main content ─────────────────────────────────────────────────────── */}
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-20 pb-24">
-
         {/* Section header */}
         <div className="flex flex-col items-center text-center mb-14">
           <motion.div
@@ -552,7 +550,11 @@ export default function BeforeandAfter() {
           <motion.h2
             initial={{ opacity: 0, y: 22 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.65,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-bold leading-[1.08] tracking-tight mb-5 font-playfair"
             style={{ color: "var(--heading)" }}
           >
@@ -575,7 +577,8 @@ export default function BeforeandAfter() {
             className="text-base sm:text-lg max-w-md"
             style={{ color: "var(--muted)" }}
           >
-            Real homes. Stunning results. Professionally installed to perfection.
+            Real homes. Stunning results. Professionally installed to
+            perfection.
           </motion.p>
         </div>
 
