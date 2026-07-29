@@ -140,3 +140,47 @@ html {
   background: var(--background);
 }
 
+/* ── Service Card Premium Golden Shimmer ────────────────────────────────────── */
+@keyframes golden-shimmer {
+  0%,
+  18% {
+    transform: translateX(-120%) skewX(-14deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+  }
+  58%,
+  100% {
+    transform: translateX(320%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+
+.service-card-border {
+  position: relative;
+}
+
+.service-card-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(245, 200, 106, 0.04) 25%,
+    rgba(255, 235, 190, 0.12) 48%,
+    rgba(245, 200, 106, 0.04) 75%,
+    transparent 100%
+  );
+  animation: golden-shimmer 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+

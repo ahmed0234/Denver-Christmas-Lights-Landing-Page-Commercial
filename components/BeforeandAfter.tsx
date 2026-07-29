@@ -535,7 +535,7 @@ export default function BeforeandAfter() {
       </div>
 
       {/* ── Main content ─────────────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-20 pb-24">
+      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-8 pb-8">
         {/* Section header */}
         <div className="flex flex-col items-center text-center mb-14">
           <motion.div

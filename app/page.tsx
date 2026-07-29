@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import BeforeandAfter from "@/components/BeforeandAfter";
+import Services from "@/components/Services";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 const page = () => {
   return (
@@ -8,6 +10,8 @@ const page = () => {
       <Navbar />
       <HeroSection />
       <BeforeandAfter />
+      <Services />
+      <WhyChooseUs />
     </main>
   );
 };
