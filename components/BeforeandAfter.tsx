@@ -22,43 +22,43 @@ const transformations = [
     id: 1,
     title: "Before / After",
     icon: Sparkles,
-    beforeImage: "/BeforeAfter/beforeandafter/before.png",
-    afterImage: "/BeforeAfter/beforeandafter/after.png",
+    beforeImage: "/BeforeAfter/beforeandafter/before.webp",
+    afterImage: "/BeforeAfter/beforeandafter/after.webp",
   },
   {
     id: 2,
     title: "Day / Night",
     icon: Sun,
-    beforeImage: "/BeforeAfter/dayandnight/day.png",
-    afterImage: "/BeforeAfter/dayandnight/night.png",
+    beforeImage: "/BeforeAfter/dayandnight/day.webp",
+    afterImage: "/BeforeAfter/dayandnight/night.webp",
   },
   {
     id: 3,
     title: "Roofline Lighting",
     icon: Home,
-    beforeImage: "/BeforeAfter/rooflinelightning/before.png",
-    afterImage: "/BeforeAfter/rooflinelightning/after.png",
+    beforeImage: "/BeforeAfter/rooflinelightning/before.webp",
+    afterImage: "/BeforeAfter/rooflinelightning/after.webp",
   },
   {
     id: 4,
     title: "Tree Lighting",
     icon: TreePine,
-    beforeImage: "/BeforeAfter/treelightning/before.png",
-    afterImage: "/BeforeAfter/treelightning/after.png",
+    beforeImage: "/BeforeAfter/treelightning/before.webp",
+    afterImage: "/BeforeAfter/treelightning/after.webp",
   },
   {
     id: 5,
     title: "Entryway Lighting",
     icon: DoorOpen,
-    beforeImage: "/BeforeAfter/entrywaylightning/before.png",
-    afterImage: "/BeforeAfter/entrywaylightning/after.png",
+    beforeImage: "/BeforeAfter/entrywaylightning/before.webp",
+    afterImage: "/BeforeAfter/entrywaylightning/after.webp",
   },
   {
     id: 6,
     title: "Commercial Buildings",
     icon: Building2,
-    beforeImage: "/BeforeAfter/commercialbuilding/before.png",
-    afterImage: "/BeforeAfter/commercialbuilding/after.png",
+    beforeImage: "/BeforeAfter/commercialbuilding/before.webp",
+    afterImage: "/BeforeAfter/commercialbuilding/after.webp",
   },
 ];
 
@@ -462,7 +462,7 @@ export default function BeforeandAfter() {
       {/* ── Subtle Atmospheric Background Image ──────────────────────────────── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <Image
-          src="/BeforeAfter/BackGroundSubtle.png"
+          src="/BeforeAfter/BackGroundSubtle.webp"
           alt=""
           fill
           aria-hidden="true"

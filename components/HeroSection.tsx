@@ -118,7 +118,7 @@ export default function HeroSection() {
       {/* ── Background Image ──────────────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/HeroBackground.png"
+          src="/HeroBackground.webp"
           alt="Beautiful Christmas-lit home at night"
           fill
           priority

@@ -407,7 +407,7 @@ export default function WhyChooseUs() {
                 className="relative w-full h-full lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0%_100%)]"
               >
                 <Image
-                  src="/WhyChooseUs/HeaderBackground.png"
+                  src="/WhyChooseUs/HeaderBackground.webp"
                   alt="Professionally decorated Christmas home at night"
                   fill
                   className="object-cover object-[80%_center] lg:object-center brightness-[1.22] contrast-[1.1] sm:brightness-110 sm:contrast-105 scale-105 transition-transform duration-700"
@@ -583,7 +583,7 @@ export default function WhyChooseUs() {
             {/* Background image & gradient overlay */}
             <div className="absolute inset-0 z-0">
               <Image
-                src="/WhyChooseUs/BottomSectionBackground.png"
+                src="/WhyChooseUs/BottomSectionBackground.webp"
                 alt="Beautifully decorated Christmas home"
                 fill
                 className="object-cover object-[75%_center] lg:object-right-center brightness-[1.06] contrast-[1] scale-[1] transition-transform duration-700"

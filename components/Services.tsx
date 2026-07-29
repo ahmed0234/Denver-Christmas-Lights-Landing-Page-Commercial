@@ -653,15 +653,15 @@ export default function Services() {
     {
       title: "Residential Installation",
       icon: Home,
-      beforeImage: "/BeforeAfter/services/before.png",
-      afterImage: "/BeforeAfter/services/after.png",
+      beforeImage: "/BeforeAfter/services/before.webp",
+      afterImage: "/BeforeAfter/services/after.webp",
       delay: 0.1,
     },
     {
       title: "Commercial Installation",
       icon: Building2,
-      beforeImage: "/BeforeAfter/commercialbuilding/before.png",
-      afterImage: "/BeforeAfter/commercialbuilding/after.png",
+      beforeImage: "/BeforeAfter/commercialbuilding/before.webp",
+      afterImage: "/BeforeAfter/commercialbuilding/after.webp",
       delay: 0.2,
     },
   ];
