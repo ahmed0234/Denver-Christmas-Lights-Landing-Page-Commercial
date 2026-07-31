@@ -197,79 +197,79 @@ export default function ProcessSection() {
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 75%",
+              start: "top 88%",
               once: true,
             },
           });
 
           tl.from(".process-eyebrow", {
             opacity: 0,
-            y: 20,
-            duration: 0.7,
-            ease: "power3.out",
+            y: 16,
+            duration: 0.4,
+            ease: "power2.out",
           })
             .from(
               ".process-heading",
-              { opacity: 0, y: 26, duration: 0.8, ease: "power3.out" },
-              "-=0.4",
+              { opacity: 0, y: 20, duration: 0.45, ease: "power2.out" },
+              "-=0.25",
             )
             .from(
               ".process-divider",
-              { opacity: 0, scaleX: 0, duration: 0.6, ease: "power2.out" },
-              "-=0.4",
+              { opacity: 0, scaleX: 0, duration: 0.35, ease: "power2.out" },
+              "-=0.3",
             )
             .from(
               ".process-subtitle",
-              { opacity: 0, y: 16, duration: 0.6, ease: "power3.out" },
-              "-=0.4",
+              { opacity: 0, y: 12, duration: 0.35, ease: "power2.out" },
+              "-=0.25",
             )
             .from(
               stepRefs.current,
               {
                 opacity: 0,
-                y: 32,
-                duration: 0.7,
-                stagger: 0.22,
-                ease: "power3.out",
+                y: 24,
+                duration: 0.45,
+                stagger: 0.1,
+                ease: "power2.out",
               },
               "-=0.2",
             )
             .from(
               ".timeline-assembly",
-              { opacity: 0, duration: 0.4, ease: "power1.out" },
-              "-=0.9",
+              { opacity: 0, duration: 0.3, ease: "power1.out" },
+              "-=0.45",
             )
             .fromTo(
               lineTrackRef.current,
               { scaleX: 0 },
               {
                 scaleX: 1,
-                duration: 1,
+                duration: 0.6,
                 ease: "power2.inOut",
                 transformOrigin: "left center",
               },
-              "-=0.4",
+              "-=0.3",
             )
             .fromTo(
               mobileLineRef.current,
               { scaleY: 0 },
               {
                 scaleY: 1,
-                duration: 1,
+                duration: 0.6,
                 ease: "power2.inOut",
                 transformOrigin: "top center",
               },
-              "-=1",
+              "-=0.6",
             )
             .from(
               ".process-cta",
-              { opacity: 0, y: 20, duration: 0.6, ease: "power3.out" },
-              "-=0.2",
+              { opacity: 0, y: 16, duration: 0.4, ease: "power2.out" },
+              "-=0.35",
             )
             .from(
               ".process-trust",
-              { opacity: 0, y: 14, duration: 0.6, ease: "power3.out" },
-              "-=0.3",
+              { opacity: 0, y: 10, duration: 0.35, ease: "power2.out" },
+              "-=0.25",
             );
 
           // Gentle floating loop for each icon circle.
