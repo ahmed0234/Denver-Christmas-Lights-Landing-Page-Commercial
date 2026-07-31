@@ -696,8 +696,8 @@ export default function Services() {
     {
       title: "Large Home Installation",
       icon: Building2,
-      beforeImage: "/BeforeAfter/LargeHouse/before.webp",
-      afterImage: "/BeforeAfter/LargeHouse/after.webp",
+      beforeImage: "/BeforeAfter/LargeHouse/Before.webp",
+      afterImage: "/BeforeAfter/LargeHouse/After.webp",
       delay: 0.2,
     },
   ];
