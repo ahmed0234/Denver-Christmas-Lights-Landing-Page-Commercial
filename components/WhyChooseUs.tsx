@@ -282,11 +282,11 @@ export default function WhyChooseUs() {
               animate={headerInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="font-bold leading-[0.95] tracking-tight mb-5 sm:mb-6"
-              style={{ color: "var(--text-heading)", fontSize: "clamp(36px, 4.8vw, 65px)" }}
+              style={{ color: "var(--text-heading)", fontSize: "clamp(36px, 4.8vw, 50px)" }}
             >
-              The Benefits<br />You{"'"} ll Feel{" "}
-              <span className="text-accent-gradient">All Season</span>
-              <br />Long
+              Why Denver{" "}
+              <span className="text-accent-gradient"> Homeowners</span>
+              <br />Choose Denver Christmas Lights
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 14 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.28 }}
               className="text-base sm:text-lg leading-relaxed mb-7 sm:mb-8" style={{ color: "var(--text-muted)", maxWidth: "520px" }}>

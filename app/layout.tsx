@@ -21,11 +21,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Denver Christmas Lights Professional Christmas Light Installation",
+  title:
+    "Residential Christmas Light Installation Denver | Denver Christmas Lights",
   description:
-    "Custom designs, expert installation, and worry-free service from start to finish. Enjoy a stunning holiday display without lifting a ladder.",
+    "Professional residential Christmas light installation in Denver. Custom design, installation, maintenance, takedown and seasonal support. Request your free quote.",
 };
-
 
 export default function RootLayout({
   children,
@@ -35,6 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="golden"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >

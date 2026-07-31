@@ -3,7 +3,12 @@ import HeroSection from "@/components/HeroSection";
 import BeforeandAfter from "@/components/BeforeandAfter";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
+import Process from "@/components/Process";
+import AreasServices from "@/components/AreasServices";
+import Reviews from "@/components/Reviews";
+import Faq from "@/components/Faq";
+import FinalCTA from "@/components/FinalCTA";
+import Footer from "@/components/Footer";
 
 const page = () => {
   return (
@@ -13,8 +18,12 @@ const page = () => {
       <BeforeandAfter />
       <Services />
       <WhyChooseUs />
-      <div className="pb-14"></div>
-      <ThemeSwitcher />
+      <Process />
+      <AreasServices />
+      <Reviews />
+      <Faq />
+      <FinalCTA />
+      <Footer />
     </main>
   );
 };

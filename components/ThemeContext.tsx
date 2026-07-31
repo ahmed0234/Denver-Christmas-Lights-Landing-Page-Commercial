@@ -54,7 +54,7 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: "classic",
+  theme: "golden",
   setTheme: () => {},
 });
 
@@ -64,12 +64,12 @@ const STORAGE_KEY = "dcl-theme";
 function getStoredTheme(): ThemeId {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "golden" || stored === "classic" || stored === "winter" || stored === "emerald")
+    if (stored === "golden")
       return stored;
   } catch {
     // SSR / storage blocked
   }
-  return "classic";
+  return "golden";
 }
 
 function applyTheme(id: ThemeId) {
@@ -82,7 +82,7 @@ function applyTheme(id: ThemeId) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeId>("classic");
+  const [theme, setThemeState] = useState<ThemeId>("golden");
 
   useEffect(() => {
     const stored = getStoredTheme();

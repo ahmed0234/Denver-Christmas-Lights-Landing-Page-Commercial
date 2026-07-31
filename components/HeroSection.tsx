@@ -21,7 +21,8 @@ function HeadingDivider() {
       <div
         className="flex-1 h-px"
         style={{
-          background: "linear-gradient(90deg, transparent 0%, var(--accent) 100%)",
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--accent) 100%)",
         }}
       />
       <Snowflake
@@ -34,7 +35,8 @@ function HeadingDivider() {
       <div
         className="flex-1 h-px"
         style={{
-          background: "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
+          background:
+            "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
         }}
       />
     </div>
@@ -94,27 +96,43 @@ function TrustBadge({
 
 // ── Static bokeh data ──────────────────────────────────────────────────────────
 const HERO_BOKEH = [
-  { left: "12%",  top: "18%", size: 4, gold: true,  dur: 3.1, delay: 0.0 },
-  { left: "78%",  top: "12%", size: 3, gold: false, dur: 4.2, delay: 0.6 },
-  { left: "55%",  top: "72%", size: 5, gold: true,  dur: 3.8, delay: 1.1 },
-  { left: "22%",  top: "82%", size: 3, gold: false, dur: 2.9, delay: 0.4 },
-  { left: "88%",  top: "55%", size: 4, gold: true,  dur: 4.5, delay: 1.8 },
-  { left: "6%",   top: "44%", size: 3, gold: false, dur: 3.6, delay: 2.2 },
-  { left: "65%",  top: "30%", size: 3, gold: true,  dur: 5.0, delay: 0.9 },
-  { left: "38%",  top: "8%",  size: 4, gold: false, dur: 3.4, delay: 1.5 },
-  { left: "92%",  top: "88%", size: 3, gold: true,  dur: 4.1, delay: 2.7 },
-  { left: "48%",  top: "60%", size: 5, gold: false, dur: 3.7, delay: 0.2 },
-  { left: "18%",  top: "35%", size: 3, gold: true,  dur: 4.8, delay: 1.3 },
-  { left: "74%",  top: "92%", size: 4, gold: false, dur: 3.3, delay: 0.7 },
+  { left: "12%", top: "18%", size: 4, gold: true, dur: 3.1, delay: 0.0 },
+  { left: "78%", top: "12%", size: 3, gold: false, dur: 4.2, delay: 0.6 },
+  { left: "55%", top: "72%", size: 5, gold: true, dur: 3.8, delay: 1.1 },
+  { left: "22%", top: "82%", size: 3, gold: false, dur: 2.9, delay: 0.4 },
+  { left: "88%", top: "55%", size: 4, gold: true, dur: 4.5, delay: 1.8 },
+  { left: "6%", top: "44%", size: 3, gold: false, dur: 3.6, delay: 2.2 },
+  { left: "65%", top: "30%", size: 3, gold: true, dur: 5.0, delay: 0.9 },
+  { left: "38%", top: "8%", size: 4, gold: false, dur: 3.4, delay: 1.5 },
+  { left: "92%", top: "88%", size: 3, gold: true, dur: 4.1, delay: 2.7 },
+  { left: "48%", top: "60%", size: 5, gold: false, dur: 3.7, delay: 0.2 },
+  { left: "18%", top: "35%", size: 3, gold: true, dur: 4.8, delay: 1.3 },
+  { left: "74%", top: "92%", size: 4, gold: false, dur: 3.3, delay: 0.7 },
 ];
 
 // ── Main HeroSection ───────────────────────────────────────────────────────────
 export default function HeroSection() {
   const trustBadges = [
-    { icon: ShieldCheck, title: "Fully Insured",            description: "Your home is in safe hands" },
-    { icon: Award,       title: "Satisfaction Guaranteed",   description: "We're not happy until you are" },
-    { icon: Star,        title: "Premium Quality Materials", description: "Commercial-grade lights that last" },
-    { icon: Wrench,      title: "Maintenance Included",      description: "We keep your lights perfect all season" },
+    {
+      icon: ShieldCheck,
+      title: "Fully Insured Installation Team",
+      description: "Your home is in safe hands",
+    },
+    {
+      icon: Award,
+      title: "Custom Holiday Lighting Designs",
+      description: "Professional Christmas Lighting Designs",
+    },
+    {
+      icon: Star,
+      title: "In-Season Maintenance Available",
+      description: "We keep your lights perfect all season",
+    },
+    {
+      icon: Wrench,
+      title: "Removal and Takedown Available",
+      description: "We handle the cleanup so you don't have to",
+    },
   ];
 
   return (
@@ -153,7 +171,8 @@ export default function HeroSection() {
         <div
           className="absolute inset-x-0 bottom-0 h-48 pointer-events-none"
           style={{
-            background: "linear-gradient(to top, rgba(9,7,7,0.85) 0%, transparent 100%)",
+            background:
+              "linear-gradient(to top, rgba(9,7,7,0.85) 0%, transparent 100%)",
           }}
         />
       </div>
@@ -200,7 +219,7 @@ export default function HeroSection() {
                 className="text-xs font-semibold tracking-[0.22em] uppercase"
                 style={{ color: "var(--accent)" }}
               >
-                Professional Christmas Light Installation
+                Residential Christmas Light Installation in Denver Colorado
               </span>
             </motion.div>
 
@@ -208,22 +227,30 @@ export default function HeroSection() {
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.75,
+                delay: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight mb-1 font-sans"
               style={{ color: "var(--text-heading)" }}
             >
-              We Make Your Home
+              Professional Christmas
             </motion.h1>
 
             {/* "the Brightest" */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.75,
+                delay: 0.28,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="relative inline-block mb-1"
             >
               <span className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight italic font-playfair text-accent-gradient">
-                the Brightest
+                Light Installation
               </span>
               <svg
                 viewBox="0 0 320 18"
@@ -247,11 +274,15 @@ export default function HeroSection() {
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.75,
+                delay: 0.36,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight font-sans"
               style={{ color: "var(--text-heading)" }}
             >
-              on the Block
+              For Denver Homes
             </motion.h1>
 
             {/* Divider */}
@@ -269,11 +300,22 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-6 2xl:text-xl"
+              className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-2 2xl:text-xl"
               style={{ color: "var(--text-body)" }}
             >
-              Custom designs, expert installation, and worry free service from
-              start to finish. Enjoy a stunning holiday display without lifting a ladder
+              Make your home stand out this holiday season without climbing
+              ladders, untangling wires or spending your weekend in the cold
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-2 2xl:text-xl"
+              style={{ color: "var(--text-body)" }}
+            >
+              Denver Christmas Lights handles the complete process, including
+              custom design, professional installation, in season maintenance
+              and post holiday removal
             </motion.p>
 
             {/* CTA Buttons */}
@@ -283,6 +325,26 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.62 }}
               className="flex flex-wrap gap-4 mb-8"
             >
+              <motion.a
+                id="hero-cta-quote"
+                href="#quote"
+                whileHover={{
+                  backgroundColor: "var(--accent-glow-soft)",
+                  boxShadow: "0 4px 20px var(--accent-glow-soft)",
+                }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-sm tracking-wide border"
+                style={{
+                  borderColor: "var(--accent)",
+                  backgroundColor: "var(--accent-glow-faint)",
+                  backdropFilter: "blur(4px)",
+                  color: "var(--accent)",
+                }}
+              >
+                <CalendarCheck size={16} />
+                Get My Free Christmas Light Quote
+              </motion.a>
+
               {/* Primary — Call */}
               <motion.a
                 id="hero-cta-call"
@@ -303,33 +365,15 @@ export default function HeroSection() {
                 <span
                   className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
                   style={{
-                    background: "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
+                    background:
+                      "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
                   }}
                 />
                 <Phone size={16} className="relative" />
-                <span className="relative">Call (720) 513-4567</span>
+                <span className="relative ">Call (720) 513-4567</span>
               </motion.a>
 
               {/* Secondary — Get Quote */}
-              <motion.a
-                id="hero-cta-quote"
-                href="#quote"
-                whileHover={{
-                  backgroundColor: "var(--accent-glow-soft)",
-                  boxShadow: "0 4px 20px var(--accent-glow-soft)",
-                }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-sm tracking-wide border"
-                style={{
-                  borderColor: "var(--accent)",
-                  backgroundColor: "var(--accent-glow-faint)",
-                  backdropFilter: "blur(4px)",
-                  color: "var(--accent)",
-                }}
-              >
-                <CalendarCheck size={16} />
-                Get a Free Quote
-              </motion.a>
             </motion.div>
 
             {/* Trust Badges */}
@@ -345,7 +389,8 @@ export default function HeroSection() {
                   background: `linear-gradient(160deg, var(--trust-bg) 0%, var(--bg-overlay) 100%)`,
                   backdropFilter: "blur(10px)",
                   border: "1px solid var(--trust-border)",
-                  boxShadow: "inset 0 1px 0 var(--highlight-surface), var(--shadow-card)",
+                  boxShadow:
+                    "inset 0 1px 0 var(--highlight-surface), var(--shadow-card)",
                 }}
               >
                 {trustBadges.map((badge, i) => (

@@ -18,17 +18,61 @@ import {
 
 // ─── Transformation Data ──────────────────────────────────────────────────────
 const transformations = [
-  { id: 1, title: "Before / After",     icon: Sparkles,  beforeImage: "/BeforeAfter/beforeandafter/before.webp",    afterImage: "/BeforeAfter/beforeandafter/after.webp" },
-  { id: 2, title: "Day / Night",        icon: Sun,       beforeImage: "/BeforeAfter/dayandnight/day.webp",          afterImage: "/BeforeAfter/dayandnight/night.webp" },
-  { id: 3, title: "Roofline Lighting",  icon: Home,      beforeImage: "/BeforeAfter/rooflinelightning/before.webp", afterImage: "/BeforeAfter/rooflinelightning/after.webp" },
-  { id: 4, title: "Tree Lighting",      icon: TreePine,  beforeImage: "/BeforeAfter/treelightning/before.webp",     afterImage: "/BeforeAfter/treelightning/after.webp" },
-  { id: 5, title: "Entryway Lighting",  icon: DoorOpen,  beforeImage: "/BeforeAfter/entrywaylightning/before.webp", afterImage: "/BeforeAfter/entrywaylightning/after.webp" },
-  { id: 6, title: "Commercial Buildings",icon: Building2, beforeImage: "/BeforeAfter/commercialbuilding/before.webp",afterImage: "/BeforeAfter/commercialbuilding/after.webp" },
+  {
+    id: 1,
+    title: "Before / After",
+    icon: Sparkles,
+    beforeImage: "/BeforeAfter/beforeandafter/before.webp",
+    afterImage: "/BeforeAfter/beforeandafter/after.webp",
+  },
+  {
+    id: 2,
+    title: "Day / Night",
+    icon: Sun,
+    beforeImage: "/BeforeAfter/dayandnight/day.webp",
+    afterImage: "/BeforeAfter/dayandnight/night.webp",
+  },
+  {
+    id: 3,
+    title: "Roofline Lighting",
+    icon: Home,
+    beforeImage: "/BeforeAfter/rooflinelightning/before.webp",
+    afterImage: "/BeforeAfter/rooflinelightning/after.webp",
+  },
+  {
+    id: 4,
+    title: "Tree Lighting",
+    icon: TreePine,
+    beforeImage: "/BeforeAfter/treelightning/before.webp",
+    afterImage: "/BeforeAfter/treelightning/after.webp",
+  },
+  {
+    id: 5,
+    title: "Entryway Lighting",
+    icon: DoorOpen,
+    beforeImage: "/BeforeAfter/entrywaylightning/before.webp",
+    afterImage: "/BeforeAfter/entrywaylightning/after.webp",
+  },
+  {
+    id: 6,
+    title: "Commercial Buildings",
+    icon: Building2,
+    beforeImage: "/BeforeAfter/commercialbuilding/before.webp",
+    afterImage: "/BeforeAfter/commercialbuilding/after.webp",
+  },
 ];
 
 // ─── Slider ───────────────────────────────────────────────────────────────────
-function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }: {
-  beforeImage: string; afterImage: string; beforeAlt: string; afterAlt: string;
+function BeforeAfterSlider({
+  beforeImage,
+  afterImage,
+  beforeAlt,
+  afterAlt,
+}: {
+  beforeImage: string;
+  afterImage: string;
+  beforeAlt: string;
+  afterAlt: string;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,21 +82,50 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }: {
     const container = containerRef.current;
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    setSliderPos((Math.max(0, Math.min(clientX - rect.left, rect.width)) / rect.width) * 100);
+    setSliderPos(
+      (Math.max(0, Math.min(clientX - rect.left, rect.width)) / rect.width) *
+        100,
+    );
   }, []);
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => { isDragging.current = true; updateSlider(e.clientX); }, [updateSlider]);
+  const onMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      isDragging.current = true;
+      updateSlider(e.clientX);
+    },
+    [updateSlider],
+  );
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => { if (isDragging.current) updateSlider(e.clientX); };
-    const onMouseUp = () => { isDragging.current = false; };
+    const onMouseMove = (e: MouseEvent) => {
+      if (isDragging.current) updateSlider(e.clientX);
+    };
+    const onMouseUp = () => {
+      isDragging.current = false;
+    };
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
-    return () => { window.removeEventListener("mousemove", onMouseMove); window.removeEventListener("mouseup", onMouseUp); };
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
   }, [updateSlider]);
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => { isDragging.current = true; updateSlider(e.touches[0].clientX); }, [updateSlider]);
-  const onTouchMove = useCallback((e: React.TouchEvent) => { if (isDragging.current) updateSlider(e.touches[0].clientX); }, [updateSlider]);
-  const onTouchEnd = useCallback(() => { isDragging.current = false; }, []);
+  const onTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      isDragging.current = true;
+      updateSlider(e.touches[0].clientX);
+    },
+    [updateSlider],
+  );
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (isDragging.current) updateSlider(e.touches[0].clientX);
+    },
+    [updateSlider],
+  );
+  const onTouchEnd = useCallback(() => {
+    isDragging.current = false;
+  }, []);
   const onKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") setSliderPos((p) => Math.max(0, p - 2));
     if (e.key === "ArrowRight") setSliderPos((p) => Math.min(100, p + 2));
@@ -62,64 +135,168 @@ function BeforeAfterSlider({ beforeImage, afterImage, beforeAlt, afterAlt }: {
     <div
       ref={containerRef}
       className="relative w-full h-full select-none overflow-hidden cursor-col-resize"
-      onMouseDown={onMouseDown} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
-      role="slider" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(sliderPos)}
-      aria-label="Before and after comparison slider" tabIndex={0} onKeyDown={onKeyDown}
+      onMouseDown={onMouseDown}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      role="slider"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(sliderPos)}
+      aria-label="Before and after comparison slider"
+      tabIndex={0}
+      onKeyDown={onKeyDown}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={afterImage} alt={afterAlt} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
-      <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPos}%` }}>
+      <img
+        src={afterImage}
+        alt={afterAlt}
+        className="absolute inset-0 w-full h-full object-cover"
+        draggable={false}
+      />
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${sliderPos}%` }}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={beforeImage} alt={beforeAlt} className="absolute inset-0 h-full object-cover"
-          style={{ width: `${10000 / Math.max(sliderPos, 0.1)}%`, maxWidth: "none" }} draggable={false} />
+        <img
+          src={beforeImage}
+          alt={beforeAlt}
+          className="absolute inset-0 h-full object-cover"
+          style={{
+            width: `${10000 / Math.max(sliderPos, 0.1)}%`,
+            maxWidth: "none",
+          }}
+          draggable={false}
+        />
       </div>
-      <div className="absolute top-0 bottom-0 w-[2px] pointer-events-none" style={{
-        left: `${sliderPos}%`, transform: "translateX(-50%)",
-        background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.88) 18%, rgba(255,255,255,0.88) 82%, rgba(255,255,255,0) 100%)",
-      }} />
-      <div className="absolute top-1/2 z-10 pointer-events-none" style={{ left: `${sliderPos}%`, transform: "translate(-50%, -50%)" }}>
-        <div className="w-9 h-9 rounded-full flex items-center justify-center"
-          style={{ background: "rgba(255,255,255,0.96)", boxShadow: "0 2px 16px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(255,255,255,0.35)" }}>
-          <ChevronLeft size={11} className="text-neutral-700" style={{ marginRight: "-1px" }} />
-          <ChevronRight size={11} className="text-neutral-700" style={{ marginLeft: "-1px" }} />
+      <div
+        className="absolute top-0 bottom-0 w-[2px] pointer-events-none"
+        style={{
+          left: `${sliderPos}%`,
+          transform: "translateX(-50%)",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.88) 18%, rgba(255,255,255,0.88) 82%, rgba(255,255,255,0) 100%)",
+        }}
+      />
+      <div
+        className="absolute top-1/2 z-10 pointer-events-none"
+        style={{ left: `${sliderPos}%`, transform: "translate(-50%, -50%)" }}
+      >
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center"
+          style={{
+            background: "rgba(255,255,255,0.96)",
+            boxShadow:
+              "0 2px 16px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(255,255,255,0.35)",
+          }}
+        >
+          <ChevronLeft
+            size={11}
+            className="text-neutral-700"
+            style={{ marginRight: "-1px" }}
+          />
+          <ChevronRight
+            size={11}
+            className="text-neutral-700"
+            style={{ marginLeft: "-1px" }}
+          />
         </div>
       </div>
-      <div className="absolute top-3 left-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
-        style={{ background: "rgba(10,8,8,0.72)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.1)" }}>Before</div>
-      <div className="absolute top-3 right-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
-        style={{ background: "var(--accent)", boxShadow: "0 2px 8px var(--accent-glow-soft)" }}>After</div>
+      <div
+        className="absolute top-3 left-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
+        style={{
+          background: "rgba(10,8,8,0.72)",
+          backdropFilter: "blur(6px)",
+          border: "1px solid rgba(255,255,255,0.1)",
+        }}
+      >
+        Before
+      </div>
+      <div
+        className="absolute top-3 right-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
+        style={{
+          background: "var(--accent)",
+          boxShadow: "0 2px 8px var(--accent-glow-soft)",
+        }}
+      >
+        After
+      </div>
     </div>
   );
 }
 
 // ─── Transformation Card ───────────────────────────────────────────────────────
-function TransformationCard({ item, index }: { item: (typeof transformations)[0]; index: number }) {
+function TransformationCard({
+  item,
+  index,
+}: {
+  item: (typeof transformations)[0];
+  index: number;
+}) {
   const Icon = item.icon;
 
   const normalBg = `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`;
-  const hoverBg  = `linear-gradient(160deg, var(--bg-elevated) 0%, var(--bg-card) 100%) padding-box, var(--card-border-gradient) border-box`;
+  const hoverBg = `linear-gradient(160deg, var(--bg-elevated) 0%, var(--bg-card) 100%) padding-box, var(--card-border-gradient) border-box`;
   const normalShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card)`;
-  const hoverShadow  = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
+  const hoverShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.58, delay: (index % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: 0.58,
+        delay: (index % 3) * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       whileHover={{ y: -4, transition: { duration: 0.22, ease: "easeOut" } }}
       className="group flex flex-col rounded-xl overflow-hidden"
-      style={{ background: normalBg, border: "2px solid transparent", boxShadow: normalShadow, transition: "background 0.35s ease, box-shadow 0.35s ease" }}
-      onMouseEnter={(e) => { const el = e.currentTarget as HTMLDivElement; el.style.background = hoverBg; el.style.boxShadow = hoverShadow; }}
-      onMouseLeave={(e) => { const el = e.currentTarget as HTMLDivElement; el.style.background = normalBg; el.style.boxShadow = normalShadow; }}
+      style={{
+        background: normalBg,
+        border: "2px solid transparent",
+        boxShadow: normalShadow,
+        transition: "background 0.35s ease, box-shadow 0.35s ease",
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.background = hoverBg;
+        el.style.boxShadow = hoverShadow;
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.background = normalBg;
+        el.style.boxShadow = normalShadow;
+      }}
     >
       <div className="relative w-full aspect-[4/3] overflow-hidden">
-        <BeforeAfterSlider beforeImage={item.beforeImage} afterImage={item.afterImage} beforeAlt={`${item.title} before`} afterAlt={`${item.title} after`} />
+        <BeforeAfterSlider
+          beforeImage={item.beforeImage}
+          afterImage={item.afterImage}
+          beforeAlt={`${item.title} before`}
+          afterAlt={`${item.title} after`}
+        />
       </div>
-      <div className="flex items-center gap-2.5 px-4 py-3"
-        style={{ borderTop: "1.5px solid var(--border-color)", background: `linear-gradient(180deg, var(--bg-elevated) 0%, var(--gradient-card-bottom) 100%)` }}>
-        <Icon size={22} style={{ color: "var(--gold)", filter: "drop-shadow(0 0 4px var(--gold-glow))", flexShrink: 0 }} />
-        <span className="text-[13px] sm:text-base 2xl:text-lg font-medium tracking-wide font-sans" style={{ color: "var(--text-heading)" }}>
+      <div
+        className="flex items-center gap-2.5 px-4 py-3"
+        style={{
+          borderTop: "1.5px solid var(--border-color)",
+          background: `linear-gradient(180deg, var(--bg-elevated) 0%, var(--gradient-card-bottom) 100%)`,
+        }}
+      >
+        <Icon
+          size={22}
+          style={{
+            color: "var(--gold)",
+            filter: "drop-shadow(0 0 4px var(--gold-glow))",
+            flexShrink: 0,
+          }}
+        />
+        <span
+          className="text-[13px] sm:text-base 2xl:text-lg font-medium tracking-wide font-sans"
+          style={{ color: "var(--text-heading)" }}
+        >
           {item.title}
         </span>
       </div>
@@ -131,11 +308,26 @@ function TransformationCard({ item, index }: { item: (typeof transformations)[0]
 function SectionEyebrow() {
   return (
     <div className="flex items-center gap-3 justify-center">
-      <div className="h-px w-12 sm:w-20" style={{ background: "linear-gradient(90deg, transparent 0%, var(--accent) 100%)" }} />
-      <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase whitespace-nowrap" style={{ color: "var(--accent)" }}>
+      <div
+        className="h-px w-12 sm:w-20"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--accent) 100%)",
+        }}
+      />
+      <span
+        className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase whitespace-nowrap"
+        style={{ color: "var(--accent)" }}
+      >
         ✦ Before &amp; After Transformations ✦
       </span>
-      <div className="h-px w-12 sm:w-20" style={{ background: "linear-gradient(90deg, var(--accent) 0%, transparent 100%)" }} />
+      <div
+        className="h-px w-12 sm:w-20"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
+        }}
+      />
     </div>
   );
 }
@@ -157,24 +349,45 @@ function BottomCTA() {
       }}
     >
       <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-        <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+        <div
+          className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
           style={{
             background: `linear-gradient(135deg, var(--accent-glow-soft) 0%, var(--bg-elevated) 100%)`,
             border: "1px solid var(--border-color)",
             boxShadow: "inset 0 1px 0 var(--highlight-surface)",
-          }}>
-          <Gift size={20} style={{ color: "var(--accent)", filter: "drop-shadow(0 0 6px var(--accent-glow))" }} />
+          }}
+        >
+          <Gift
+            size={20}
+            style={{
+              color: "var(--accent)",
+              filter: "drop-shadow(0 0 6px var(--accent-glow))",
+            }}
+          />
         </div>
         <div>
-          <p className="text-lg sm:text-xl 2xl:text-3xl font-bold leading-tight font-sans" style={{ color: "var(--text-heading)" }}>Your Home Could Be Next</p>
-          <p className="text-sm 2xl:text-lg mt-0.5" style={{ color: "var(--text-muted)" }}>Let us make your home the brightest on the block.</p>
+          <p
+            className="text-lg sm:text-xl 2xl:text-3xl font-bold leading-tight font-sans"
+            style={{ color: "var(--text-heading)" }}
+          >
+            Your Home Could Be Next
+          </p>
+          <p
+            className="text-sm 2xl:text-lg mt-0.5"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Let us make your home the brightest on the block.
+          </p>
         </div>
       </div>
 
       <motion.a
         href="#quote"
         id="before-after-cta-quote"
-        whileHover={{ scale: 1.04, boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)` }}
+        whileHover={{
+          scale: 1.04,
+          boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)`,
+        }}
         whileTap={{ scale: 0.97 }}
         className="relative flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide whitespace-nowrap w-full sm:w-auto justify-center flex-shrink-0 overflow-hidden"
         style={{
@@ -184,8 +397,13 @@ function BottomCTA() {
           color: "#fff",
         }}
       >
-        <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
-          style={{ background: "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)" }} />
+        <span
+          className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
+          }}
+        />
         <span className="relative">Get Your Free Quote</span>
         <ArrowRight size={15} className="relative" />
       </motion.a>
@@ -195,13 +413,13 @@ function BottomCTA() {
 
 // ─── Static bokeh ─────────────────────────────────────────────────────────────
 const BOKEH = [
-  { left: "7%",  top: "10%", size: 5, gold: true,  dur: 3.5, delay: 0 },
-  { left: "93%", top: "7%",  size: 4, gold: false, dur: 4.0, delay: 0.7 },
-  { left: "14%", top: "86%", size: 6, gold: true,  dur: 3.2, delay: 1.2 },
+  { left: "7%", top: "10%", size: 5, gold: true, dur: 3.5, delay: 0 },
+  { left: "93%", top: "7%", size: 4, gold: false, dur: 4.0, delay: 0.7 },
+  { left: "14%", top: "86%", size: 6, gold: true, dur: 3.2, delay: 1.2 },
   { left: "86%", top: "80%", size: 4, gold: false, dur: 4.5, delay: 0.4 },
-  { left: "50%", top: "4%",  size: 3, gold: true,  dur: 3.8, delay: 1.8 },
-  { left: "3%",  top: "48%", size: 3, gold: false, dur: 5.0, delay: 2.1 },
-  { left: "97%", top: "44%", size: 5, gold: true,  dur: 3.6, delay: 0.9 },
+  { left: "50%", top: "4%", size: 3, gold: true, dur: 3.8, delay: 1.8 },
+  { left: "3%", top: "48%", size: 3, gold: false, dur: 5.0, delay: 2.1 },
+  { left: "97%", top: "44%", size: 5, gold: true, dur: 3.6, delay: 0.9 },
 ];
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
@@ -210,62 +428,137 @@ export default function BeforeandAfter() {
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <section ref={sectionRef} id="before-after" className="relative w-full overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}>
+    <section
+      ref={sectionRef}
+      id="before-after"
+      className="relative w-full overflow-hidden"
+      style={{ background: "var(--bg-primary)" }}
+    >
       {/* Background image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <Image src="/BeforeAfter/BackGroundSubtle.webp" alt="" fill aria-hidden="true"
-          className="object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105" quality={95} />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 90% 85% at 50% 45%, rgba(9,7,7,0.48) 0%, rgba(9,7,7,0.78) 60%, rgba(9,7,7,0.96) 100%)" }} />
-        <div className="absolute inset-x-0 top-0 h-32 pointer-events-none" style={{ background: "linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-32 pointer-events-none" style={{ background: "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)" }} />
+        <Image
+          src="/BeforeAfter/BackGroundSubtle.webp"
+          alt=""
+          fill
+          aria-hidden="true"
+          className="object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105"
+          quality={95}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 90% 85% at 50% 45%, rgba(9,7,7,0.48) 0%, rgba(9,7,7,0.78) 60%, rgba(9,7,7,0.96) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-32 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-32 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
+          }}
+        />
       </div>
 
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
-        style={{ background: "radial-gradient(ellipse 70% 35% at 50% 0%, var(--accent-glow-faint) 0%, transparent 70%)" }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 35% at 50% 0%, var(--accent-glow-faint) 0%, transparent 70%)",
+        }}
+      />
 
       {/* Bokeh */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <div
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+        aria-hidden="true"
+      >
         {BOKEH.map((b, i) => (
-          <motion.div key={i} className="absolute rounded-full"
-            style={{ left: b.left, top: b.top, width: b.size, height: b.size, backgroundColor: b.gold ? "var(--gold)" : "var(--accent)", filter: "blur(2px)" }}
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: b.left,
+              top: b.top,
+              width: b.size,
+              height: b.size,
+              backgroundColor: b.gold ? "var(--gold)" : "var(--accent)",
+              filter: "blur(2px)",
+            }}
             animate={{ opacity: [0.12, 0.5, 0.12], scale: [1, 1.5, 1] }}
-            transition={{ duration: b.dur, repeat: Infinity, delay: b.delay, ease: "easeInOut" }} />
+            transition={{
+              duration: b.dur,
+              repeat: Infinity,
+              delay: b.delay,
+              ease: "easeInOut",
+            }}
+          />
         ))}
       </div>
 
       {/* Main content */}
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-8 pb-8">
         <div className="flex flex-col items-center text-center mb-14">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.05 }} className="mb-5">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="mb-5"
+          >
             <SectionEyebrow />
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 22 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.65,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-bold leading-[1.08] tracking-tight mb-5 font-playfair"
             style={{ color: "var(--text-heading)" }}
           >
-            Imagine Your{" "}
-            <span className="text-accent-gradient">Home</span>{" "}
-            Like This
+            Imagine Your <span className="text-accent-gradient">Home</span> Like
+            This
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 14 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.55, delay: 0.26 }}
-            className="text-base sm:text-lg max-w-md" style={{ color: "var(--text-muted)" }}>
-            Real homes. Stunning results. Professionally installed to perfection.
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.26 }}
+            className="text-base sm:text-lg max-w-xl"
+            style={{ color: "var(--text-muted)" }}
+          >
+            From clean roofline lighting to complete residential holiday
+            displays, our team transforms Denver homes into memorable Christmas
+            experiences
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-14">
-          {transformations.map((item, index) => <TransformationCard key={item.id} item={item} index={index} />)}
+          {transformations.map((item, index) => (
+            <TransformationCard key={item.id} item={item} index={index} />
+          ))}
         </div>
 
         <BottomCTA />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-24 pointer-events-none" aria-hidden="true"
-        style={{ background: "linear-gradient(to bottom, transparent 0%, var(--fade-to) 100%)" }} />
+      <div
+        className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, var(--fade-to) 100%)",
+        }}
+      />
     </section>
   );
 }
