@@ -9,6 +9,7 @@ import Reviews from "@/components/Reviews";
 import Faq from "@/components/Faq";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
 
 const page = () => {
   return (
@@ -24,6 +25,7 @@ const page = () => {
       <Faq />
       <FinalCTA />
       <Footer />
+      <FloatingCTA />
     </main>
   );
 };
