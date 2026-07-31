@@ -1,182 +1,720 @@
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   DESIGN TOKEN PHILOSOPHY
+   ─────────────────────────────────────────────────────────────────────────────
+   Every surface uses layered gradients — not flat fills.
+   Tokens are organized as:
+     Backgrounds (3 levels)         → --bg-*
+     Card / Form gradients          → --gradient-card-*, --gradient-form-*
+     Button gradients (3 stops)     → --gradient-btn-*
+     Accent color system            → --accent-*
+     Gold accent                    → --gold-*
+     Text hierarchy                 → --text-*
+     Borders                        → --border-*
+     Shadows & glows                → --shadow-*, --glow-*
+     Inner surface highlights       → --highlight-*
+     Section transitions            → --fade-*
+     Scrollbar                      → --scrollbar-*
+     ThemeSwitcher glass            → --switcher-*
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CLASSIC CRIMSON — Default (dark red / gold)
+══════════════════════════════════════════════════════════════════════════════ */
 :root {
-  --background: #090707;
+  /* ── Backgrounds ── */
+  --bg-primary:       #090707;
+  --bg-secondary:     #120b0b;
+  --bg-card:          #1e0d0c;
+  --bg-elevated:      #2a0f0d;
+  --bg-glass:         rgba(18,10,10,0.72);
+  --bg-glass-card:    rgba(12,5,5,0.88);
+  --bg-overlay:       rgba(9,7,7,0.75);
+
+  /* ── Accent (red) ── */
+  --accent:           #d93535;
+  --accent-hover:     #c62828;
+  --accent-deep:      #a51c1c;
+  --accent-glow:      rgba(217,53,53,0.5);
+  --accent-glow-soft: rgba(217,53,53,0.14);
+  --accent-glow-faint:rgba(217,53,53,0.06);
+
+  /* ── Gold ── */
+  --gold:             #f5c86a;
+  --gold-dark:        #c48c38;
+  --gold-light:       #ffdca8;
+  --gold-glow:        rgba(245,200,106,0.35);
+  --gold-glow-faint:  rgba(245,200,106,0.08);
+
+  /* ── Metallic Accent Text Gradient ── */
+  --gradient-accent-text: linear-gradient(135deg, #FFA0A0 0%, #F55555 25%, #D93535 50%, #A51C1C 75%, #F55555 100%);
+
+  /* ── Text ── */
+  --text-heading:     #f7f5f3;
+  --text-body:        #c8c1bc;
+  --text-muted:       #978e89;
+  --text-muted-dark:  #857e79;
+
+  /* ── Borders ── */
+  --border-color:     rgba(106,45,38,0.55);
+  --border-strong:    rgba(139,64,54,0.9);
+  --border-input:     rgba(142,73,56,0.85);
+  --border-input-focus: rgba(217,53,53,0.75);
+
+  /* ── Button Gradient (top → mid → bottom) ── */
+  --gradient-btn-top:    #e84040;
+  --gradient-btn-mid:    #d12a2a;
+  --gradient-btn-bottom: #b31f1f;
+  --btn-inner-highlight: rgba(255,255,255,0.18);
+  --btn-inner-shadow:    rgba(0,0,0,0.3);
+
+  /* ── Card Gradient ── */
+  --gradient-card-top:    rgba(42,15,13,0.97);
+  --gradient-card-bottom: rgba(14,6,5,0.99);
+  --card-border-gradient: linear-gradient(135deg, rgba(245,200,106,0.5) 0%, rgba(196,140,56,0.28) 28%, rgba(139,64,54,0.3) 52%, rgba(106,45,38,0.4) 72%, rgba(245,200,106,0.42) 100%);
+
+  /* ── Form Gradient ── */
+  --gradient-form-top:    rgba(120,30,20,0.96);
+  --gradient-form-mid:    rgba(72,12,10,0.97);
+  --gradient-form-bottom: rgba(14,4,3,0.99);
+  --form-border-color:    rgba(139,64,54,0.9);
+  --form-highlight:       rgba(180,60,20,0.22);
+
+  /* ── Input ── */
+  --input-bg-top:     rgba(72,22,18,0.65);
+  --input-bg-bottom:  rgba(38,10,9,0.82);
+
+  /* ── Container (large bordered sections) ── */
+  --container-bg-top:    rgba(16,8,8,0.99);
+  --container-bg-bottom: rgba(9,5,5,0.99);
+  --container-border:    linear-gradient(135deg, rgba(217,53,53,0.45) 0%, rgba(255,220,168,0.25) 25%, rgba(106,45,38,0.2) 60%, rgba(245,200,106,0.35) 100%);
+
+  /* ── Shadows ── */
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-card-hover: 0 16px 52px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-btn:        0 4px 20px rgba(217,53,53,0.45);
+  --shadow-btn-hover:  0 8px 32px rgba(217,53,53,0.65);
+  --shadow-ambient:    0 0 40px rgba(217,53,53,0.08);
+
+  /* ── Highlights (inset top shine on surfaces) ── */
+  --highlight-surface: rgba(255,255,255,0.08);
+  --highlight-card:    rgba(255,200,150,0.06);
+  --highlight-btn:     rgba(255,255,255,0.2);
+
+  /* ── Glow ── */
+  --glow-accent:      0 0 30px rgba(217,53,53,0.25);
+  --glow-ambient:     0 0 60px rgba(217,53,53,0.08);
+  --glow-btn:         0 0 20px rgba(217,53,53,0.4);
+
+  /* ── Diagonal Divider (WhyChooseUs) ── */
+  --divider-glow-color:  rgba(217,53,53,0.95);
+  --divider-glow-filter: drop-shadow(0 0 8px rgba(217,53,53,0.8)) drop-shadow(0 0 18px rgba(217,53,53,0.5));
+
+  /* ── Section transitions ── */
+  --fade-to:   rgba(9,7,7,0.85);
+  --fade-from: rgba(9,7,7,0.6);
+
+  /* ── Benefit card icon ── */
+  --benefit-num-color:     #d93535;
+  --benefit-icon-bg-from:  rgba(217,53,53,0.2);
+  --benefit-icon-bg-to:    rgba(15,8,8,0.88);
+  --benefit-icon-border:   rgba(217,53,53,0.45);
+  --benefit-icon-shadow:   0 0 18px rgba(217,53,53,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+  --benefit-icon-color:    #f7f5f3;
+  --benefit-icon-filter:   drop-shadow(0 0 6px rgba(217,53,53,0.4));
+
+  /* ── Trust badge panel ── */
+  --trust-bg:     rgba(9,7,7,0.72);
+  --trust-border: rgba(106,45,38,0.5);
+
+  /* ── ThemeSwitcher glass ── */
+  --switcher-bg:     rgba(16,9,9,0.82);
+  --switcher-border: rgba(139,64,54,0.5);
+  --switcher-shadow: 0 8px 36px rgba(0,0,0,0.7), 0 0 20px rgba(217,53,53,0.12);
+
+  /* ── Scrollbar ── */
+  --scrollbar-thumb-1: #d93535;
+  --scrollbar-thumb-2: #a51c1c;
+  --scrollbar-thumb-3: #c48c38;
+  --scrollbar-thumb-4: #f5c86a;
+
+  /* ── Legacy aliases ── */
+  --background:           #090707;
   --background-secondary: #120b0b;
-  --background-card: #2a0f0d;
-
-  --primary: #d93535;
-  --primary-hover: #c62828;
-
-  --dark-red: #521815;
-
-  --input: #341312;
-  --input-border: #8e4938;
-
-  --heading: #f7f5f3;
-  --body: #c8c1bc;
-  --muted: #978e89;
-
-  --gold: #f5c86a;
-  --gold-dark: #c48c38;
-  --light-warm: #ffdca8;
-
-  --border: #6a2d26;
-  --border-light: #8b4036;
-
-  --foreground: #f7f5f3;
+  --background-card:      #2a0f0d;
+  --primary:              #d93535;
+  --primary-hover:        #c62828;
+  --dark-red:             #521815;
+  --input:                #341312;
+  --input-border:         #8e4938;
+  --heading:              #f7f5f3;
+  --body:                 #c8c1bc;
+  --muted:                #978e89;
+  --light-warm:           #ffdca8;
+  --border:               #6a2d26;
+  --border-light:         #8b4036;
+  --foreground:           #f7f5f3;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   GOLDEN NIGHT — High-End Luxury 24K Metallic Gold (Watch / Jewelry Brand)
+══════════════════════════════════════════════════════════════════════════════ */
+[data-theme="golden"] {
+  /* ── Backgrounds ── */
+  --bg-primary:       #080807;
+  --bg-secondary:     #11100D;
+  --bg-card:          #16130B;
+  --bg-elevated:      #1F1A0E;
+  --bg-glass:         rgba(19,15,7,0.80);
+  --bg-glass-card:    rgba(15,11,4,0.92);
+  --bg-overlay:       rgba(8,7,4,0.80);
+
+  /* ── Accent (High-End Vibrant 24K Metallic Gold) ── */
+  --accent:           #E5C158;
+  --accent-hover:     #F0D06B;
+  --accent-deep:      #A67C1E;
+  --accent-glow:      rgba(229,193,88,0.55);
+  --accent-glow-soft: rgba(229,193,88,0.20);
+  --accent-glow-faint:rgba(229,193,88,0.08);
+
+  /* ── Gold (Luminous Metallic Shades) ── */
+  --gold:             #F5D061;
+  --gold-dark:        #AA7C11;
+  --gold-light:       #FFF8D5;
+  --gold-glow:        rgba(245,208,97,0.45);
+  --gold-glow-faint:  rgba(245,208,97,0.12);
+
+  /* ── Metallic Accent Text Gradient (Multi-stop 3D Gold) ── */
+  --gradient-accent-text: linear-gradient(135deg, #FFF8D5 0%, #F5D061 22%, #E5C158 45%, #9E7719 72%, #F5D061 100%);
+
+  /* ── Text ── */
+  --text-heading:     #FAF6EE;
+  --text-body:        #DCD3BF;
+  --text-muted:       #A3977C;
+  --text-muted-dark:  #7D735C;
+
+  /* ── Borders ── */
+  --border-color:     rgba(229,193,88,0.32);
+  --border-strong:    rgba(229,193,88,0.70);
+  --border-input:     rgba(229,193,88,0.42);
+  --border-input-focus: rgba(245,208,97,0.90);
+
+  /* ── Metallic Button Gradient ── */
+  --gradient-btn-top:    #F7D674;
+  --gradient-btn-mid:    #E5B842;
+  --gradient-btn-bottom: #A37519;
+  --btn-inner-highlight: rgba(255,245,200,0.18);
+  --btn-inner-shadow:    rgba(80,52,5,0.45);
+
+  /* ── Card Gradient ── */
+  --gradient-card-top:    rgba(28,22,10,0.98);
+  --gradient-card-bottom: rgba(12,9,3,0.99);
+  --card-border-gradient: linear-gradient(135deg, rgba(255,245,192,0.65) 0%, rgba(229,193,88,0.40) 30%, rgba(166,124,30,0.25) 60%, rgba(255,245,192,0.55) 100%);
+
+  /* ── Form Gradient ── */
+  --gradient-form-top:    rgba(42,32,10,0.98);
+  --gradient-form-mid:    rgba(24,18,5,0.98);
+  --gradient-form-bottom: rgba(12,8,2,0.99);
+  --form-border-color:    rgba(229,193,88,0.75);
+  --form-highlight:       rgba(229,193,88,0.18);
+
+  /* ── Input ── */
+  --input-bg-top:     rgba(35,26,8,0.75);
+  --input-bg-bottom:  rgba(18,13,3,0.90);
+
+  /* ── Container ── */
+  --container-bg-top:    rgba(22,17,6,0.99);
+  --container-bg-bottom: rgba(10,8,2,0.99);
+  --container-border:    linear-gradient(135deg, rgba(255,245,192,0.60) 0%, rgba(229,193,88,0.35) 30%, rgba(166,124,30,0.25) 60%, rgba(255,245,192,0.50) 100%);
+
+  /* ── Shadows ── */
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.70), 0 1px 4px rgba(0,0,0,0.50);
+  --shadow-card-hover: 0 16px 52px rgba(0,0,0,0.88), 0 4px 24px rgba(229,193,88,0.18);
+  --shadow-btn:        0 4px 24px rgba(166,124,30,0.55);
+  --shadow-btn-hover:  0 8px 38px rgba(229,193,88,0.75);
+  --shadow-ambient:    0 0 44px rgba(229,193,88,0.10);
+
+  /* ── Highlights ── */
+  --highlight-surface: rgba(255,245,200,0.08);
+  --highlight-card:    rgba(255,245,192,0.10);
+  --highlight-btn:     rgba(255,255,220,0.35);
+
+  /* ── Glow ── */
+  --glow-accent:      0 0 35px rgba(229,193,88,0.40), 0 2px 10px rgba(0,0,0,0.6);
+  --glow-ambient:     0 0 65px rgba(229,193,88,0.10);
+  --glow-btn:         0 0 26px rgba(229,193,88,0.50);
+
+  /* ── Diagonal Divider ── */
+  --divider-glow-color:  rgba(229,193,88,0.96);
+  --divider-glow-filter: drop-shadow(0 0 10px rgba(229,193,88,0.90)) drop-shadow(0 0 20px rgba(229,193,88,0.55));
+
+  /* ── Section transitions ── */
+  --fade-to:   rgba(8,8,7,0.88);
+  --fade-from: rgba(8,8,7,0.6);
+
+  /* ── Benefit card icon ── */
+  --benefit-num-color:     #F5D061;
+  --benefit-icon-bg-from:  rgba(229,193,88,0.22);
+  --benefit-icon-bg-to:    rgba(14,11,4,0.92);
+  --benefit-icon-border:   rgba(229,193,88,0.55);
+  --benefit-icon-shadow:   0 0 20px rgba(229,193,88,0.22), inset 0 1px 0 rgba(255,245,200,0.2);
+  --benefit-icon-color:    #FAF6EE;
+  --benefit-icon-filter:   drop-shadow(0 0 8px rgba(229,193,88,0.6));
+
+  /* ── Trust badge panel ── */
+  --trust-bg:     rgba(15,11,4,0.82);
+  --trust-border: rgba(229,193,88,0.38);
+
+  /* ── ThemeSwitcher glass ── */
+  --switcher-bg:     rgba(18,14,5,0.88);
+  --switcher-border: rgba(229,193,88,0.45);
+  --switcher-shadow: 0 8px 36px rgba(0,0,0,0.78), 0 0 24px rgba(229,193,88,0.18);
+
+  /* ── Scrollbar ── */
+  --scrollbar-thumb-1: #FFF5C0;
+  --scrollbar-thumb-2: #E5C158;
+  --scrollbar-thumb-3: #AA7C11;
+  --scrollbar-thumb-4: #F5D061;
+
+  /* ── Legacy aliases ── */
+  --background:           #080807;
+  --background-secondary: #11100D;
+  --background-card:      #1F1A0E;
+  --primary:              #E5C158;
+  --primary-hover:        #F0D06B;
+  --dark-red:             #A67C1E;
+  --input:                #1c1505;
+  --input-border:         #A67C1E;
+  --heading:              #FAF6EE;
+  --body:                 #DCD3BF;
+  --muted:                #A3977C;
+  --light-warm:           #FFF8D5;
+  --border:               rgba(229,193,88,0.32);
+  --border-light:         rgba(229,193,88,0.55);
+  --foreground:           #FAF6EE;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   WINTER BLUE — Modern icy premium (blue / frost)
+══════════════════════════════════════════════════════════════════════════════ */
+[data-theme="winter"] {
+  /* ── Backgrounds ── */
+  --bg-primary:       #080B14;
+  --bg-secondary:     #0F172A;
+  --bg-card:          #0D1526;
+  --bg-elevated:      #131F34;
+  --bg-glass:         rgba(8,15,30,0.78);
+  --bg-glass-card:    rgba(6,12,24,0.90);
+  --bg-overlay:       rgba(8,11,20,0.78);
+
+  /* ── Accent (blue) ── */
+  --accent:           #3B82F6;
+  --accent-hover:     #2563EB;
+  --accent-deep:      #1D4ED8;
+  --accent-glow:      rgba(59,130,246,0.5);
+  --accent-glow-soft: rgba(59,130,246,0.15);
+  --accent-glow-faint:rgba(59,130,246,0.07);
+
+  /* ── Gold ── */
+  --gold:             #93C5FD;
+  --gold-dark:        #60A5FA;
+  --gold-light:       #BFDBFE;
+  --gold-glow:        rgba(147,197,253,0.35);
+  --gold-glow-faint:  rgba(147,197,253,0.08);
+
+  /* ── Metallic Accent Text Gradient ── */
+  --gradient-accent-text: linear-gradient(135deg, #E0F2FE 0%, #93C5FD 25%, #3B82F6 55%, #1D4ED8 100%);
+
+  /* ── Text ── */
+  --text-heading:     #F0F6FF;
+  --text-body:        #A8BDD6;
+  --text-muted:       #6A84A3;
+  --text-muted-dark:  #536680;
+
+  /* ── Borders ── */
+  --border-color:     rgba(59,130,246,0.25);
+  --border-strong:    rgba(96,165,250,0.6);
+  --border-input:     rgba(59,130,246,0.35);
+  --border-input-focus: rgba(96,165,250,0.85);
+
+  /* ── Button Gradient ── */
+  --gradient-btn-top:    #60A5FA;
+  --gradient-btn-mid:    #3B82F6;
+  --gradient-btn-bottom: #1D4ED8;
+  --btn-inner-highlight: rgba(200,225,255,0.28);
+  --btn-inner-shadow:    rgba(0,20,80,0.4);
+
+  /* ── Card Gradient ── */
+  --gradient-card-top:    rgba(13,21,38,0.97);
+  --gradient-card-bottom: rgba(6,10,20,0.99);
+  --card-border-gradient: linear-gradient(135deg, rgba(96,165,250,0.45) 0%, rgba(59,130,246,0.25) 30%, rgba(29,78,216,0.18) 60%, rgba(96,165,250,0.38) 100%);
+
+  /* ── Form Gradient ── */
+  --gradient-form-top:    rgba(14,24,50,0.97);
+  --gradient-form-mid:    rgba(9,15,32,0.98);
+  --gradient-form-bottom: rgba(5,8,18,0.99);
+  --form-border-color:    rgba(96,165,250,0.7);
+  --form-highlight:       rgba(59,130,246,0.14);
+
+  /* ── Input ── */
+  --input-bg-top:     rgba(15,25,50,0.72);
+  --input-bg-bottom:  rgba(8,14,30,0.88);
+
+  /* ── Container ── */
+  --container-bg-top:    rgba(13,20,40,0.99);
+  --container-bg-bottom: rgba(6,10,22,0.99);
+  --container-border:    linear-gradient(135deg, rgba(96,165,250,0.45) 0%, rgba(59,130,246,0.25) 30%, rgba(29,78,216,0.18) 60%, rgba(96,165,250,0.38) 100%);
+
+  /* ── Shadows ── */
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.45);
+  --shadow-card-hover: 0 16px 52px rgba(0,0,0,0.85), 0 4px 20px rgba(59,130,246,0.15);
+  --shadow-btn:        0 4px 22px rgba(29,78,216,0.5);
+  --shadow-btn-hover:  0 8px 36px rgba(59,130,246,0.7);
+  --shadow-ambient:    0 0 40px rgba(59,130,246,0.08);
+
+  /* ── Highlights ── */
+  --highlight-surface: rgba(200,225,255,0.05);
+  --highlight-card:    rgba(96,165,250,0.07);
+  --highlight-btn:     rgba(200,225,255,0.3);
+
+  /* ── Glow ── */
+  --glow-accent:      0 0 30px rgba(59,130,246,0.3);
+  --glow-ambient:     0 0 60px rgba(59,130,246,0.08);
+  --glow-btn:         0 0 24px rgba(59,130,246,0.45);
+
+  /* ── Diagonal Divider ── */
+  --divider-glow-color:  rgba(96,165,250,0.95);
+  --divider-glow-filter: drop-shadow(0 0 8px rgba(96,165,250,0.85)) drop-shadow(0 0 18px rgba(59,130,246,0.5));
+
+  /* ── Section transitions ── */
+  --fade-to:   rgba(8,11,20,0.88);
+  --fade-from: rgba(8,11,20,0.6);
+
+  /* ── Benefit card icon ── */
+  --benefit-num-color:     #60A5FA;
+  --benefit-icon-bg-from:  rgba(59,130,246,0.2);
+  --benefit-icon-bg-to:    rgba(6,12,26,0.90);
+  --benefit-icon-border:   rgba(59,130,246,0.45);
+  --benefit-icon-shadow:   0 0 18px rgba(59,130,246,0.18), inset 0 1px 0 rgba(200,225,255,0.1);
+  --benefit-icon-color:    #F0F6FF;
+  --benefit-icon-filter:   drop-shadow(0 0 6px rgba(59,130,246,0.5));
+
+  /* ── Trust badge panel ── */
+  --trust-bg:     rgba(8,15,32,0.78);
+  --trust-border: rgba(59,130,246,0.3);
+
+  /* ── ThemeSwitcher glass ── */
+  --switcher-bg:     rgba(8,15,32,0.88);
+  --switcher-border: rgba(59,130,246,0.4);
+  --switcher-shadow: 0 8px 36px rgba(0,0,0,0.78), 0 0 24px rgba(59,130,246,0.15);
+
+  /* ── Scrollbar ── */
+  --scrollbar-thumb-1: #3B82F6;
+  --scrollbar-thumb-2: #1D4ED8;
+  --scrollbar-thumb-3: #60A5FA;
+  --scrollbar-thumb-4: #93C5FD;
+
+  /* ── Legacy aliases ── */
+  --background:           #080B14;
+  --background-secondary: #0F172A;
+  --background-card:      #131F34;
+  --primary:              #3B82F6;
+  --primary-hover:        #2563EB;
+  --dark-red:             #1E3A8A;
+  --input:                #0D1A36;
+  --input-border:         #1E40AF;
+  --heading:              #F0F6FF;
+  --body:                 #A8BDD6;
+  --muted:                #6A84A3;
+  --light-warm:           #BFDBFE;
+  --border:               rgba(59,130,246,0.25);
+  --border-light:         rgba(59,130,246,0.45);
+  --foreground:           #F0F6FF;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EMERALD EVERGREEN — Luxury Deep Forest (Emerald Green / Gold Accent)
+══════════════════════════════════════════════════════════════════════════════ */
+[data-theme="emerald"] {
+  /* ── Backgrounds ── */
+  --bg-primary:       #070808;
+  --bg-secondary:     #0B0E0C;
+  --bg-card:          #101412;
+  --bg-elevated:      #161B19;
+  --bg-glass:         rgba(11,14,12,0.80);
+  --bg-glass-card:    rgba(9,12,10,0.92);
+  --bg-overlay:       rgba(7,8,8,0.80);
+
+  /* ── Accent (Rich Emerald Green) ── */
+  --accent:           #169E6C;
+  --accent-hover:     #29B574;
+  --accent-deep:      #0C5D40;
+  --accent-glow:      rgba(22,158,108,0.55);
+  --accent-glow-soft: rgba(22,158,108,0.20);
+  --accent-glow-faint:rgba(22,158,108,0.08);
+
+  /* ── Gold (Mapped to Emerald & Mint tones for Emerald theme) ── */
+  --gold:             #169E6C;
+  --gold-dark:        #0C5D40;
+  --gold-light:       #74E8B2;
+  --gold-glow:        rgba(22,158,108,0.55);
+  --gold-glow-faint:  rgba(22,158,108,0.12);
+
+  /* ── Metallic Accent Text Gradient (Multi-stop 3D Emerald) ── */
+  --gradient-accent-text: linear-gradient(135deg, #74E8B2 0%, #29B574 25%, #169E6C 50%, #0C5D40 75%, #5FD6A1 100%);
+
+  /* ── Text ── */
+  --text-heading:     #F2FAF6;
+  --text-body:        #C3D9CE;
+  --text-muted:       #7B9E8E;
+  --text-muted-dark:  #5A7B6C;
+
+  /* ── Borders ── */
+  --border-color:     rgba(22,158,108,0.30);
+  --border-strong:    rgba(22,158,108,0.65);
+  --border-input:     rgba(22,158,108,0.40);
+  --border-input-focus: rgba(95,214,161,0.90);
+
+  /* ── Metallic Button Gradient ── */
+  --gradient-btn-top:    #29B574;
+  --gradient-btn-mid:    #169E6C;
+  --gradient-btn-bottom: #0D6842;
+  --btn-inner-highlight: rgba(95,214,161,0.28);
+  --btn-inner-shadow:    rgba(4,35,23,0.50);
+
+  /* ── Card Gradient ── */
+  --gradient-card-top:    rgba(22,27,25,0.98);
+  --gradient-card-bottom: rgba(10,14,12,0.99);
+  --card-border-gradient: linear-gradient(135deg, rgba(95,214,161,0.55) 0%, rgba(22,158,108,0.35) 30%, rgba(12,93,64,0.22) 60%, rgba(212,175,55,0.45) 100%);
+
+  /* ── Form Gradient (Top slightly lighter emerald → Mid rich emerald → Bottom dark pine) ── */
+  --gradient-form-top:    rgba(26,38,32,0.98);
+  --gradient-form-mid:    rgba(16,25,21,0.98);
+  --gradient-form-bottom: rgba(8,12,10,0.99);
+  --form-border-color:    rgba(22,158,108,0.75);
+  --form-highlight:       rgba(95,214,161,0.18);
+
+  /* ── Input ── */
+  --input-bg-top:     rgba(20,30,25,0.75);
+  --input-bg-bottom:  rgba(10,15,12,0.90);
+
+  /* ── Container ── */
+  --container-bg-top:    rgba(17,22,20,0.99);
+  --container-bg-bottom: rgba(8,11,9,0.99);
+  --container-border:    linear-gradient(135deg, rgba(95,214,161,0.55) 0%, rgba(22,158,108,0.35) 30%, rgba(12,93,64,0.20) 60%, rgba(212,175,55,0.40) 100%);
+
+  /* ── Shadows ── */
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.72), 0 1px 4px rgba(0,0,0,0.50);
+  --shadow-card-hover: 0 16px 52px rgba(0,0,0,0.88), 0 4px 24px rgba(22,158,108,0.18);
+  --shadow-btn:        0 4px 24px rgba(12,93,64,0.55);
+  --shadow-btn-hover:  0 8px 38px rgba(22,158,108,0.75);
+  --shadow-ambient:    0 0 44px rgba(22,158,108,0.10);
+
+  /* ── Highlights ── */
+  --highlight-surface: rgba(95,214,161,0.08);
+  --highlight-card:    rgba(95,214,161,0.10);
+  --highlight-btn:     rgba(95,214,161,0.30);
+
+  /* ── Glow ── */
+  --glow-accent:      0 0 35px rgba(22,158,108,0.40), 0 2px 10px rgba(0,0,0,0.6);
+  --glow-ambient:     0 0 65px rgba(22,158,108,0.10);
+  --glow-btn:         0 0 26px rgba(22,158,108,0.50);
+
+  /* ── Diagonal Divider ── */
+  --divider-glow-color:  rgba(22,158,108,0.96);
+  --divider-glow-filter: drop-shadow(0 0 10px rgba(22,158,108,0.90)) drop-shadow(0 0 20px rgba(12,93,64,0.55));
+
+  /* ── Section transitions ── */
+  --fade-to:   rgba(7,8,8,0.88);
+  --fade-from: rgba(7,8,8,0.6);
+
+  /* ── Benefit card icon ── */
+  --benefit-num-color:     #169E6C;
+  --benefit-icon-bg-from:  rgba(22,158,108,0.22);
+  --benefit-icon-bg-to:    rgba(10,14,12,0.92);
+  --benefit-icon-border:   rgba(22,158,108,0.55);
+  --benefit-icon-shadow:   0 0 20px rgba(22,158,108,0.22), inset 0 1px 0 rgba(95,214,161,0.2);
+  --benefit-icon-color:    #F2FAF6;
+  --benefit-icon-filter:   drop-shadow(0 0 8px rgba(22,158,108,0.6));
+
+  /* ── Trust badge panel ── */
+  --trust-bg:     rgba(11,14,12,0.82);
+  --trust-border: rgba(22,158,108,0.35);
+
+  /* ── ThemeSwitcher glass ── */
+  --switcher-bg:     rgba(11,14,12,0.88);
+  --switcher-border: rgba(22,158,108,0.45);
+  --switcher-shadow: 0 8px 36px rgba(0,0,0,0.78), 0 0 24px rgba(22,158,108,0.18);
+
+  /* ── Scrollbar ── */
+  --scrollbar-thumb-1: #5FD6A1;
+  --scrollbar-thumb-2: #169E6C;
+  --scrollbar-thumb-3: #0C5D40;
+  --scrollbar-thumb-4: #D4AF37;
+
+  /* ── Legacy aliases ── */
+  --background:           #070808;
+  --background-secondary: #0B0E0C;
+  --background-card:      #101412;
+  --primary:              #169E6C;
+  --primary-hover:        #29B574;
+  --dark-red:             #0C5D40;
+  --input:                #101A15;
+  --input-border:         #0C5D40;
+  --heading:              #F2FAF6;
+  --body:                 #C3D9CE;
+  --muted:                #7B9E8E;
+  --light-warm:           #74E8B2;
+  --border:               rgba(22,158,108,0.30);
+  --border-light:         rgba(22,158,108,0.50);
+  --foreground:           #F2FAF6;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TAILWIND v4 @theme registration
+══════════════════════════════════════════════════════════════════════════════ */
 @theme inline {
   --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
   --color-backgroundSecondary: var(--background-secondary);
   --color-background-card: var(--background-card);
   --color-backgroundCard: var(--background-card);
-
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primaryHover: var(--primary-hover);
-
   --color-dark-red: var(--dark-red);
   --color-darkRed: var(--dark-red);
-
   --color-input: var(--input);
   --color-input-border: var(--input-border);
   --color-inputBorder: var(--input-border);
-
   --color-heading: var(--heading);
   --color-body: var(--body);
   --color-muted: var(--muted);
-
   --color-gold: var(--gold);
   --color-gold-dark: var(--gold-dark);
   --color-goldDark: var(--gold-dark);
   --color-light-warm: var(--light-warm);
   --color-lightWarm: var(--light-warm);
-
   --color-border: var(--border);
   --color-border-light: var(--border-light);
   --color-borderLight: var(--border-light);
-
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-playfair: var(--font-playfair);
 }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   BASE STYLES & UTILITIES
+══════════════════════════════════════════════════════════════════════════════ */
 body {
-  background: var(--background);
-  color: var(--body);
+  background: var(--bg-primary);
+  color: var(--text-body);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
 }
 
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+/* ── Global smooth colour transitions (drives theme crossfade) ── */
+*,
+*::before,
+*::after {
+  transition:
+    color 0.45s cubic-bezier(0.4,0,0.2,1),
+    background-color 0.45s cubic-bezier(0.4,0,0.2,1),
+    border-color 0.45s cubic-bezier(0.4,0,0.2,1),
+    box-shadow 0.45s cubic-bezier(0.4,0,0.2,1),
+    fill 0.45s cubic-bezier(0.4,0,0.2,1),
+    stroke 0.45s cubic-bezier(0.4,0,0.2,1);
 }
 
 ::selection {
-  background-color: rgba(217, 53, 53, 0.35);
-  color: var(--heading);
+  background-color: var(--accent-glow-soft);
+  color: var(--text-heading);
 }
 
-/* ── Global Custom Christmas Scrollbar ───────────────────────────────────────── */
-/* Firefox */
+/* ── Metallic 3D Accent Text Gradient Utility ────────────────────────────── */
+.text-accent-gradient {
+  background-image: var(--gradient-accent-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  padding-bottom: 0.15em;
+  padding-right: 0.05em;
+  margin-bottom: -0.15em;
+  filter: drop-shadow(0 2px 14px var(--accent-glow-soft));
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
 html {
   scrollbar-width: thin;
-  scrollbar-color: #a51c1c var(--background);
+  scrollbar-color: var(--scrollbar-thumb-1) var(--bg-primary);
   scroll-behavior: smooth;
 }
 
-/* WebKit / Chromium / Safari */
-::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
-    #d93535 0%,
-    #a51c1c 50%,
-    #c48c38 82%,
-    #f5c86a 100%
+    var(--scrollbar-thumb-1) 0%,
+    var(--scrollbar-thumb-2) 50%,
+    var(--scrollbar-thumb-3) 82%,
+    var(--scrollbar-thumb-4) 100%
   );
   border-radius: 9999px;
-  border: 2px solid var(--background);
-  box-shadow: inset 0 1px 1px rgba(255, 220, 168, 0.35),
-    0 0 8px rgba(217, 53, 53, 0.25);
-  transition: all 0.25s ease;
+  border: 2px solid var(--bg-primary);
+  box-shadow: inset 0 1px 1px var(--gold-glow), 0 0 8px var(--accent-glow-soft);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
     180deg,
-    #f5c86a 0%,
-    #d93535 45%,
-    #c62828 85%,
-    #f5c86a 100%
+    var(--scrollbar-thumb-4) 0%,
+    var(--scrollbar-thumb-1) 45%,
+    var(--scrollbar-thumb-2) 85%,
+    var(--scrollbar-thumb-4) 100%
   );
-  box-shadow: inset 0 1px 2px rgba(255, 235, 190, 0.5),
-    0 0 12px rgba(245, 200, 106, 0.4);
+  box-shadow: inset 0 1px 2px var(--gold-glow), 0 0 12px var(--gold-glow);
 }
 
 ::-webkit-scrollbar-thumb:active {
   background: linear-gradient(
     180deg,
-    #ffdca8 0%,
-    #d93535 50%,
-    #a51c1c 100%
+    var(--gold-light) 0%,
+    var(--accent) 50%,
+    var(--accent-deep) 100%
   );
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7),
-    0 0 14px rgba(245, 200, 106, 0.5);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), 0 0 14px var(--gold-glow);
 }
 
-::-webkit-scrollbar-corner {
-  background: var(--background);
-}
+::-webkit-scrollbar-corner { background: var(--bg-primary); }
 
-/* ── Service Card Premium Golden Shimmer ────────────────────────────────────── */
+/* ── Golden Shimmer animation (Service cards) ─────────────────────────────── */
 @keyframes golden-shimmer {
-  0%,
-  18% {
-    transform: translateX(-120%) skewX(-14deg);
-    opacity: 0;
-  }
-  22% {
-    opacity: 1;
-  }
-  52% {
-    opacity: 1;
-  }
-  58%,
-  100% {
-    transform: translateX(320%) skewX(-14deg);
-    opacity: 0;
-  }
+  0%, 18%  { transform: translateX(-120%) skewX(-14deg); opacity: 0; }
+  22%       { opacity: 1; }
+  52%       { opacity: 1; }
+  58%, 100% { transform: translateX(320%) skewX(-14deg); opacity: 0; }
 }
 
-.service-card-border {
-  position: relative;
-}
+.service-card-border { position: relative; }
 
 .service-card-border::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 38%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 38%; height: 100%;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(245, 200, 106, 0.04) 25%,
-    rgba(255, 235, 190, 0.12) 48%,
-    rgba(245, 200, 106, 0.04) 75%,
+    var(--gold-glow-faint) 25%,
+    rgba(255,235,190,0.1) 48%,
+    var(--gold-glow-faint) 75%,
     transparent 100%
   );
   animation: golden-shimmer 5s ease-in-out infinite;
@@ -184,3 +722,28 @@ html {
   z-index: 3;
 }
 
+/* ── Premium Button Base ─────────────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(
+    180deg,
+    var(--gradient-btn-top) 0%,
+    var(--gradient-btn-mid) 45%,
+    var(--gradient-btn-bottom) 100%
+  );
+  box-shadow: var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.btn-primary:hover {
+  box-shadow: var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow);
+}
+
+/* ── Premium Card Base ───────────────────────────────────────────────────── */
+.card-surface {
+  background: linear-gradient(
+    160deg,
+    var(--gradient-card-top) 0%,
+    var(--gradient-card-bottom) 100%
+  );
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--highlight-card);
+}

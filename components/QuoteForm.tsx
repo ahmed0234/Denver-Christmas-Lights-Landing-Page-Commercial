@@ -30,35 +30,34 @@ function FormField({
   id: string;
 }) {
   const baseClass =
-    "w-full bg-transparent text-[var(--body)] placeholder-[var(--muted)] text-sm outline-none resize-none leading-none";
+    "w-full bg-transparent text-[var(--text-body)] placeholder-[var(--text-muted)] text-sm outline-none resize-none leading-none";
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-[1.5px] transition-colors duration-200 group"
+      className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-[1.5px] group"
       style={{
-        background:
-          "linear-gradient(180deg, rgba(72,22,18,0.55) 0%, rgba(38,10,9,0.72) 100%)",
-        borderColor: "rgba(142,73,56,0.8)",
+        background: `linear-gradient(180deg, var(--input-bg-top) 0%, var(--input-bg-bottom) 100%)`,
+        borderColor: "var(--border-input)",
         boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.25)",
+          "inset 0 1px 0 var(--highlight-surface), inset 0 -1px 0 rgba(0,0,0,0.3)",
       }}
       onFocus={(e) => {
         const el = e.currentTarget as HTMLDivElement;
-        el.style.borderColor = "rgba(217,53,53,0.7)";
+        el.style.borderColor = "var(--border-input-focus)";
         el.style.boxShadow =
-          "0 0 0 2px rgba(217,53,53,0.12), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(0,0,0,0.25)";
+          "0 0 0 2px var(--accent-glow-soft), inset 0 1px 0 var(--highlight-surface), inset 0 -1px 0 rgba(0,0,0,0.3)";
       }}
       onBlur={(e) => {
         const el = e.currentTarget as HTMLDivElement;
-        el.style.borderColor = "rgba(142,73,56,0.55)";
+        el.style.borderColor = "var(--border-input)";
         el.style.boxShadow =
-          "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.25)";
+          "inset 0 1px 0 var(--highlight-surface), inset 0 -1px 0 rgba(0,0,0,0.3)";
       }}
     >
       <Icon
         size={16}
         className="shrink-0"
-        style={{ color: "rgba(151,142,137,0.75)" }}
+        style={{ color: "var(--text-muted)" }}
       />
       {isTextarea ? (
         <textarea
@@ -80,7 +79,7 @@ function FormField({
         <RightIcon
           size={16}
           className="shrink-0"
-          style={{ color: "rgba(151,142,137,0.75)" }}
+          style={{ color: "var(--text-muted)" }}
         />
       )}
     </div>
@@ -95,15 +94,15 @@ function SnowflakeDivider() {
         className="flex-1 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent, var(--primary), transparent)",
+            "linear-gradient(to right, transparent, var(--accent), transparent)",
         }}
       />
-      <Snowflake size={13} style={{ color: "var(--primary)" }} />
+      <Snowflake size={13} style={{ color: "var(--accent)" }} />
       <div
         className="flex-1 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent, var(--primary), transparent)",
+            "linear-gradient(to right, transparent, var(--accent), transparent)",
         }}
       />
     </div>
@@ -119,27 +118,10 @@ export default function QuoteForm() {
       transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
       className="relative w-full max-w-[480px] mx-auto"
     >
-      {/*
-        Christmas Lights — absolutely positioned above the card.
-        The PNG is 1320×540. The garland sags from the two top corners
-        down to the middle. The visible content fills roughly the top
-        55% of the image. We extend the image slightly beyond the card
-        edges (left/right) so the corner garland bunches overlap the
-        card border naturally, and position it so the string hangs just
-        over the card's top edge.
-      */}
-      {/*
-        Christmas Lights — attached naturally along the top edge of the card frame.
-        Positioned so the pine corner garlands hug the card's top corners and the
-        string sags cleanly above the text.
-      */}
+      {/* Christmas Lights decoration */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{
-          top: "-76px",
-          left: "-18px",
-          right: "-18px",
-        }}
+        style={{ top: "-76px", left: "-18px", right: "-18px" }}
       >
         <motion.div
           animate={{ opacity: [0.88, 1, 0.88] }}
@@ -157,32 +139,38 @@ export default function QuoteForm() {
         </motion.div>
       </div>
 
-      {/* ── Card ── */}
+      {/* ── Card ─────────────────────────────────────────────────────────────── */}
       <div
         className="relative z-10 rounded-2xl overflow-hidden"
         style={{
-          background:
-            "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(120,30,20,0.95) 0%, rgba(72,12,10,0.97) 38%, rgba(28,6,5,0.98) 70%, rgba(14,3,3,0.99) 100%)",
-          border: "2px solid rgba(139,64,54,0.9)",
-          boxShadow:
-            "0 0 0 1px rgba(80,20,15,0.4), 0 4px 80px rgba(180,30,20,0.22), 0 40px 100px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,180,130,0.07)",
+          /* Deep vertical gradient — lighter top, darker bottom */
+          background: `radial-gradient(ellipse 90% 45% at 50% 0%, var(--gradient-form-top) 0%, var(--gradient-form-mid) 38%, var(--gradient-form-bottom) 100%)`,
+          border: `2px solid var(--form-border-color)`,
+          boxShadow: `0 0 0 1px var(--border-color), var(--shadow-card-hover), inset 0 1px 0 var(--highlight-btn)`,
         }}
       >
-        {/* Subtle warm shimmer at the very top of the card */}
+        {/* Top warm shimmer — creates the "lighter top" depth effect */}
         <div
-          className="absolute top-0 left-0 right-0 h-24 pointer-events-none"
+          className="absolute top-0 left-0 right-0 h-28 pointer-events-none"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(180,60,20,0.22) 0%, transparent 100%)",
+            background: `radial-gradient(ellipse 80% 100% at 50% 0%, var(--form-highlight) 0%, transparent 100%)`,
           }}
         />
 
-        {/* Content — extra top padding so heading and GET YOUR FREE label clear the lights */}
+        {/* Inner top highlight line */}
+        <div
+          className="absolute top-0 inset-x-12 h-px pointer-events-none z-10"
+          style={{
+            background: `linear-gradient(90deg, transparent, var(--highlight-btn), transparent)`,
+          }}
+        />
+
+        {/* Content */}
         <div className="relative px-7 pt-24 pb-7">
           {/* Top label */}
           <p
             className="text-[11px] font-bold tracking-[0.25em] uppercase text-center mb-2"
-            style={{ color: "var(--primary)" }}
+            style={{ color: "var(--accent)" }}
           >
             GET YOUR FREE
           </p>
@@ -191,8 +179,8 @@ export default function QuoteForm() {
           <h2
             className="text-[1.75rem] font-bold text-center leading-snug"
             style={{
-              color: "var(--heading)",
-              textShadow: "0 2px 12px rgba(0,0,0,0.6)",
+              color: "var(--text-heading)",
+              textShadow: "0 2px 16px rgba(0,0,0,0.6)",
             }}
           >
             Christmas Lighting Quote
@@ -237,47 +225,40 @@ export default function QuoteForm() {
               type="submit"
               whileHover={{
                 scale: 1.02,
-                boxShadow: "0 10px 36px rgba(217,53,53,0.6)",
+                boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
               }}
               whileTap={{ scale: 0.98 }}
               className="relative w-full mt-2 py-4 px-6 rounded-xl font-bold text-sm tracking-[0.16em] uppercase text-white flex items-center justify-center overflow-hidden"
               style={{
-                background:
-                  "linear-gradient(180deg, #e84040 0%, #d12a2a 40%, #b31f1f 100%)",
-                boxShadow:
-                  "0 6px 28px rgba(217,53,53,0.5), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -2px 0 rgba(0,0,0,0.22)",
+                background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
+                boxShadow: `var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 0 var(--btn-inner-shadow)`,
+                border: "1px solid rgba(255,255,255,0.12)",
               }}
             >
-              {/* Top shine overlay */}
+              {/* 3D top shine */}
               <span
                 className="absolute inset-x-0 top-0 h-1/2 rounded-t-xl pointer-events-none"
                 style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)",
+                  background: `linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)`,
                 }}
               />
-              <span className="relative flex-1 text-center">
-                GET A FREE QUOTE
-              </span>
+              <span className="relative flex-1 text-center">GET A FREE QUOTE</span>
               <span
-                className="relative ml-4 w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0"
+                className="relative ml-4 w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0"
                 style={{
-                  boxShadow:
-                    "0 2px 8px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.9)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
+                  background: "rgba(255,255,255,0.18)",
                 }}
               >
-                <ArrowRight
-                  size={17}
-                  style={{ color: "var(--primary)", strokeWidth: 2.5 }}
-                />
+                <ArrowRight size={17} style={{ color: "#fff", strokeWidth: 2.5 }} />
               </span>
             </motion.button>
           </form>
 
           {/* Privacy note */}
           <div className="flex items-center justify-center gap-2 mt-4">
-            <Lock size={11} style={{ color: "var(--muted)" }} />
-            <p className="text-[11px]" style={{ color: "var(--muted)" }}>
+            <Lock size={11} style={{ color: "var(--text-muted)" }} />
+            <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
               We respect your privacy. Your information is safe with us.
             </p>
           </div>
