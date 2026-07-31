@@ -694,10 +694,10 @@ export default function Services() {
       delay: 0.1,
     },
     {
-      title: "Commercial Installation",
+      title: "Large Home Installation",
       icon: Building2,
-      beforeImage: "/BeforeAfter/commercialbuilding/before.webp",
-      afterImage: "/BeforeAfter/commercialbuilding/after.webp",
+      beforeImage: "/BeforeAfter/LargeHouse/before.webp",
+      afterImage: "/BeforeAfter/LargeHouse/after.webp",
       delay: 0.2,
     },
   ];
