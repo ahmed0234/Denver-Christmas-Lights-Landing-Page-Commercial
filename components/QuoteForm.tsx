@@ -1,12 +1,17 @@
 "use client";
 
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   User,
   Mail,
   Home,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
   MessageSquare,
   ArrowRight,
   Lock,
@@ -30,11 +35,13 @@ function FormField({
   id: string;
 }) {
   const baseClass =
-    "w-full bg-transparent text-[var(--text-body)] placeholder-[var(--text-muted)] text-sm outline-none resize-none leading-none";
+    "w-full bg-transparent text-[var(--text-body)] placeholder-[var(--text-muted)] text-sm outline-none resize-none leading-normal";
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-[1.5px] group"
+      className={`flex ${
+        isTextarea ? "items-start" : "items-center"
+      } gap-3 px-4 py-3.5 rounded-xl border-[1.5px] group transition-all`}
       style={{
         background: `linear-gradient(180deg, var(--input-bg-top) 0%, var(--input-bg-bottom) 100%)`,
         borderColor: "var(--border-input)",
@@ -56,7 +63,7 @@ function FormField({
     >
       <Icon
         size={16}
-        className="shrink-0"
+        className={`shrink-0 ${isTextarea ? "mt-0.5" : ""}`}
         style={{ color: "var(--text-muted)" }}
       />
       {isTextarea ? (
@@ -64,8 +71,7 @@ function FormField({
           id={id}
           placeholder={placeholder}
           rows={3}
-          className={baseClass}
-          style={{ alignSelf: "flex-start", paddingTop: "2px" }}
+          className={`${baseClass} flex-1`}
         />
       ) : (
         <input
@@ -78,7 +84,7 @@ function FormField({
       {RightIcon && (
         <RightIcon
           size={16}
-          className="shrink-0"
+          className={`shrink-0 ${isTextarea ? "mt-0.5" : ""}`}
           style={{ color: "var(--text-muted)" }}
         />
       )}
@@ -105,6 +111,516 @@ function SnowflakeDivider() {
             "linear-gradient(to right, transparent, var(--accent), transparent)",
         }}
       />
+    </div>
+  );
+}
+
+// ── Custom Date Picker ─────────────────────────────────────────────────────────
+function DatePickerField({ id }: { id: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Today at midnight for clean comparison
+  const getToday = useCallback(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
+
+  const today = getToday();
+
+  // Month currently displayed in calendar popover
+  const [viewDate, setViewDate] = useState<Date>(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+
+  // Currently focused date for keyboard navigation
+  const [focusedDate, setFocusedDate] = useState<Date>(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Position state for portal popover
+  const [popoverPos, setPopoverPos] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    isAbove: boolean;
+  }>({ top: 0, left: 0, width: 0, isAbove: false });
+
+  // Update floating popover position dynamically relative to viewport
+  const updatePosition = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const estimatedPopoverHeight = 350;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    // Decide whether to display popover above or below the input field
+    const placeAbove =
+      spaceBelow < estimatedPopoverHeight && spaceAbove > spaceBelow;
+
+    const padding = 16;
+    const targetWidth = Math.min(rect.width, viewportWidth - padding * 2);
+    let left = rect.left;
+
+    if (left + targetWidth > viewportWidth - padding) {
+      left = viewportWidth - targetWidth - padding;
+    }
+    if (left < padding) {
+      left = padding;
+    }
+
+    let top = 0;
+    if (placeAbove) {
+      top = Math.max(padding, rect.top - estimatedPopoverHeight - 8);
+    } else {
+      top = rect.bottom + 8;
+    }
+
+    setPopoverPos({
+      top,
+      left,
+      width: targetWidth,
+      isAbove: placeAbove,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      updatePosition();
+      const handleScrollResize = () => updatePosition();
+      window.addEventListener("scroll", handleScrollResize, true);
+      window.addEventListener("resize", handleScrollResize);
+      return () => {
+        window.removeEventListener("scroll", handleScrollResize, true);
+        window.removeEventListener("resize", handleScrollResize);
+      };
+    }
+  }, [isOpen, updatePosition]);
+
+  // Close calendar on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        popoverRef.current &&
+        !popoverRef.current.contains(target)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Handle keyboard navigation when popover is open
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+      return;
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setIsOpen(false);
+      return;
+    }
+
+    let nextDate = new Date(focusedDate);
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      nextDate.setDate(nextDate.getDate() - 1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nextDate.setDate(nextDate.getDate() + 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      nextDate.setDate(nextDate.getDate() - 7);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      nextDate.setDate(nextDate.getDate() + 7);
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (focusedDate >= today) {
+        setSelectedDate(focusedDate);
+        setIsOpen(false);
+      }
+      return;
+    } else {
+      return;
+    }
+
+    // Ensure we don't focus past dates
+    if (nextDate < today) {
+      nextDate = new Date(today);
+    }
+
+    setFocusedDate(nextDate);
+
+    // Keep viewDate aligned with focused date's month
+    if (
+      nextDate.getMonth() !== viewDate.getMonth() ||
+      nextDate.getFullYear() !== viewDate.getFullYear()
+    ) {
+      setViewDate(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
+    }
+  };
+
+  // Month navigation
+  const handlePrevMonth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const prev = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
+    const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    if (prev >= minMonth) {
+      setViewDate(prev);
+    }
+  };
+
+  const handleNextMonth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
+  };
+
+  // Check if prev month navigation should be disabled
+  const isPrevDisabled =
+    viewDate.getFullYear() === today.getFullYear() &&
+    viewDate.getMonth() === today.getMonth();
+
+  // Generate calendar days grid
+  const getDaysGrid = useCallback(() => {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const prevMonthDays = new Date(year, month, 0).getDate();
+
+    const grid: { date: Date; isCurrentMonth: boolean }[] = [];
+
+    // Previous month padding
+    for (let i = firstDayIndex - 1; i >= 0; i--) {
+      grid.push({
+        date: new Date(year, month - 1, prevMonthDays - i),
+        isCurrentMonth: false,
+      });
+    }
+
+    // Current month days
+    for (let d = 1; d <= daysInMonth; d++) {
+      grid.push({
+        date: new Date(year, month, d),
+        isCurrentMonth: true,
+      });
+    }
+
+    // Next month padding to fill grid
+    const remaining = (7 - (grid.length % 7)) % 7;
+    for (let i = 1; i <= remaining; i++) {
+      grid.push({
+        date: new Date(year, month + 1, i),
+        isCurrentMonth: false,
+      });
+    }
+
+    return grid;
+  }, [viewDate]);
+
+  const days = getDaysGrid();
+
+  const formattedSelectedDate = selectedDate
+    ? selectedDate.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
+
+  const isoValue = selectedDate
+    ? `${selectedDate.getFullYear()}-${String(
+        selectedDate.getMonth() + 1
+      ).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`
+    : "";
+
+  const isSameDay = (d1: Date | null, d2: Date | null) => {
+    if (!d1 || !d2) return false;
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  };
+
+  const monthYearString = viewDate.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  return (
+    <div className="relative w-full" ref={containerRef}>
+      <input type="hidden" id={id} name="preferredDate" value={isoValue} />
+
+      {/* ── Trigger Container (Entire Input Area Clickable) ── */}
+      <button
+        type="button"
+        id={`${id}-trigger`}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
+        aria-label="What is your preferred installation date?"
+        onClick={() => {
+          setIsOpen(!isOpen);
+          if (!isOpen && selectedDate) {
+            setFocusedDate(selectedDate);
+            setViewDate(
+              new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+            );
+          }
+        }}
+        onKeyDown={handleKeyDown}
+        className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border-[1.5px] transition-all cursor-pointer select-none text-left focus:outline-none group"
+        style={{
+          background: `linear-gradient(180deg, var(--input-bg-top) 0%, var(--input-bg-bottom) 100%)`,
+          borderColor: isOpen
+            ? "var(--border-input-focus)"
+            : "var(--border-input)",
+          boxShadow: isOpen
+            ? "0 0 0 2px var(--accent-glow-soft), 0 0 16px rgba(245, 200, 106, 0.15), inset 0 1px 0 var(--highlight-surface)"
+            : "inset 0 1px 0 var(--highlight-surface), inset 0 -1px 0 rgba(0,0,0,0.3)",
+        }}
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <CalendarDays
+            size={16}
+            className="shrink-0 transition-colors"
+            style={{
+              color: selectedDate || isOpen ? "var(--gold)" : "var(--text-muted)",
+            }}
+          />
+          <span
+            className={`text-sm truncate transition-colors ${
+              selectedDate
+                ? "text-[var(--text-heading)] font-semibold"
+                : "text-[var(--text-muted)] group-hover:text-[var(--text-body)]"
+            }`}
+          >
+            {selectedDate
+              ? formattedSelectedDate
+              : "What is your preferred installation date?"}
+          </span>
+        </div>
+
+        <ChevronDown
+          size={16}
+          className={`shrink-0 transition-transform duration-300 ${
+            isOpen ? "rotate-180 text-[var(--gold)]" : "text-[var(--text-muted)]"
+          }`}
+        />
+      </button>
+
+      {/* ── Custom Popover Calendar Rendered via Portal to avoid overflow-hidden clipping ── */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                ref={popoverRef}
+                initial={{
+                  opacity: 0,
+                  y: popoverPos.isAbove ? -10 : 10,
+                  scale: 0.97,
+                }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{
+                  opacity: 0,
+                  y: popoverPos.isAbove ? -8 : 8,
+                  scale: 0.97,
+                }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="p-4 rounded-2xl border-[1.5px] shadow-[0_24px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(217,53,53,0.22)] backdrop-blur-2xl bg-[var(--bg-glass-card)] overflow-hidden"
+                style={{
+                  position: "fixed",
+                  top: popoverPos.top,
+                  left: popoverPos.left,
+                  width: popoverPos.width,
+                  zIndex: 9999,
+                  borderColor: "var(--border-strong)",
+                }}
+                role="dialog"
+                aria-label="Calendar date picker"
+              >
+                {/* Ambient gold shimmer line at top of popover */}
+                <div
+                  className="absolute top-0 inset-x-8 h-px pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent, var(--gold), transparent)",
+                  }}
+                />
+
+                {/* Header: Month / Year Navigation */}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[var(--gold)] animate-pulse" />
+                    <h3 className="text-sm font-bold text-[var(--text-heading)] tracking-wide">
+                      {monthYearString}
+                    </h3>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={handlePrevMonth}
+                      disabled={isPrevDisabled}
+                      aria-label="Previous Month"
+                      className="p-1.5 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextMonth}
+                      aria-label="Next Month"
+                      className="p-1.5 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 transition-all active:scale-95 cursor-pointer"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Days of Week Header */}
+                <div className="grid grid-cols-7 gap-1 mb-2 text-center">
+                  {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                    <span
+                      key={day}
+                      className="text-[11px] font-bold text-[var(--gold)] uppercase tracking-wider py-1"
+                    >
+                      {day}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Days Grid */}
+                <div className="grid grid-cols-7 gap-1 text-center" role="grid">
+                  {days.map(({ date, isCurrentMonth }, idx) => {
+                    const isPast = date < today;
+                    const isSelected = isSameDay(date, selectedDate);
+                    const isToday = isSameDay(date, today);
+                    const isFocused = isSameDay(date, focusedDate);
+
+                    let cellClasses =
+                      "h-9 w-full rounded-lg text-xs font-medium flex items-center justify-center transition-all select-none relative focus:outline-none";
+
+                    if (isPast || !isCurrentMonth) {
+                      cellClasses +=
+                        " opacity-25 cursor-not-allowed text-[var(--text-muted-dark)]";
+                    } else if (isSelected) {
+                      cellClasses +=
+                        " bg-gradient-to-r from-[var(--accent)] to-[var(--gold-dark)] text-white font-bold shadow-[0_2px_12px_rgba(217,53,53,0.6)] scale-105 z-10 cursor-pointer";
+                    } else {
+                      cellClasses +=
+                        " text-[var(--text-body)] hover:text-[var(--text-heading)] hover:bg-[var(--gold-glow-faint)] hover:border hover:border-[var(--gold)]/40 cursor-pointer active:scale-95";
+                    }
+
+                    if (isToday && !isSelected) {
+                      cellClasses +=
+                        " border border-[var(--gold)]/60 text-[var(--gold-light)] font-bold shadow-[0_0_8px_rgba(245,200,106,0.25)]";
+                    }
+
+                    if (isFocused && !isSelected && !isPast && isCurrentMonth) {
+                      cellClasses += " ring-1 ring-[var(--gold)] bg-white/5";
+                    }
+
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        disabled={isPast || !isCurrentMonth}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!isPast && isCurrentMonth) {
+                            setSelectedDate(date);
+                            setFocusedDate(date);
+                            setIsOpen(false);
+                          }
+                        }}
+                        onMouseEnter={() => {
+                          if (!isPast && isCurrentMonth) {
+                            setFocusedDate(date);
+                          }
+                        }}
+                        className={cellClasses}
+                        aria-selected={isSelected}
+                        aria-disabled={isPast || !isCurrentMonth}
+                      >
+                        {date.getDate()}
+                        {isToday && !isSelected && (
+                          <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[var(--gold)]" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Footer / Quick Actions */}
+                <div className="flex items-center justify-between pt-3 mt-3 border-t border-white/10 text-xs">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedDate(today);
+                      setFocusedDate(today);
+                      setViewDate(
+                        new Date(today.getFullYear(), today.getMonth(), 1)
+                      );
+                      setIsOpen(false);
+                    }}
+                    className="font-semibold text-[var(--gold)] hover:text-[var(--gold-light)] hover:underline transition-all cursor-pointer flex items-center gap-1"
+                  >
+                    Select Today
+                  </button>
+
+                  {selectedDate && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedDate(null);
+                      }}
+                      className="text-[var(--text-muted)] hover:text-white transition-colors cursor-pointer"
+                    >
+                      Clear Selection
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </div>
   );
 }
@@ -205,13 +721,7 @@ export default function QuoteForm() {
               icon={Home}
               placeholder="Home Address"
             />
-            <FormField
-              id="quote-date"
-              icon={CalendarDays}
-              placeholder="Preferred Installation Date"
-              type="date"
-              rightIcon={CalendarDays}
-            />
+            <DatePickerField id="quote-date" />
             <FormField
               id="quote-message"
               icon={MessageSquare}
