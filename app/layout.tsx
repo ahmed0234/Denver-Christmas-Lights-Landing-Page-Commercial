@@ -22,9 +22,9 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title:
-    "Residential Christmas Light Installation Denver | Denver Christmas Lights",
+    "Commercial Christmas Light Installation Denver | Denver Christmas Lights",
   description:
-    "Professional residential Christmas light installation in Denver. Custom design, installation, maintenance, takedown and seasonal support. Request your free quote.",
+    "Commercial Christmas light installation in Denver for retail centers, HOAs, offices, hotels and commercial properties. Request a custom lighting proposal",
 };
 
 export default function RootLayout({

@@ -219,7 +219,7 @@ export default function HeroSection() {
                 className="text-xs font-semibold tracking-[0.22em] uppercase"
                 style={{ color: "var(--accent)" }}
               >
-                Residential Christmas Light Installation in Denver Colorado
+                Commercial Christmas Light Installation in Denver Colorado
               </span>
             </motion.div>
 
@@ -235,7 +235,7 @@ export default function HeroSection() {
               className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight mb-1 font-sans"
               style={{ color: "var(--text-heading)" }}
             >
-              Professional Christmas
+              Make Your Property
             </motion.h1>
 
             {/* "the Brightest" */}
@@ -250,7 +250,7 @@ export default function HeroSection() {
               className="relative inline-block mb-1"
             >
               <span className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight italic font-playfair text-accent-gradient">
-                Light Installation
+                the Destination
               </span>
               <svg
                 viewBox="0 0 320 18"
@@ -282,7 +282,7 @@ export default function HeroSection() {
               className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight font-sans"
               style={{ color: "var(--text-heading)" }}
             >
-              For Denver Homes
+              This Holiday Season
             </motion.h1>
 
             {/* Divider */}
