@@ -115,23 +115,23 @@ export default function HeroSection() {
   const trustBadges = [
     {
       icon: ShieldCheck,
-      title: "Fully Insured Installation Team",
-      description: "Your home is in safe hands",
+      title: "Commercial Property Experience",
+      description: "HOAs, retail centers, office parks, hospitality, municipalities",
     },
     {
       icon: Award,
-      title: "Custom Holiday Lighting Designs",
-      description: "Professional Christmas Lighting Designs",
+      title: "Fully Insured Installation Crews",
+      description: "Licensed, insured, and professional lighting crews",
     },
     {
       icon: Star,
-      title: "In-Season Maintenance Available",
-      description: "We keep your lights perfect all season",
+      title: "Custom Property Specific Designs",
+      description: "Tailored lighting designs that enhance your property",
     },
     {
       icon: Wrench,
-      title: "Removal and Takedown Available",
-      description: "We handle the cleanup so you don't have to",
+      title: "In Season Maintenance Available",
+      description: "Responsive service throughout the holiday season",
     },
   ];
 
@@ -203,7 +203,7 @@ export default function HeroSection() {
       </div>
 
       {/* ── Main Content ── */}
-      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-28 md:pt-36 lg:pt-32 pb-20">
+      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-28 md:pt-36 lg:pt-28 pb-20">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12 lg:gap-12 xl:gap-12">
           {/* LEFT COLUMN */}
           <div className="w-full lg:max-w-[620px] xl:max-w-[960px] flex flex-col items-start lg:pt-6">
@@ -250,7 +250,7 @@ export default function HeroSection() {
               className="relative inline-block mb-1"
             >
               <span className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight italic font-playfair text-accent-gradient">
-                the Destination
+                The Destination
               </span>
               <svg
                 viewBox="0 0 320 18"
@@ -303,8 +303,9 @@ export default function HeroSection() {
               className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-2 2xl:text-xl"
               style={{ color: "var(--text-body)" }}
             >
-              Make your home stand out this holiday season without climbing
-              ladders, untangling wires or spending your weekend in the cold
+              Professional commercial Christmas light installation for shopping
+              centers, HOAs, apartment communities, office buildings, hotels,
+              restaurants and commercial properties throughout Denver
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -313,9 +314,9 @@ export default function HeroSection() {
               className="text-base md:text-lg leading-normal max-w-[440px] xl:max-w-[560px] mb-2 2xl:text-xl"
               style={{ color: "var(--text-body)" }}
             >
-              Denver Christmas Lights handles the complete process, including
-              custom design, professional installation, in season maintenance
-              and post holiday removal
+              We handle the lighting design, installation, seasonal maintenance
+              and removal giving your property a polished holiday presence
+              without creating another project for your internal team
             </motion.p>
 
             {/* CTA Buttons */}
@@ -342,7 +343,7 @@ export default function HeroSection() {
                 }}
               >
                 <CalendarCheck size={16} />
-                Get My Free Christmas Light Quote
+                Request a Commercial Lighting Proposal
               </motion.a>
 
               {/* Primary — Call */}

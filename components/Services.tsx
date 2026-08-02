@@ -687,17 +687,19 @@ export default function Services() {
 
   const featuredCards = [
     {
-      title: "Residential Installation",
+      title: "Office Buildings & Corporate Campuses",
       icon: Home,
-      beforeImage: "/BeforeAfter/services/before.webp",
-      afterImage: "/BeforeAfter/services/after.webp",
+      beforeImage:
+        "/BeforeAfter/services/OfficeBuilding/OfficeBuildingsBefore.webp",
+      afterImage:
+        "/BeforeAfter/services/OfficeBuilding/OfficeBuildingsAfter.webp",
       delay: 0.1,
     },
     {
-      title: "Large Home Installation",
+      title: "Apartment Buildings & HOAs",
       icon: Building2,
-      beforeImage: "/BeforeAfter/LargeHouse/Before.webp",
-      afterImage: "/BeforeAfter/LargeHouse/After.webp",
+      beforeImage: "/BeforeAfter/services/Hoas/before.webp",
+      afterImage: "/BeforeAfter/services/Hoas/after.webp",
       delay: 0.2,
     },
   ];
@@ -856,7 +858,7 @@ export default function Services() {
             className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[55px] font-bold leading-[1.08] tracking-tight mb-6 font-sans"
           >
             <span style={{ color: "var(--text-heading)" }}>
-              Complete Residential{" "}
+              Complete Commercial{" "}
             </span>
             <span className="text-accent-gradient">
               Christmas Light Installation
@@ -870,8 +872,8 @@ export default function Services() {
             className="text-base sm:text-lg leading-relaxed max-w-[540px]"
             style={{ color: "var(--text-muted)" }}
           >
-            Clean, professionally installed lighting designed to complement the
-            shape and structure of your home
+            We review your property, high visibility areas, power access,
+            installation requirements, timelines and project goals
           </motion.p>
         </div>
 

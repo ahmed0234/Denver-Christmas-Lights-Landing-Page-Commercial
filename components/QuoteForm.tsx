@@ -7,7 +7,16 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   User,
   Mail,
+  Phone,
+  MapPin,
+  Building2,
+  Building,
   Home,
+  Sparkles,
+  Warehouse,
+  Landmark,
+  Briefcase,
+  Check,
   CalendarDays,
   ChevronLeft,
   ChevronRight,
@@ -17,6 +26,17 @@ import {
   Lock,
   Snowflake,
 } from "lucide-react";
+
+// ── Property Types Master Config ───────────────────────────────────────────────
+const PROPERTY_TYPES = [
+  { value: "Retail / Storefront", label: "Retail / Storefront", icon: Building2 },
+  { value: "Office Building / Park", label: "Office Building / Park", icon: Building },
+  { value: "HOA / Multi-Family", label: "HOA / Multi-Family", icon: Home },
+  { value: "Restaurant / Hospitality", label: "Restaurant / Hospitality", icon: Sparkles },
+  { value: "Industrial / Warehouse", label: "Industrial / Warehouse", icon: Warehouse },
+  { value: "Municipality / City", label: "Municipality / City", icon: Landmark },
+  { value: "Other Commercial", label: "Other Commercial", icon: Briefcase },
+];
 
 // ── Field wrapper ──────────────────────────────────────────────────────────────
 function FormField({
@@ -88,6 +108,237 @@ function FormField({
           style={{ color: "var(--text-muted)" }}
         />
       )}
+    </div>
+  );
+}
+
+// ── Luxury Property Type Dropdown Component ──────────────────────────────────
+function PropertyTypeField({ id }: { id: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [mounted, setMounted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  const [popoverPos, setPopoverPos] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    isAbove: boolean;
+  }>({ top: 0, left: 0, width: 0, isAbove: false });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const updatePosition = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const estimatedPopoverHeight = 320;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    const placeAbove =
+      spaceBelow < estimatedPopoverHeight && spaceAbove > spaceBelow;
+
+    const padding = 16;
+    const targetWidth = Math.min(rect.width, viewportWidth - padding * 2);
+    let left = rect.left;
+
+    if (left + targetWidth > viewportWidth - padding) {
+      left = viewportWidth - targetWidth - padding;
+    }
+    if (left < padding) {
+      left = padding;
+    }
+
+    let top = 0;
+    if (placeAbove) {
+      top = Math.max(padding, rect.top - estimatedPopoverHeight - 6);
+    } else {
+      top = rect.bottom + 6;
+    }
+
+    setPopoverPos({
+      top,
+      left,
+      width: targetWidth,
+      isAbove: placeAbove,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      updatePosition();
+      const handleScrollResize = () => updatePosition();
+      window.addEventListener("scroll", handleScrollResize, true);
+      window.addEventListener("resize", handleScrollResize);
+      return () => {
+        window.removeEventListener("scroll", handleScrollResize, true);
+        window.removeEventListener("resize", handleScrollResize);
+      };
+    }
+  }, [isOpen, updatePosition]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        popoverRef.current &&
+        !popoverRef.current.contains(target)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  const selectedItem = PROPERTY_TYPES.find((t) => t.value === selectedType);
+  const SelectedIcon = selectedItem ? selectedItem.icon : Building2;
+
+  return (
+    <div className="relative w-full" ref={containerRef}>
+      <input type="hidden" id={id} name="propertyType" value={selectedType} />
+
+      <button
+        type="button"
+        id={`${id}-trigger`}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-label="Select Property Type"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border-[1.5px] transition-all cursor-pointer select-none text-left focus:outline-none group"
+        style={{
+          background: `linear-gradient(180deg, var(--input-bg-top) 0%, var(--input-bg-bottom) 100%)`,
+          borderColor: isOpen
+            ? "var(--border-input-focus)"
+            : "var(--border-input)",
+          boxShadow: isOpen
+            ? "0 0 0 2px var(--accent-glow-soft), 0 0 16px rgba(245, 200, 106, 0.15), inset 0 1px 0 var(--highlight-surface)"
+            : "inset 0 1px 0 var(--highlight-surface), inset 0 -1px 0 rgba(0,0,0,0.3)",
+        }}
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <SelectedIcon
+            size={16}
+            className="shrink-0 transition-colors"
+            style={{
+              color: selectedType || isOpen ? "var(--gold)" : "var(--text-muted)",
+            }}
+          />
+          <span
+            className={`text-sm truncate transition-colors ${
+              selectedType
+                ? "text-[var(--text-heading)] font-semibold"
+                : "text-[var(--text-muted)] group-hover:text-[var(--text-body)]"
+            }`}
+          >
+            {selectedType ? selectedType : "Property Type"}
+          </span>
+        </div>
+
+        <ChevronDown
+          size={16}
+          className={`shrink-0 transition-transform duration-300 ${
+            isOpen ? "rotate-180 text-[var(--gold)]" : "text-[var(--text-muted)]"
+          }`}
+        />
+      </button>
+
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                ref={popoverRef}
+                initial={{
+                  opacity: 0,
+                  y: popoverPos.isAbove ? -10 : 10,
+                  scale: 0.97,
+                }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{
+                  opacity: 0,
+                  y: popoverPos.isAbove ? -8 : 8,
+                  scale: 0.97,
+                }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="p-2 rounded-2xl border-[1.5px] shadow-[0_24px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(217,53,53,0.22)] backdrop-blur-2xl bg-[var(--bg-glass-card)] overflow-hidden"
+                style={{
+                  position: "fixed",
+                  top: popoverPos.top,
+                  left: popoverPos.left,
+                  width: popoverPos.width,
+                  zIndex: 9999,
+                  borderColor: "var(--border-strong)",
+                }}
+                role="listbox"
+                aria-label="Property type options"
+              >
+                {/* Ambient gold shimmer line at top of popover */}
+                <div
+                  className="absolute top-0 inset-x-8 h-px pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent, var(--gold), transparent)",
+                  }}
+                />
+
+                <div className="flex flex-col gap-1 py-1">
+                  {PROPERTY_TYPES.map((item) => {
+                    const isSelected = selectedType === item.value;
+                    const ItemIcon = item.icon;
+
+                    return (
+                      <button
+                        key={item.value}
+                        type="button"
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedType(item.value);
+                          setIsOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm transition-all cursor-pointer select-none text-left ${
+                          isSelected
+                            ? "bg-gradient-to-r from-[var(--accent-glow-soft)] to-transparent text-[var(--gold)] font-semibold border border-[var(--gold)]/30"
+                            : "text-[var(--text-body)] hover:text-white hover:bg-white/5 hover:border hover:border-white/10"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <ItemIcon
+                            size={16}
+                            className={`shrink-0 ${
+                              isSelected ? "text-[var(--gold)]" : "text-[var(--text-muted)]"
+                            }`}
+                          />
+                          <span className="truncate">{item.label}</span>
+                        </div>
+                        {isSelected && (
+                          <Check
+                            size={16}
+                            className="shrink-0 text-[var(--gold)] ml-2"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </div>
   );
 }
@@ -166,7 +417,7 @@ function DatePickerField({ id }: { id: string }) {
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
 
-    const estimatedPopoverHeight = 350;
+    const estimatedPopoverHeight = 370;
     const spaceBelow = viewportHeight - rect.bottom;
     const spaceAbove = rect.top;
 
@@ -175,7 +426,12 @@ function DatePickerField({ id }: { id: string }) {
       spaceBelow < estimatedPopoverHeight && spaceAbove > spaceBelow;
 
     const padding = 16;
-    const targetWidth = Math.min(rect.width, viewportWidth - padding * 2);
+    // Provide comfortable minimum 350px width for the calendar popover
+    const minCalendarWidth = 350;
+    const targetWidth = Math.min(
+      Math.max(minCalendarWidth, rect.width),
+      viewportWidth - padding * 2
+    );
     let left = rect.left;
 
     if (left + targetWidth > viewportWidth - padding) {
@@ -429,7 +685,7 @@ function DatePickerField({ id }: { id: string }) {
           >
             {selectedDate
               ? formattedSelectedDate
-              : "What is your preferred installation date?"}
+              : "Preferred Installation Date"}
           </span>
         </div>
 
@@ -460,7 +716,7 @@ function DatePickerField({ id }: { id: string }) {
                   scale: 0.97,
                 }}
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="p-4 rounded-2xl border-[1.5px] shadow-[0_24px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(217,53,53,0.22)] backdrop-blur-2xl bg-[var(--bg-glass-card)] overflow-hidden"
+                className="p-4.5 sm:p-5 rounded-2xl border-[1.5px] shadow-[0_24px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(217,53,53,0.22)] backdrop-blur-2xl bg-[var(--bg-glass-card)] overflow-hidden"
                 style={{
                   position: "fixed",
                   top: popoverPos.top,
@@ -482,21 +738,21 @@ function DatePickerField({ id }: { id: string }) {
                 />
 
                 {/* Header: Month / Year Navigation */}
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/10">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[var(--gold)] animate-pulse" />
-                    <h3 className="text-sm font-bold text-[var(--text-heading)] tracking-wide">
+                    <h3 className="text-sm sm:text-base font-bold text-[var(--text-heading)] tracking-wide">
                       {monthYearString}
                     </h3>
                   </div>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <button
                       type="button"
                       onClick={handlePrevMonth}
                       disabled={isPrevDisabled}
                       aria-label="Previous Month"
-                      className="p-1.5 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer"
+                      className="p-1.5 sm:p-2 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer"
                     >
                       <ChevronLeft size={16} />
                     </button>
@@ -504,7 +760,7 @@ function DatePickerField({ id }: { id: string }) {
                       type="button"
                       onClick={handleNextMonth}
                       aria-label="Next Month"
-                      className="p-1.5 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 transition-all active:scale-95 cursor-pointer"
+                      className="p-1.5 sm:p-2 rounded-lg border border-white/10 text-[var(--text-body)] hover:text-white hover:bg-white/10 hover:border-[var(--gold)]/40 transition-all active:scale-95 cursor-pointer"
                     >
                       <ChevronRight size={16} />
                     </button>
@@ -512,11 +768,11 @@ function DatePickerField({ id }: { id: string }) {
                 </div>
 
                 {/* Days of Week Header */}
-                <div className="grid grid-cols-7 gap-1 mb-2 text-center">
+                <div className="grid grid-cols-7 gap-1.5 mb-2.5 text-center">
                   {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
                     <span
                       key={day}
-                      className="text-[11px] font-bold text-[var(--gold)] uppercase tracking-wider py-1"
+                      className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider py-1"
                     >
                       {day}
                     </span>
@@ -524,7 +780,7 @@ function DatePickerField({ id }: { id: string }) {
                 </div>
 
                 {/* Days Grid */}
-                <div className="grid grid-cols-7 gap-1 text-center" role="grid">
+                <div className="grid grid-cols-7 gap-1.5 text-center" role="grid">
                   {days.map(({ date, isCurrentMonth }, idx) => {
                     const isPast = date < today;
                     const isSelected = isSameDay(date, selectedDate);
@@ -532,7 +788,7 @@ function DatePickerField({ id }: { id: string }) {
                     const isFocused = isSameDay(date, focusedDate);
 
                     let cellClasses =
-                      "h-9 w-full rounded-lg text-xs font-medium flex items-center justify-center transition-all select-none relative focus:outline-none";
+                      "h-9.5 sm:h-10 w-full rounded-xl text-xs sm:text-sm font-medium flex items-center justify-center transition-all select-none relative focus:outline-none";
 
                     if (isPast || !isCurrentMonth) {
                       cellClasses +=
@@ -578,7 +834,7 @@ function DatePickerField({ id }: { id: string }) {
                       >
                         {date.getDate()}
                         {isToday && !isSelected && (
-                          <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[var(--gold)]" />
+                          <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[var(--gold)]" />
                         )}
                       </button>
                     );
@@ -586,7 +842,7 @@ function DatePickerField({ id }: { id: string }) {
                 </div>
 
                 {/* Footer / Quick Actions */}
-                <div className="flex items-center justify-between pt-3 mt-3 border-t border-white/10 text-xs">
+                <div className="flex items-center justify-between pt-3.5 mt-3.5 border-t border-white/10 text-xs sm:text-sm">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -632,7 +888,7 @@ export default function QuoteForm() {
       initial={{ opacity: 0, x: 50, y: 10 }}
       animate={{ opacity: 1, x: 0, y: 0 }}
       transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-      className="relative w-full max-w-[480px] mx-auto"
+      className="relative w-full max-w-[560px] mx-auto"
     >
       {/* Christmas Lights decoration */}
       <div
@@ -682,91 +938,117 @@ export default function QuoteForm() {
         />
 
         {/* Content */}
-        <div className="relative px-7 pt-24 pb-7">
-          {/* Top label */}
-          <p
-            className="text-[11px] font-bold tracking-[0.25em] uppercase text-center mb-2"
-            style={{ color: "var(--accent)" }}
-          >
-            GET YOUR FREE
-          </p>
-
+        <div className="relative px-7 sm:px-8 pt-26 pb-8">
           {/* Heading */}
           <h2
-            className="text-[1.75rem] font-bold text-center leading-snug"
+            className="text-[1.7rem] sm:text-[1.85rem] font-bold text-center leading-snug"
             style={{
               color: "var(--text-heading)",
               textShadow: "0 2px 16px rgba(0,0,0,0.6)",
             }}
           >
-            Christmas Lighting Quote
+            Request Your Commercial Lighting Proposal
           </h2>
 
           <SnowflakeDivider />
 
           {/* Form fields */}
           <form
-            className="flex flex-col gap-4 2xl:gap-6"
+            className="flex flex-col gap-4 sm:gap-4.5"
             onSubmit={(e) => e.preventDefault()}
           >
-            <FormField id="quote-name" icon={User} placeholder="Full Name" />
-            <FormField
-              id="quote-email"
-              icon={Mail}
-              placeholder="Email Address"
-              type="email"
-            />
-            <FormField
-              id="quote-address"
-              icon={Home}
-              placeholder="Home Address"
-            />
-            <DatePickerField id="quote-date" />
-            <FormField
-              id="quote-message"
-              icon={MessageSquare}
-              placeholder="Message"
-              isTextarea
-            />
+            {/* 2-column grid layout for fields 1-6, full-width for Message */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4.5">
+              {/* 1. Full Name */}
+              <FormField id="quote-name" icon={User} placeholder="Full Name" />
+
+              {/* 2. Work Email */}
+              <FormField
+                id="quote-email"
+                icon={Mail}
+                placeholder="Work Email"
+                type="email"
+              />
+
+              {/* 3. Phone Number */}
+              <FormField
+                id="quote-phone"
+                icon={Phone}
+                placeholder="Phone Number"
+                type="tel"
+              />
+
+              {/* 4. Property Address */}
+              <FormField
+                id="quote-address"
+                icon={MapPin}
+                placeholder="Property Address"
+              />
+
+              {/* 5. Property Type */}
+              <PropertyTypeField id="quote-type" />
+
+              {/* 6. Preferred Installation Date */}
+              <DatePickerField id="quote-date" />
+
+              {/* 7. Message */}
+              <div className="sm:col-span-2">
+                <FormField
+                  id="quote-message"
+                  icon={MessageSquare}
+                  placeholder="Message"
+                  isTextarea
+                />
+              </div>
+            </div>
 
             {/* ── Submit Button ── */}
             <motion.button
               id="quote-submit"
               type="submit"
               whileHover={{
-                scale: 1.02,
-                boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
+                scale: 1.025,
+                boxShadow: `0 8px 32px rgba(245, 200, 106, 0.55), 0 0 24px rgba(255, 220, 140, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 4px rgba(120, 65, 8, 0.6)`,
               }}
               whileTap={{ scale: 0.98 }}
-              className="relative w-full mt-2 py-4 px-6 rounded-xl font-bold text-sm tracking-[0.16em] uppercase text-white flex items-center justify-center overflow-hidden"
+              className="relative w-full max-w-[380px] mx-auto mt-2 py-4 px-6 rounded-xl font-extrabold text-sm sm:text-base tracking-[0.16em] uppercase flex items-center justify-center overflow-hidden cursor-pointer group transition-all duration-300"
               style={{
-                background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
-                boxShadow: `var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 0 var(--btn-inner-shadow)`,
-                border: "1px solid rgba(255,255,255,0.12)",
+                color: "#140904",
+                background: `linear-gradient(180deg, #ffe299 0%, #f0b840 46%, #c8841a 100%)`,
+                boxShadow: `0 6px 26px rgba(245, 200, 106, 0.38), 0 2px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 -2px 0 rgba(140, 80, 10, 0.5)`,
+                border: "1px solid rgba(255, 235, 175, 0.7)",
+                textShadow: "0 1px 0 rgba(255, 245, 205, 0.6)",
               }}
             >
-              {/* 3D top shine */}
+              {/* 3D glossy top shine */}
               <span
                 className="absolute inset-x-0 top-0 h-1/2 rounded-t-xl pointer-events-none"
                 style={{
-                  background: `linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)`,
+                  background: `linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.05) 100%)`,
                 }}
               />
-              <span className="relative flex-1 text-center">GET A FREE QUOTE</span>
+              <span className="relative flex-1 text-center font-extrabold">
+                GET A FREE QUOTE
+              </span>
               <span
-                className="relative ml-4 w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0"
+                className="relative ml-3 w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
                 style={{
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
-                  background: "rgba(255,255,255,0.18)",
+                  boxShadow:
+                    "0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.4)",
+                  background: "rgba(20, 9, 4, 0.14)",
+                  border: "1px solid rgba(20, 9, 4, 0.2)",
                 }}
               >
-                <ArrowRight size={17} style={{ color: "#fff", strokeWidth: 2.5 }} />
+                <ArrowRight
+                  size={16}
+                  style={{ color: "#140904", strokeWidth: 2.75 }}
+                />
               </span>
             </motion.button>
           </form>
 
           {/* Privacy note */}
-          <div className="flex items-center justify-center gap-2 mt-4">
+          <div className="flex items-center justify-center gap-1.5 mt-4">
             <Lock size={11} style={{ color: "var(--text-muted)" }} />
             <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
               We respect your privacy. Your information is safe with us.

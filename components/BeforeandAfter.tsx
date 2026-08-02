@@ -5,11 +5,11 @@ import Image from "next/image";
 import { motion, useInView } from "motion/react";
 import {
   Sparkles,
-  Sun,
-  Home,
-  TreePine,
-  DoorOpen,
   Building2,
+  Building,
+  Store,
+  Landmark,
+  ShoppingBag,
   Gift,
   ArrowRight,
   ChevronLeft,
@@ -20,45 +20,45 @@ import {
 const transformations = [
   {
     id: 1,
-    title: "Before / After",
-    icon: Sparkles,
-    beforeImage: "/BeforeAfter/beforeandafter/before.webp",
-    afterImage: "/BeforeAfter/beforeandafter/after.webp",
+    title: "Car Dealerships",
+    icon: Building2,
+    beforeImage: "/BeforeandAfterImages/CarDealershipBefore.webp",
+    afterImage: "/BeforeandAfterImages/CarDealershipAfter.webp",
   },
   {
     id: 2,
-    title: "Day / Night",
-    icon: Sun,
-    beforeImage: "/BeforeAfter/dayandnight/day.webp",
-    afterImage: "/BeforeAfter/dayandnight/night.webp",
+    title: "Churches & Houses of Worship",
+    icon: Landmark,
+    beforeImage: "/BeforeandAfterImages/ChurchBefore.webp",
+    afterImage: "/BeforeandAfterImages/ChurchAfter.webp",
   },
   {
     id: 3,
-    title: "Roofline Lighting",
-    icon: Home,
-    beforeImage: "/BeforeAfter/rooflinelightning/before.webp",
-    afterImage: "/BeforeAfter/rooflinelightning/after.webp",
+    title: "Hotels & Hospitality",
+    icon: Sparkles,
+    beforeImage: "/BeforeandAfterImages/HotelBefore.webp",
+    afterImage: "/BeforeandAfterImages/HotelAfter.webp",
   },
   {
     id: 4,
-    title: "Tree Lighting",
-    icon: TreePine,
-    beforeImage: "/BeforeAfter/treelightning/before.webp",
-    afterImage: "/BeforeAfter/treelightning/after.webp",
+    title: "Restaurants & Dining",
+    icon: Store,
+    beforeImage: "/BeforeandAfterImages/RestaurantBefore.webp",
+    afterImage: "/BeforeandAfterImages/RestaurantAfter.webp",
   },
   {
     id: 5,
-    title: "Entryway Lighting",
-    icon: DoorOpen,
-    beforeImage: "/BeforeAfter/entrywaylightning/before.webp",
-    afterImage: "/BeforeAfter/entrywaylightning/after.webp",
+    title: "Retail Plazas",
+    icon: Building,
+    beforeImage: "/BeforeandAfterImages/RetailPlazasBefore.webp",
+    afterImage: "/BeforeandAfterImages/RetailPlazasAfter.webp",
   },
   {
     id: 6,
-    title: "Commercial Buildings",
-    icon: Building2,
-    beforeImage: "/BeforeAfter/commercialbuilding/before.webp",
-    afterImage: "/BeforeAfter/commercialbuilding/after.webp",
+    title: "Shopping Centers",
+    icon: ShoppingBag,
+    beforeImage: "/BeforeandAfterImages/shoppingcenterbefore.webp",
+    afterImage: "/BeforeandAfterImages/shoppingcenterafter.webp",
   },
 ];
 
@@ -370,13 +370,14 @@ function BottomCTA() {
             className="text-lg sm:text-xl 2xl:text-3xl font-bold leading-tight font-sans"
             style={{ color: "var(--text-heading)" }}
           >
-            Your Home Could Be Next
+            Your Property Could Be Next
           </p>
           <p
             className="text-sm 2xl:text-lg mt-0.5"
             style={{ color: "var(--text-muted)" }}
           >
-            Let us make your home the brightest on the block.
+            Professional Christmas lighting that makes your property impossible
+            to ignore
           </p>
         </div>
       </div>
@@ -526,19 +527,20 @@ export default function BeforeandAfter() {
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-bold leading-[1.08] tracking-tight mb-5 font-playfair"
             style={{ color: "var(--text-heading)" }}
           >
-            Imagine Your <span className="text-accent-gradient">Home</span> Like
-            This
+            Commercial Holiday{" "}
+            <span className="text-accent-gradient">Transformations</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 14 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.26 }}
-            className="text-base sm:text-lg max-w-xl"
+            className="text-base sm:text-lg max-w-2xl"
             style={{ color: "var(--text-muted)" }}
           >
-            From clean roofline lighting to complete residential holiday
-            displays, our team transforms Denver homes into memorable Christmas
-            experiences
+            See how professional Christmas lighting transforms commercial
+            properties into festive destinations that attract attention, delight
+            visitors, and leave a lasting impression throughout the holiday
+            season
           </motion.p>
         </div>
 
