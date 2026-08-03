@@ -410,7 +410,10 @@ export default function AreasServices() {
       </div>
 
       {/* Ambient glows */}
-      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+      >
         <div
           className="absolute left-1/4 top-1/4 h-80 sm:h-96 w-80 sm:w-96 -translate-x-1/2 rounded-full blur-[140px]"
           style={{ background: "var(--accent-glow-faint)" }}
@@ -419,7 +422,6 @@ export default function AreasServices() {
 
       {/* Section Container */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-12 sm:py-16 lg:py-24">
-
         {/* ── TOP SECTION — Left text column (Over clean background) ────────────── */}
         <div
           ref={topRef}
@@ -442,7 +444,7 @@ export default function AreasServices() {
             variants={fadeUp}
             custom={0.1}
           >
-            Residential Christmas
+            Commercial Christmas
             <br />
             Light Installation
             <br />
@@ -456,7 +458,7 @@ export default function AreasServices() {
                 filter: "drop-shadow(0 0 16px var(--accent-glow-soft))",
               }}
             >
-              Across the Denver Area
+              Across Metro Denver
             </span>
           </motion.h2>
 
@@ -470,14 +472,19 @@ export default function AreasServices() {
             <div
               className="h-px w-10 sm:w-12"
               style={{
-                background: "linear-gradient(90deg, transparent, var(--accent))",
+                background:
+                  "linear-gradient(90deg, transparent, var(--accent))",
               }}
             />
-            <Sparkle size={10} style={{ color: "var(--accent)", opacity: 0.7 }} />
+            <Sparkle
+              size={10}
+              style={{ color: "var(--accent)", opacity: 0.7 }}
+            />
             <div
               className="h-px w-10 sm:w-12"
               style={{
-                background: "linear-gradient(90deg, var(--accent), transparent)",
+                background:
+                  "linear-gradient(90deg, var(--accent), transparent)",
               }}
             />
           </motion.div>
@@ -490,8 +497,8 @@ export default function AreasServices() {
             variants={fadeUp}
             custom={0.24}
           >
-            Denver Christmas Lights provides professional residential holiday
-            lighting in Denver and surrounding communities.
+            Denver Christmas Lights serves eligible commercial properties
+            throughout Denver and surrounding areas
           </motion.p>
         </div>
 

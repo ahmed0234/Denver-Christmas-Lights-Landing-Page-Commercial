@@ -2,13 +2,13 @@
 
 /**
  * FinalCTA.tsx
- * "Get Professional Christmas Light Installation" — Grand Finale Conversion Section.
+ * "Get Professional Commercial Christmas Light Installation" — Grand Finale Conversion Section.
  *
  * The last section before the footer. One job: convert visitors.
  *
  * Features:
  * - Full-width section with cinematic background image from /public/finalCTA/
- * - Two-column desktop layout: left (all copy + CTAs) / right (beautiful house image)
+ * - Two-column desktop layout: left (all copy + CTAs) / right (beautiful commercial property image)
  * - Luxury glassmorphism floating container with golden border & ambient glow
  * - Lucide Snowflake icon scattered as floating ambient particles
  * - Premium animated primary gold gradient button + dark glass secondary call button
@@ -214,7 +214,7 @@ export default function FinalCTA() {
       ref={containerRef}
       id="final-cta"
       className="relative w-full overflow-hidden py-10 sm:py-8 lg:py-6 font-sans"
-      aria-label="Get a free Christmas light installation quote"
+      aria-label="Get a free commercial Christmas light installation quote"
       style={{ background: "var(--bg-primary)" }}
     >
       {/* ── Ambient Section Glows ───────────────────────────────────────────── */}
@@ -330,7 +330,7 @@ export default function FinalCTA() {
                 style={{ fontFamily: "var(--font-sans, Georgia, serif)" }}
               >
                 <span style={{ color: "var(--text-heading)" }}>
-                  Christmas Light
+                  Commercial Christmas
                 </span>
                 <br />
                 <span
@@ -342,11 +342,11 @@ export default function FinalCTA() {
                     filter: "drop-shadow(0 2px 16px var(--accent-glow-soft))",
                   }}
                 >
-                  Installation
+                  Light Installation
                 </span>
                 <br />
                 <span style={{ color: "var(--text-heading)" }}>
-                  For Your Denver Home
+                  For Denver Businesses
                 </span>
               </motion.h2>
 
@@ -359,8 +359,7 @@ export default function FinalCTA() {
                 className="text-sm sm:text-base leading-relaxed max-w-[44ch]"
                 style={{ color: "var(--text-body)" }}
               >
-                Create a beautiful holiday display without climbing ladders,
-                working in the cold or sacrificing your weekend.
+                Transform your commercial property with turnkey holiday displays that attract customers, boost foot traffic, and elevate your brand image hassle-free.
               </motion.p>
 
               {/* Thin Separator + Home Icon Quote Row */}
@@ -404,8 +403,7 @@ export default function FinalCTA() {
                     className="text-xs sm:text-sm leading-relaxed"
                     style={{ color: "var(--text-body)" }}
                   >
-                    Tell us about your home and receive a custom residential
-                    Christmas light installation quote.
+                    Tell us about your property and receive a custom commercial Christmas light installation estimate.
                   </p>
                 </div>
               </motion.div>
@@ -421,7 +419,7 @@ export default function FinalCTA() {
                 {/* Primary: Gold Gradient Button */}
                 <motion.a
                   href="#quote"
-                  aria-label="Get my free Christmas light installation quote"
+                  aria-label="Get a free commercial Christmas light installation quote"
                   className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase overflow-hidden w-full sm:w-auto cursor-pointer"
                   style={{
                     background:
@@ -446,7 +444,7 @@ export default function FinalCTA() {
                     }}
                   />
                   <Sparkles size={15} className="shrink-0" />
-                  <span>Get My Free Christmas Light Quote</span>
+                  <span>Get A Commercial Lighting Quote</span>
                   <motion.span
                     className="inline-flex shrink-0"
                     animate={{ x: [0, 3, 0] }}
@@ -463,7 +461,7 @@ export default function FinalCTA() {
                 {/* Secondary: Dark Glass Phone Button */}
                 <motion.a
                   href="tel:+17201234567"
-                  aria-label="Call us"
+                  aria-label="Call us for commercial lighting"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase border w-full sm:w-auto cursor-pointer transition-all duration-300"
                   style={{
                     borderColor: "var(--border-color)",
@@ -506,7 +504,7 @@ export default function FinalCTA() {
                 />
 
                 {/* Trust item 1 */}
-                <TrustItem icon={Snowflake} label="Custom Design" />
+                <TrustItem icon={Snowflake} label="Custom Commercial Design" />
 
                 {/* Separator */}
                 <div
@@ -517,7 +515,7 @@ export default function FinalCTA() {
                 {/* Trust item 2 */}
                 <TrustItem
                   icon={ShieldCheck}
-                  label="Professional Installation"
+                  label="Fully Insured & Professional"
                 />
 
                 {/* Separator */}
@@ -529,7 +527,7 @@ export default function FinalCTA() {
                 {/* Trust item 3 */}
                 <TrustItem
                   icon={Star}
-                  label="A Holiday Display Created For Your Home"
+                  label="Tailored For Commercial Properties & HOAs"
                 />
               </motion.div>
             </div>
@@ -546,7 +544,7 @@ export default function FinalCTA() {
               >
                 <Image
                   src="/FinalCta/BackgroundImage.webp"
-                  alt="Beautifully decorated Denver home with premium Christmas lights installed along the roofline and landscaping"
+                  alt="Beautifully decorated Denver commercial property with premium Christmas lights installed along the roofline and landscaping"
                   fill
                   priority
                   className="object-cover object-center saturate-110 contrast-105 brightness-105"
@@ -592,3 +590,4 @@ export default function FinalCTA() {
     </section>
   );
 }
+

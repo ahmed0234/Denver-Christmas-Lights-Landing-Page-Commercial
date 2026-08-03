@@ -2,7 +2,7 @@
 
 /**
  * Footer.tsx
- * Premium Christmas Lights Landing Page Footer.
+ * Premium Commercial Christmas Lights Landing Page Footer.
  *
  * Desktop: Three-column layout — Brand/Contact | Navigation | CTA Card
  * Mobile:  Stacked layout matching the provided mobile reference design
@@ -40,12 +40,12 @@ const QUICK_LINKS = [
 ];
 
 const SERVICES_LINKS = [
-  { label: "Roofline Lighting", href: "#services" },
-  { label: "Tree & Landscape Lighting", href: "#services" },
-  { label: "Wreaths & Garland", href: "#services" },
-  { label: "Permanent Lighting", href: "#services" },
-  { label: "Commercial Lighting", href: "#services" },
-  { label: "Holiday Décor", href: "#services" },
+  { label: "Commercial Roofline Lighting", href: "#services" },
+  { label: "Tree & Landscape Illumination", href: "#services" },
+  { label: "Commercial Wreaths & Greenery", href: "#services" },
+  { label: "HOA & Entryway Displays", href: "#services" },
+  { label: "Shopping Center & Retail Lighting", href: "#services" },
+  { label: "Custom Commercial Holiday Décor", href: "#services" },
 ];
 
 const CONTACT_ITEMS = [
@@ -323,7 +323,7 @@ function CTACard({ compact = false }: { compact?: boolean }) {
               backgroundClip: "text",
             }}
           >
-            Your Holidays?
+            Your Property?
           </span>
         </h3>
 
@@ -332,13 +332,13 @@ function CTACard({ compact = false }: { compact?: boolean }) {
           className="text-xs sm:text-sm leading-relaxed max-w-[34ch]"
           style={{ color: "var(--text-muted)" }}
         >
-          Schedule your free consultation today and let us bring the magic to your home.
+          Schedule your free commercial consultation today and let us bring the holiday magic to your business.
         </p>
 
         {/* Call Now Button */}
         <motion.a
           href="tel:+17201234567"
-          aria-label="Call us now"
+          aria-label="Call our commercial lighting team now"
           className="group relative inline-flex items-center justify-center gap-2.5 rounded-full py-3.5 px-7 text-xs sm:text-sm font-bold tracking-[0.1em] uppercase overflow-hidden w-full sm:w-auto cursor-pointer"
           style={{
             background:
@@ -535,7 +535,7 @@ export default function Footer() {
                 <Link href="/" aria-label="Denver Christmas Lights Home">
                   <Image
                     src="/Footer/image.png"
-                    alt="Denver Christmas Lights Logo"
+                    alt="Denver Commercial Christmas Lights Logo"
                     width={180}
                     height={80}
                     className="object-contain h-16 xl:h-20 w-auto"
@@ -549,7 +549,7 @@ export default function Footer() {
                   className="text-sm leading-relaxed max-w-[28ch]"
                   style={{ color: "var(--text-muted)" }}
                 >
-                  Professional Christmas light installation that makes your home shine bright all season long.
+                  Professional commercial Christmas light installation that makes your business and property shine bright all season long.
                 </p>
 
                 {/* Social */}
@@ -629,7 +629,7 @@ export default function Footer() {
           <Link href="/" aria-label="Denver Christmas Lights Home" className="flex justify-center">
             <Image
               src="/Footer/image.png"
-              alt="Denver Christmas Lights Logo"
+              alt="Denver Commercial Christmas Lights Logo"
               width={200}
               height={90}
               className="object-contain h-20 sm:h-24 w-auto"
@@ -643,7 +643,7 @@ export default function Footer() {
             className="text-sm sm:text-base leading-relaxed text-center max-w-[40ch]"
             style={{ color: "var(--text-muted)" }}
           >
-            Professional Christmas light installation that makes your home shine bright all season long.
+            Professional commercial Christmas light installation that makes your business and property shine bright all season long.
           </p>
 
           {/* Decorative gold divider with snowflake */}
@@ -732,7 +732,7 @@ export default function Footer() {
                 className="text-[11px] sm:text-xs italic"
                 style={{ color: "var(--text-muted-dark)" }}
               >
-                Bringing Holiday Magic to Denver Homes
+                Bringing Holiday Magic to Denver Commercial Properties & HOAs
               </span>
             </div>
           </div>

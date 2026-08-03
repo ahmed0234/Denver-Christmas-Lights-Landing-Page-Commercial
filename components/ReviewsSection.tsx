@@ -26,22 +26,122 @@ import "swiper/css/navigation";
 // ─── Particle & Snowfall Data ──────────────────────────────────────────────────
 
 const SNOWFLAKES = [
-  { id: 1, left: "6%", top: "10%", size: "14px", dur: "7s", delay: "0s", opacity: 0.5 },
-  { id: 2, left: "18%", top: "25%", size: "10px", dur: "9s", delay: "1.2s", opacity: 0.4 },
-  { id: 3, left: "32%", top: "8%", size: "16px", dur: "8s", delay: "2.5s", opacity: 0.6 },
-  { id: 4, left: "48%", top: "18%", size: "12px", dur: "10s", delay: "0.5s", opacity: 0.35 },
-  { id: 5, left: "64%", top: "12%", size: "15px", dur: "7.5s", delay: "3s", opacity: 0.55 },
-  { id: 6, left: "78%", top: "22%", size: "11px", dur: "8.5s", delay: "1.8s", opacity: 0.45 },
-  { id: 7, left: "90%", top: "15%", size: "14px", dur: "9.5s", delay: "0.8s", opacity: 0.5 },
-  { id: 8, left: "12%", top: "65%", size: "12px", dur: "8s", delay: "2s", opacity: 0.4 },
-  { id: 9, left: "85%", top: "70%", size: "13px", dur: "7s", delay: "1s", opacity: 0.45 },
+  {
+    id: 1,
+    left: "6%",
+    top: "10%",
+    size: "14px",
+    dur: "7s",
+    delay: "0s",
+    opacity: 0.5,
+  },
+  {
+    id: 2,
+    left: "18%",
+    top: "25%",
+    size: "10px",
+    dur: "9s",
+    delay: "1.2s",
+    opacity: 0.4,
+  },
+  {
+    id: 3,
+    left: "32%",
+    top: "8%",
+    size: "16px",
+    dur: "8s",
+    delay: "2.5s",
+    opacity: 0.6,
+  },
+  {
+    id: 4,
+    left: "48%",
+    top: "18%",
+    size: "12px",
+    dur: "10s",
+    delay: "0.5s",
+    opacity: 0.35,
+  },
+  {
+    id: 5,
+    left: "64%",
+    top: "12%",
+    size: "15px",
+    dur: "7.5s",
+    delay: "3s",
+    opacity: 0.55,
+  },
+  {
+    id: 6,
+    left: "78%",
+    top: "22%",
+    size: "11px",
+    dur: "8.5s",
+    delay: "1.8s",
+    opacity: 0.45,
+  },
+  {
+    id: 7,
+    left: "90%",
+    top: "15%",
+    size: "14px",
+    dur: "9.5s",
+    delay: "0.8s",
+    opacity: 0.5,
+  },
+  {
+    id: 8,
+    left: "12%",
+    top: "65%",
+    size: "12px",
+    dur: "8s",
+    delay: "2s",
+    opacity: 0.4,
+  },
+  {
+    id: 9,
+    left: "85%",
+    top: "70%",
+    size: "13px",
+    dur: "7s",
+    delay: "1s",
+    opacity: 0.45,
+  },
 ];
 
 const BOKEH_LIGHTS = [
-  { id: 1, left: "8%", top: "18%", size: "100px", color: "var(--gold-glow)", opacity: 0.15 },
-  { id: 2, left: "82%", top: "22%", size: "140px", color: "var(--accent-glow)", opacity: 0.2 },
-  { id: 3, left: "45%", top: "75%", size: "120px", color: "var(--gold-glow)", opacity: 0.12 },
-  { id: 4, left: "92%", top: "68%", size: "90px", color: "var(--accent-glow)", opacity: 0.18 },
+  {
+    id: 1,
+    left: "8%",
+    top: "18%",
+    size: "100px",
+    color: "var(--gold-glow)",
+    opacity: 0.15,
+  },
+  {
+    id: 2,
+    left: "82%",
+    top: "22%",
+    size: "140px",
+    color: "var(--accent-glow)",
+    opacity: 0.2,
+  },
+  {
+    id: 3,
+    left: "45%",
+    top: "75%",
+    size: "120px",
+    color: "var(--gold-glow)",
+    opacity: 0.12,
+  },
+  {
+    id: 4,
+    left: "92%",
+    top: "68%",
+    size: "90px",
+    color: "var(--accent-glow)",
+    opacity: 0.18,
+  },
 ];
 
 // ─── Testimonials Data ────────────────────────────────────────────────────────
@@ -49,7 +149,8 @@ const BOKEH_LIGHTS = [
 interface ReviewItem {
   id: number;
   name: string;
-  location: string;
+  role: string;
+  property: string;
   rating: number;
   text: string;
   avatar: string;
@@ -58,66 +159,83 @@ interface ReviewItem {
 const REVIEWS: ReviewItem[] = [
   {
     id: 1,
-    name: "Jessica M.",
-    location: "Highlands Ranch, CO",
+    name: "Michael Anderson",
+    role: "Property Manager",
+    property: "Parkview Shopping Center",
     rating: 5.0,
-    text: "The team did an amazing job with our Christmas lights! The installation was flawless, and their attention to detail made our home the best on the block. Professional & on time!",
+    text: "Our shopping center looks incredible every evening now. The crew stayed on schedule, coordinated with our retail tenants during business hours, and made the entire installation process effortless. We received compliments almost immediately after the lights went up.",
     avatar:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=250&q=80",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=250&q=80",
   },
   {
     id: 2,
-    name: "Brandon T.",
-    location: "Parker, CO",
+    name: "Sarah Jenkins",
+    role: "HOA Board President",
+    property: "Timberline Community HOA",
     rating: 4.9,
-    text: "Super reliable and great communication from start to finish. They showed up when they said they would, and our lights look absolutely stunning. Highly recommend!",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80",
-  },
-  {
-    id: 3,
-    name: "Melissa & Jason R.",
-    location: "Greenwood Village, CO",
-    rating: 4.8,
-    text: "I love that they handle everything installation, maintenance, and takedown. When a bulb went out, they responded the same day. Beautiful work all season long!",
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80",
-  },
-  {
-    id: 4,
-    name: "David & Karen K.",
-    location: "Cherry Creek, Denver",
-    rating: 5.0,
-    text: "Top tier service! They customized the roofline lighting perfectly to fit our home's architecture. Takedown and storage in January was seamless. Worth every penny.",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80",
-  },
-  {
-    id: 5,
-    name: "Sarah P.",
-    location: "Castle Pines, CO",
-    rating: 4.9,
-    text: "From initial design to final glowing lights, everything was handled with perfection. Our kids were thrilled, and neighbors kept complimenting the display!",
+    text: "Managing holiday lighting for our 400-home community entrance and clubhouse used to be a major burden. Denver Christmas Lights handled everything with complete safety compliance and zero disruption. The tenant and resident feedback has been stellar.",
     avatar:
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=250&q=80",
   },
   {
-    id: 6,
-    name: "Michael & Elena B.",
-    location: "Wash Park, Denver",
-    rating: 4.8,
-    text: "Prompt, safe, and professional installation. The warm gold glow on our roofline created a holiday atmosphere that exceeded all expectations.",
+    id: 3,
+    name: "David Vance",
+    role: "Hotel General Manager",
+    property: "The Grand Peaks Hotel",
+    rating: 5.0,
+    text: "First impressions are everything in hospitality. The warm, commercial grade canopy lighting installed across our main drive and courtyard created an elegant holiday atmosphere our guests adored. Prompt removal in January made it totally stress free.",
     avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=250&q=80",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=250&q=80",
+  },
+  {
+    id: 4,
+    name: "Marcus Reynolds",
+    role: "Commercial Real Estate Asset Manager",
+    property: "Meridian Office Plaza",
+    rating: 4.8,
+    text: "As an asset manager overseeing office complexes, liability and reliability are my top priorities. Their crew was fully insured, adhered to strict safety protocols, and completed the high-roofline installation cleanly without impacting building access.",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80",
+  },
+  {
+    id: 5,
+    name: "Elena Rostova",
+    role: "Retail Plaza Manager",
+    property: "Cherry Creek Galleria Plaza",
+    rating: 5.0,
+    text: "We noticed an increase in evening foot traffic after the holiday display went live. The roofline lighting and customized entryway wreaths transformed our plaza into a festive shopping destination. Highly professional crew and turn-key service.",
+    avatar:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=250&q=80",
+  },
+  {
+    id: 6,
+    name: "Robert Sterling",
+    role: "Car Dealership General Manager",
+    property: "Sterling Motors Auto Complex",
+    rating: 4.9,
+    text: "Standing out along a busy commercial corridor during the holidays is crucial. The high-lumen perimeter roofline and tree wrapping made our dealership visible from blocks away. Great project management and heavy duty commercial wiring.",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80",
   },
   {
     id: 7,
-    name: "Robert H.",
-    location: "Littleton, CO",
-    rating: 4.9,
-    text: "Extremely impressive attention to detail. No visible clips, straight lines, and hassle-free post-season removal. Will definitely use them every year!",
+    name: "Karen Montgomery",
+    role: "Church Administrator",
+    property: "Grace Community Church",
+    rating: 4.8,
+    text: "They treated our property and grounds with immense care. The lighting along our sanctuary roofline and courtyard trees brought a warm, welcoming holiday spirit to our evening services. Clear communication and dependable scheduling throughout.",
     avatar:
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=250&q=80",
+      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=250&q=80",
+  },
+  {
+    id: 8,
+    name: "Gregory Thorne",
+    role: "Restaurant Owner",
+    property: "The Brass Rail Bistro",
+    rating: 5.0,
+    text: "Our outdoor dining patio and facade lighting created a cozy, high end ambiance that diners complimented all season long. Same day response time when we wanted a minor bulb adjustment. Worth every penny for Denver business owners.",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=250&q=80",
   },
 ];
 
@@ -187,7 +305,10 @@ export default function ReviewsSection() {
       </div>
 
       {/* ── Winter Atmosphere: Soft Snowflakes & Golden Bokeh Glares ────── */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <div
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        aria-hidden="true"
+      >
         {/* Soft Golden Bokeh Orbs */}
         {BOKEH_LIGHTS.map((bokeh) => (
           <div
@@ -227,10 +348,8 @@ export default function ReviewsSection() {
 
       {/* ── Content Container (Matching Page Container Width & Padding) ───── */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-        
         {/* ── SECTION HEADER ────────────────────────────────────────────── */}
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-16">
-          
           {/* Eyebrow Badge */}
           <motion.div
             initial="hidden"
@@ -263,7 +382,10 @@ export default function ReviewsSection() {
             </div>
 
             {/* Tiny Golden Ornament */}
-            <div className="text-[11px] leading-none" style={{ color: "var(--accent)" }}>
+            <div
+              className="text-[11px] leading-none"
+              style={{ color: "var(--accent)" }}
+            >
               ✻
             </div>
           </motion.div>
@@ -280,7 +402,7 @@ export default function ReviewsSection() {
               color: "var(--text-heading)",
             }}
           >
-            What Denver
+            Trusted by Denver
             <br />
             <span
               style={{
@@ -291,7 +413,7 @@ export default function ReviewsSection() {
                 filter: "drop-shadow(0 2px 16px var(--accent-glow-soft))",
               }}
             >
-              Homeowners Say
+              Property Teams
             </span>
           </motion.h2>
 
@@ -301,11 +423,11 @@ export default function ReviewsSection() {
             animate={isInView ? "visible" : "hidden"}
             variants={fadeUp}
             custom={0.18}
-            className="text-xs sm:text-sm md:text-base leading-relaxed max-w-[42ch]"
+            className="text-xs sm:text-sm md:text-base leading-relaxed max-w-[48ch]"
             style={{ color: "var(--text-muted)" }}
           >
-            Real reviews from real Denver families who trust us to make their
-            homes shine bright every holiday season.
+            Real feedback from property managers, asset leaders, and business
+            owners across Metro Denver who trust us for hassle-free holiday lighting.
           </motion.p>
         </div>
 
@@ -417,10 +539,17 @@ export default function ReviewsSection() {
                               <Star
                                 key={i}
                                 size={14}
-                                className={isFull || isPartial ? "fill-current" : "opacity-35"}
+                                className={
+                                  isFull || isPartial
+                                    ? "fill-current"
+                                    : "opacity-35"
+                                }
                                 style={{
                                   color: "var(--accent)",
-                                  filter: isFull || isPartial ? "drop-shadow(0 0 4px var(--accent-glow))" : "none",
+                                  filter:
+                                    isFull || isPartial
+                                      ? "drop-shadow(0 0 4px var(--accent-glow))"
+                                      : "none",
                                 }}
                               />
                             );
@@ -466,7 +595,7 @@ export default function ReviewsSection() {
                         />
                       </div>
 
-                      {/* Name & Location — Larger text & enhanced hierarchy */}
+                      {/* Name, Role & Property — Enhanced commercial hierarchy */}
                       <div className="flex flex-col min-w-0">
                         <span
                           className="text-xs sm:text-sm md:text-[15px] font-bold tracking-wide leading-tight truncate"
@@ -475,10 +604,16 @@ export default function ReviewsSection() {
                           {review.name}
                         </span>
                         <span
-                          className="text-xs sm:text-xs md:text-sm mt-1 leading-none truncate"
+                          className="text-[11px] sm:text-xs text-muted mt-0.5 leading-snug truncate"
                           style={{ color: "var(--text-muted)" }}
                         >
-                          {review.location}
+                          {review.role}
+                        </span>
+                        <span
+                          className="text-[11px] sm:text-xs leading-snug truncate font-medium mt-0.5"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          {review.property}
                         </span>
                       </div>
                     </div>
@@ -493,7 +628,8 @@ export default function ReviewsSection() {
             <div
               className="h-px w-8 sm:w-16"
               style={{
-                background: "linear-gradient(90deg, transparent, var(--border-color))",
+                background:
+                  "linear-gradient(90deg, transparent, var(--border-color))",
               }}
             />
 
@@ -525,7 +661,8 @@ export default function ReviewsSection() {
             <div
               className="h-px w-8 sm:w-16"
               style={{
-                background: "linear-gradient(90deg, var(--border-color), transparent)",
+                background:
+                  "linear-gradient(90deg, var(--border-color), transparent)",
               }}
             />
           </div>
