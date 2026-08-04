@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { CheckCircle2, Phone, ArrowLeft, Sparkles, Snowflake, Calendar, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Script from "next/script";
 
 export default function SuccessPage() {
   return (
