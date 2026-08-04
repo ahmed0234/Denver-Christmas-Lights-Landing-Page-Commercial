@@ -57,7 +57,7 @@ export default function RootLayout({
     >
 
       <head>
-        {/* Google Tag Manager - gtag.js */}
+        {/* Google Tag Manager Snippet  */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-959322441"
           strategy="afterInteractive"

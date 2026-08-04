@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import {
   User,
@@ -400,6 +401,7 @@ function SnowflakeDivider() {
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function QuoteForm() {
+  const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
   const animTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -499,20 +501,18 @@ export default function QuoteForm() {
           }),
         }
       );
-
+// 
       const data = await response.json();
 
       if (response.ok && (data.success || data.ok)) {
-        setStatus("success");
-        setToastMessage(
-          data.message || "Thank you! Your proposal request has been received. We will be in touch soon."
-        );
         // Reset form after successful submission
         setName("");
         setEmail("");
         setPropertyType("");
         setZip("");
         setMessage("");
+        // Redirect to success page
+        router.push("/success");
       } else {
         setStatus("error");
         setToastMessage(
