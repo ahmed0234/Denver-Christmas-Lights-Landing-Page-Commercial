@@ -18,9 +18,9 @@ const page = () => {
       <HeroSection />
       <BeforeandAfter />
       <Services />
-      <WhyChooseUs />
-      <Process />
       <AreasServices />
+      <Process />
+      <WhyChooseUs />
       <Reviews />
       <Faq />
       <FinalCTA />

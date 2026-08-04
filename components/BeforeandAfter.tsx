@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 // ─── Transformation Data ──────────────────────────────────────────────────────
 const transformations = [
@@ -48,7 +49,7 @@ const transformations = [
   },
   {
     id: 5,
-    title: "Retail Plazas",
+    title: "Commercial Storefronts",
     icon: Building,
     beforeImage: "/BeforeandAfterImages/RetailPlazasBefore.webp",
     afterImage: "/BeforeandAfterImages/RetailPlazasAfter.webp",
@@ -319,7 +320,7 @@ function SectionEyebrow() {
         className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase whitespace-nowrap"
         style={{ color: "var(--accent)" }}
       >
-        ✦ Before &amp; After Transformations ✦
+        ✦ What's Included ✦
       </span>
       <div
         className="h-px w-12 sm:w-20"
@@ -385,6 +386,7 @@ function BottomCTA() {
       <motion.a
         href="#quote"
         id="before-after-cta-quote"
+        onClick={handleGetQuoteClick}
         whileHover={{
           scale: 1.04,
           boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)`,
@@ -405,8 +407,10 @@ function BottomCTA() {
               "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
           }}
         />
-        <span className="relative">Get Your Free Quote</span>
-        <ArrowRight size={15} className="relative" />
+        <span className="relative text-amber-950 font-semibold">
+          Get Your Free Quote
+        </span>
+        <ArrowRight size={15} className="relative text-amber-950" />
       </motion.a>
     </motion.div>
   );

@@ -16,6 +16,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { PhoneCall, Sparkles, X } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
@@ -90,7 +91,7 @@ export default function FloatingCTA() {
 
             {/* Stacked Action 1: Call Us Now (Top Primary Gold Action) */}
             <motion.a
-              href="tel:+17201234567"
+              href="tel:7202967711"
               aria-label="Call Us Now"
               className="relative flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-2xl text-xs font-bold tracking-wider uppercase overflow-hidden cursor-pointer"
               style={{
@@ -109,6 +110,7 @@ export default function FloatingCTA() {
             {/* Stacked Action 2: Get a Free Quote (Bottom Secondary Dark Glass Action) */}
             <motion.a
               href="#quote"
+              onClick={handleGetQuoteClick}
               aria-label="Get a Free Quote"
               className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-2xl text-xs font-bold tracking-wider uppercase border cursor-pointer transition-all duration-300"
               style={{

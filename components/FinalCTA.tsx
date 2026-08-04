@@ -31,6 +31,7 @@ import {
   ShieldCheck,
   Star,
 } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 // ─── Ambient Snowflake Positions ─────────────────────────────────────────────
 
@@ -419,6 +420,7 @@ export default function FinalCTA() {
                 {/* Primary: Gold Gradient Button */}
                 <motion.a
                   href="#quote"
+                  onClick={handleGetQuoteClick}
                   aria-label="Get a free commercial Christmas light installation quote"
                   className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase overflow-hidden w-full sm:w-auto cursor-pointer"
                   style={{
@@ -460,7 +462,7 @@ export default function FinalCTA() {
 
                 {/* Secondary: Dark Glass Phone Button */}
                 <motion.a
-                  href="tel:+17201234567"
+                  href="tel:7202967711"
                   aria-label="Call us for commercial lighting"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase border w-full sm:w-auto cursor-pointer transition-all duration-300"
                   style={{
@@ -485,7 +487,7 @@ export default function FinalCTA() {
                     className="shrink-0 group-hover:animate-pulse"
                     style={{ color: "var(--accent)" }}
                   />
-                  <span>Call (720) 123-4567</span>
+                  <span>Call (720) 296-7711</span>
                 </motion.a>
               </motion.div>
 

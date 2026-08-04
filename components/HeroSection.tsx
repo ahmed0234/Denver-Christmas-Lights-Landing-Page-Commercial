@@ -13,6 +13,7 @@ import {
   Snowflake,
 } from "lucide-react";
 import QuoteForm from "./QuoteForm";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 // ── Snowflake + thin divider ───────────────────────────────────────────────────
 function HeadingDivider() {
@@ -329,6 +330,7 @@ export default function HeroSection() {
               <motion.a
                 id="hero-cta-quote"
                 href="#quote"
+                onClick={handleGetQuoteClick}
                 whileHover={{
                   backgroundColor: "var(--accent-glow-soft)",
                   boxShadow: "0 4px 20px var(--accent-glow-soft)",
@@ -349,7 +351,7 @@ export default function HeroSection() {
               {/* Primary — Call */}
               <motion.a
                 id="hero-cta-call"
-                href="tel:+17205134567"
+                href="tel:7202967711"
                 whileHover={{
                   scale: 1.04,
                   boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
@@ -370,8 +372,8 @@ export default function HeroSection() {
                       "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
                   }}
                 />
-                <Phone size={16} className="relative" />
-                <span className="relative ">Call (720) 513-4567</span>
+                <Phone size={16} className="relative text-amber-950" />
+                <span className="relative text-amber-950">Call (720) 296-7711</span>
               </motion.a>
 
               {/* Secondary — Get Quote */}

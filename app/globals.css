@@ -751,3 +751,85 @@ html {
   );
   box-shadow: var(--shadow-card), inset 0 1px 0 var(--highlight-card);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   QUOTE FORM — ATTENTION ANIMATION
+   Triggered each time a visitor clicks any "Get a Quote" CTA.
+   Uses only GPU-accelerated properties (transform, opacity) for 60 fps.
+   A subtle scale pulse + a razor-thin golden light sweep across the container.
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Outer card scale pulse: 1 → 1.018 → 1 */
+@keyframes quote-form-attention {
+  0%   { transform: scale(1);     }
+  18%  { transform: scale(1.018); }
+  50%  { transform: scale(1.008); }
+  100% { transform: scale(1);     }
+}
+
+/* 2. Razor shine sweep — a narrow diagonal highlight that travels left → right */
+@keyframes quote-razor-shine {
+  0%   { transform: translateX(-110%) skewX(-18deg); opacity: 0;   }
+  6%   { opacity: 1; }
+  60%  { opacity: 0.9; }
+  100% { transform: translateX(220%)  skewX(-18deg); opacity: 0;   }
+}
+
+/**
+ * .quote-form-attention
+ * Applied (and immediately removed) in JS to replay the animation.
+ * Parent must be position:relative + overflow:hidden.
+ */
+.quote-form-attention {
+  will-change: transform;
+  animation: quote-form-attention 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.quote-form-attention::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 235, 170, 0.06) 20%,
+    rgba(255, 248, 210, 0.20) 48%,
+    rgba(255, 235, 170, 0.06) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 30;
+  animation: quote-razor-shine 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Reduced-motion: skip scale + shine entirely */
+@media (prefers-reduced-motion: reduce) {
+  .quote-form-attention,
+  .quote-form-attention::after {
+    animation: none !important;
+  }
+}
+
+/* ── Navbar / button shine sweep hover ───────────────────────────────────── */
+.btn-shine-sweep-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  transition: transform 0s;
+  pointer-events: none;
+}
+
+*:hover > .btn-shine-sweep-effect,
+a:hover .btn-shine-sweep-effect,
+button:hover .btn-shine-sweep-effect {
+  transform: translateX(200%) skewX(-18deg);
+  transition: transform 0.55s ease;
+}

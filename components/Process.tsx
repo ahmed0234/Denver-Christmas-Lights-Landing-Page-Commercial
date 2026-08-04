@@ -50,6 +50,7 @@ import {
   Clock,
   Star,
 } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 const CONTENT = {
   eyebrow: "Our Simple Process",
@@ -317,15 +318,15 @@ export default function ProcessSection() {
           fill
           priority
           aria-hidden="true"
-          className="object-cover object-center opacity-40 sm:opacity-90 md:opacity-50 brightness-95 saturate-110 contrast-105"
+          className="object-cover object-center opacity-25 sm:opacity-85 md:opacity-95 brightness-75 saturate-95 contrast-105"
           quality={95}
         />
-        {/* Soft Heading Legibility Mask (Center-Top only, keeping left/right trees bright) */}
+        {/* Dark Legibility Overlay across section to keep background subtle */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 75% 45% at 50% 22%, rgba(7,5,2,0.72) 0%, rgba(7,5,2,0.40) 60%, transparent 100%)",
+              "linear-gradient(180deg, rgba(7,5,2,0.85) 0%, rgba(7,5,2,0.72) 40%, rgba(7,5,2,0.85) 100%)",
           }}
         />
         {/* Top and Bottom Edge Smooth Fades */}
@@ -430,7 +431,7 @@ export default function ProcessSection() {
         </div>
 
         {/* Subtitle */}
-        <p className="process-subtitle mt-5 max-w-xl text-sm text-[var(--color-text-muted,#cbc3b6)]/80 sm:text-base">
+        <p className="process-subtitle mt-5 max-w-xl text-sm font-medium leading-relaxed text-[#e5ddd3] drop-shadow-[0_1.5px_4px_rgba(0,0,0,0.9)] sm:text-base">
           {CONTENT.subtitle}
         </p>
 
@@ -521,17 +522,19 @@ export default function ProcessSection() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="mt-8 text-xl font-bold text-[var(--color-text-primary,#f7f3ec)] sm:text-xl">
+                  <h3 className="mt-8 text-xl font-bold text-[var(--color-text-primary,#f7f3ec)] sm:text-xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
                     {step.title}
                   </h3>
 
                   {/* Divider */}
                   <span className="mt-3 h-px w-11 bg-gradient-to-r from-transparent via-[var(--color-gold,#e8b873)]/70 to-transparent" />
 
-                  {/* Description */}
-                  <p className="mx-auto mt-4 max-w-[15rem] text-sm leading-relaxed text-[var(--color-text-muted,#cbc3b6)]/75">
-                    {step.description}
-                  </p>
+                  {/* Description container with soft dark glass backdrop for ultimate legibility */}
+                  <div className="mt-4 max-w-[16.5rem] rounded-xl bg-black/45 px-4 py-3 backdrop-blur-md border border-amber-500/15 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+                    <p className="text-sm font-medium leading-relaxed text-[#f3ede4] drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)]">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -546,6 +549,7 @@ export default function ProcessSection() {
           />
           <motion.button
             type="button"
+            onClick={handleGetQuoteClick}
             className="relative flex w-full max-w-md items-center justify-between gap-3 rounded-full bg-gradient-to-b from-[var(--color-gold-light,#f8e3ab)]/90 via-[var(--color-gold,#e8b873)]/70 to-[var(--color-gold-dark,#a9762f)]/90 p-[1.5px] shadow-[0_14px_34px_-10px_rgba(0,0,0,0.65)] sm:w-auto"
             whileHover={{ y: -3 }}
             whileTap={{ y: 0, scale: 0.99 }}

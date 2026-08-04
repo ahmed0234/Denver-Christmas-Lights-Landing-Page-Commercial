@@ -269,7 +269,7 @@ function CTACard() {
       {/* Bottom Section — CTA Button */}
       <div className="relative z-10 pb-1 sm:pb-2 w-full flex justify-center">
         <motion.a
-          href="#contact"
+          href="tel:7202967711"
           className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-wide overflow-hidden w-full max-w-[12rem] sm:max-w-[13rem]"
           style={{
             background:
@@ -285,7 +285,7 @@ function CTACard() {
           whileTap={{ scale: 0.97 }}
         >
           <Phone size={14} className="sm:w-4 sm:h-4" />
-          <span>Contact Us</span>
+          <span>Call Us</span>
           <ArrowRight size={13} className="sm:w-3.5 sm:h-3.5" />
         </motion.a>
       </div>

@@ -18,6 +18,7 @@ import {
   Phone,
   ArrowRight,
 } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 // ─── Particle data ────────────────────────────────────────────────────────────
 const BOKEH = [
@@ -716,6 +717,7 @@ export default function WhyChooseUs() {
                   <motion.a
                     href="#quote"
                     id="why-cta-quote"
+                    onClick={handleGetQuoteClick}
                     whileHover={{
                       scale: 1.03,
                       boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)`,
@@ -736,13 +738,18 @@ export default function WhyChooseUs() {
                           "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
                       }}
                     />
-                    <span className="relative">GET MY FREE QUOTE</span>
-                    <ArrowRight size={16} className="relative" />
+                    <span className="relative text-amber-950 font-semibold">
+                      GET MY FREE QUOTE
+                    </span>
+                    <ArrowRight
+                      size={16}
+                      className="relative text-amber-950"
+                    />
                   </motion.a>
 
                   {/* Phone */}
                   <a
-                    href="tel:+17205134567"
+                    href="tel:7202967711"
                     className="flex items-center gap-3 group"
                     id="why-cta-call"
                   >
@@ -767,7 +774,7 @@ export default function WhyChooseUs() {
                         className="text-lg font-bold leading-tight"
                         style={{ color: "var(--text-heading)" }}
                       >
-                        (720) 513-4567
+                        (720) 296-7711
                       </p>
                     </div>
                   </a>

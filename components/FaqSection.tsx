@@ -24,6 +24,7 @@ import {
   ArrowRight,
   Sparkle,
 } from "lucide-react";
+import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
 // ─── Data Types & FAQ List ───────────────────────────────────────────────────
 
@@ -36,51 +37,63 @@ interface FaqItem {
 const FAQ_ITEMS: FaqItem[] = [
   {
     id: "cost",
-    question: "How much does Christmas light installation cost in Denver?",
+    question: "How much does commercial Christmas light installation cost?",
     answer:
-      "The cost depends on the size of your home, roofline, lighting design, accessibility, number of trees or landscaping features, and the services included. Request a quote to receive custom pricing tailored to your property.",
+      "Pricing depends on property size, installation complexity, design scope, lighting coverage, access requirements, power availability, maintenance requirements, and removal services. A property assessment allows us to prepare an accurate proposal.",
   },
   {
-    id: "provide-lights",
-    question: "Do you provide the Christmas lights?",
+    id: "proposal",
+    question: "How early should we request a commercial proposal?",
     answer:
-      "Yes! We supply commercial-grade LED lights, custom-cut wiring, clips, extension cords, and timers. All premium lighting equipment and maintenance are included in your service package.",
+      "Commercial properties should begin planning early, particularly when the project requires design approval, multiple stakeholders, specialized access equipment, or installation coordination.",
   },
   {
-    id: "own-lights",
-    question: "Can you install lights that I already own?",
+    id: "budget",
+    question: "Can you work within an established budget?",
     answer:
-      "To maintain our high safety, reliability, and 100% warranty standards, we install our own commercial-grade LED lighting system. This ensures custom-cut lengths, zero electrical faults, and prompt maintenance coverage.",
+      "Yes. Share your priorities and budget parameters during the assessment so the design can focus on the most important areas of the property.",
   },
   {
-    id: "repairs",
-    question: "What happens if part of my display stops working?",
+    id: "lighting-grade",
+    question: "Do you provide commercial-grade lighting?",
     answer:
-      "We provide complimentary maintenance throughout the entire holiday season. If a bulb or section goes out, simply contact us and our team will arrive within 24–48 hours to repair it at no extra charge.",
-  },
-  {
-    id: "scheduling",
-    question: "When should I schedule my installation?",
-    answer:
-      "We recommend scheduling as early as possible. Our calendar fills up quickly starting in October. Early installations can be completed ahead of time with lights programmed to turn on whenever you wish.",
+      "Yes. We supply and install commercial-grade LED lighting, custom-cut wiring, commercial greenery, and heavy-duty mounting hardware. All lighting equipment, maintenance, and seasonal storage are fully included in our service model.",
   },
   {
     id: "insurance",
-    question: "Are you insured?",
+    question: "Do you provide proof of insurance?",
     answer:
-      "Yes, we are fully licensed and carry comprehensive general liability insurance for residential properties, giving you complete peace of mind.",
+      "Yes. We carry comprehensive commercial general liability insurance and provide Certificates of Insurance (COI) naming your property management or enterprise entity as an additional insured upon request.",
+  },
+  {
+    id: "property-management",
+    question: "Can you coordinate with our property management team?",
+    answer:
+      "Yes. We seamlessly coordinate with property managers, facility directors, and site engineers to handle design approvals, scheduling, electrical access, and hassle-free installation.",
+  },
+  {
+    id: "maintenance",
+    question: "What happens if part of the display stops working?",
+    answer:
+      "We provide prompt, complimentary maintenance throughout the entire season. If any component or lighting strand goes out, our dedicated commercial technicians respond within 24 to 48 hours to fix it.",
+  },
+  {
+    id: "multi-property",
+    question: "Can you decorate multiple properties?",
+    answer:
+      "Yes. Portfolio-wide, multi-location, and phased installation options are available for property managers and commercial real estate groups across Denver and surrounding areas.",
   },
   {
     id: "removal",
-    question: "When will my Christmas lights be removed?",
+    question: "Do you handle removal after the holiday season?",
     answer:
-      "Takedown begins promptly after New Year's Day, typically between January 2nd and January 20th, weather permitting. We neatly package and store all equipment for next season.",
+      "Yes. Post-holiday removal is fully included. We schedule takedowns starting promptly in January based on your preference, carefully pack all decor, and store it securely for the next season.",
   },
   {
-    id: "be-home",
-    question: "Do I need to be home during installation?",
+    id: "hoas",
+    question: "Do you work with HOAs and apartment communities?",
     answer:
-      "No, you do not need to be home as long as outdoor power outlets are accessible and pets are safely secured indoors. Our professional team will complete the setup and leave your property immaculate.",
+      "Yes. We specialize in holiday lighting for HOA entrances, clubhouses, common areas, and multi-family residential communities with extensive commercial installation experience.",
   },
 ];
 
@@ -122,7 +135,7 @@ export default function FaqSection() {
       ref={containerRef}
       id="faq"
       className="relative w-full overflow-hidden py-14 sm:py-12 lg:py-12 font-sans"
-      aria-label="Frequently Asked Questions"
+      aria-label="Commercial Frequently Asked Questions"
       style={{ background: "var(--bg-primary)" }}
     >
       {/* ── Background Glows & Ambience ────────────────────────────────────── */}
@@ -182,7 +195,7 @@ export default function FaqSection() {
               className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase"
               style={{ color: "var(--accent)" }}
             >
-              FAQ
+              COMMERCIAL FAQ
             </span>
             <div
               className="h-px w-8 sm:w-12"
@@ -202,7 +215,7 @@ export default function FaqSection() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-[1.15]"
             style={{ color: "var(--text-heading)" }}
           >
-            Frequently Asked
+            Commercial Christmas Light
             <br />
             <span
               className="inline-block"
@@ -214,7 +227,7 @@ export default function FaqSection() {
                 filter: "drop-shadow(0 2px 16px var(--accent-glow-soft))",
               }}
             >
-              Questions
+              Installation FAQs
             </span>
           </motion.h2>
 
@@ -227,7 +240,7 @@ export default function FaqSection() {
             className="text-xs sm:text-sm md:text-base leading-relaxed max-w-[42ch]"
             style={{ color: "var(--text-muted)" }}
           >
-            Everything you need to know about our Christmas light installation
+            Everything you need to know about our commercial Christmas light installation
             services in Denver.
           </motion.p>
         </div>
@@ -459,6 +472,7 @@ export default function FaqSection() {
             <div className="z-10 relative w-full md:w-auto shrink-0">
               <motion.a
                 href="#quote"
+                onClick={handleGetQuoteClick}
                 className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase overflow-hidden w-full md:w-auto cursor-pointer shadow-lg transition-all duration-300"
                 style={{
                   background:
