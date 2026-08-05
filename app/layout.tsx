@@ -4,15 +4,12 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeContext";
 
-
 // Replace placeholders with your actual Tag IDs
 const GTM_ID = ""; // e.g. "GTM-XXXXXXX"
 const GA_MEASUREMENT_ID = ""; // e.g. "G-XXXXXXXXXX"
 const AW_CONVERSION_ID = "AW-959322441";
 const AW_CONVERSION_LABEL = ""; // e.g. "XXXXXXXXXXXXXX"
 const PHONE_CONVERSION_NUMBER = "1-800-123-4567";
-
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,7 +52,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-
       <head>
         {/* Google Tag Manager Snippet  */}
         <Script
@@ -109,7 +105,7 @@ export default function RootLayout({
           </>
         )}
 
-        {/* Google Ads Phone Call Conversion Tracking */}
+        {/* Google Ads Phone Call Conversion Tracking
         {AW_CONVERSION_ID && AW_CONVERSION_LABEL && (
           <Script id="google-phone-conversion" strategy="afterInteractive">
             {`
@@ -120,13 +116,10 @@ export default function RootLayout({
               });
             `}
           </Script>
-        )}
+        )} */}
+        
       </head>
       <body className="min-h-full flex flex-col">
-
-
-
-
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
