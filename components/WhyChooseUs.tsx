@@ -741,10 +741,7 @@ export default function WhyChooseUs() {
                     <span className="relative text-amber-950 font-semibold">
                       GET MY FREE QUOTE
                     </span>
-                    <ArrowRight
-                      size={16}
-                      className="relative text-amber-950"
-                    />
+                    <ArrowRight size={16} className="relative text-amber-950" />
                   </motion.a>
 
                   {/* Phone */}

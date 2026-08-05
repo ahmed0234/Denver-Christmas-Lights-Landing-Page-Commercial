@@ -53,71 +53,29 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
-        {/* Google Tag Manager Snippet  */}
+        {/* Google Tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-959322441"
           strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-tag-aw" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+
             gtag('config', 'AW-959322441');
           `}
         </Script>
 
-        {/* Google Analytics (gtag.js) */}
-        {GA_MEASUREMENT_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-
-                gtag('config', '${GA_MEASUREMENT_ID}');
-              `}
-            </Script>
-          </>
-        )}
-
-        {/* Google Tag (gtag.js) - Google Ads AW-959322441 */}
-        {AW_CONVERSION_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${AW_CONVERSION_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-tag-aw" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-
-                gtag('config', '${AW_CONVERSION_ID}');
-              `}
-            </Script>
-          </>
-        )}
-
-        {/* Google Ads Phone Call Conversion Tracking
-        {AW_CONVERSION_ID && AW_CONVERSION_LABEL && (
-          <Script id="google-phone-conversion" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('config', '${AW_CONVERSION_ID}/${AW_CONVERSION_LABEL}', {
-                'phone_conversion_number': '${PHONE_CONVERSION_NUMBER}'
-              });
-            `}
-          </Script>
-        )} */}
-        
+        {/* Google Ads Phone Call Conversion Tracking */}
+        <Script id="google-phone-conversion" strategy="afterInteractive">
+          {`
+            gtag('config', 'AW-959322441/yn4TCPqn09wcEMmyuMkD', {
+              'phone_conversion_number': '(720) 296-7711'
+            });
+          `}
+        </Script>
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>{children}</ThemeProvider>

@@ -308,7 +308,8 @@ const CTAButtons = () => {
         href="/"
         className="group relative flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 py-3.5 text-sm font-medium text-[#0D0D0D] transition-all duration-300 hover:shadow-2xl overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, #FFF8D5 0%, #F5D061 50%, #E5C158 100%)",
+          background:
+            "linear-gradient(135deg, #FFF8D5 0%, #F5D061 50%, #E5C158 100%)",
           boxShadow:
             "0 6px 28px rgba(245, 208, 97, 0.25), inset 0 1.5px 0 rgba(255,255,255,0.7), inset 0 -2px 4px rgba(163,117,25,0.4)",
         }}
@@ -331,7 +332,8 @@ const CTAButtons = () => {
         href="tel:7202967711"
         className="group relative flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:shadow-2xl overflow-hidden"
         style={{
-          background: "radial-gradient(circle at 50% 0%, rgba(35, 28, 14, 0.95) 0%, rgba(15, 11, 4, 0.98) 100%)",
+          background:
+            "radial-gradient(circle at 50% 0%, rgba(35, 28, 14, 0.95) 0%, rgba(15, 11, 4, 0.98) 100%)",
           backdropFilter: "blur(16px)",
           border: "1px solid rgba(245, 208, 97, 0.4)",
           boxShadow:
@@ -350,7 +352,8 @@ const CTAButtons = () => {
         <div
           className="absolute inset-x-4 top-0 h-1/2 rounded-t-full pointer-events-none"
           style={{
-            background: "linear-gradient(180deg, rgba(255,248,213,0.15) 0%, transparent 100%)",
+            background:
+              "linear-gradient(180deg, rgba(255,248,213,0.15) 0%, transparent 100%)",
           }}
         />
 
@@ -369,10 +372,12 @@ const CTAButtons = () => {
         <span
           className="relative z-10 tracking-wide font-bold uppercase text-xs sm:text-sm"
           style={{
-            background: "linear-gradient(135deg, #FFF8D5 0%, #F5D061 40%, #E5C158 70%, #FFF8D5 100%)",
+            background:
+              "linear-gradient(135deg, #FFF8D5 0%, #F5D061 40%, #E5C158 70%, #FFF8D5 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(245, 208, 97, 0.4))",
+            filter:
+              "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(245, 208, 97, 0.4))",
           }}
         >
           Call Us Now
@@ -465,7 +470,8 @@ const GlassCard = () => {
           <span
             className="bg-clip-text text-transparent"
             style={{
-              backgroundImage: "linear-gradient(135deg, #FFF8D5 0%, #F5D061 45%, #E5C158 80%, #FFF8D5 100%)",
+              backgroundImage:
+                "linear-gradient(135deg, #FFF8D5 0%, #F5D061 45%, #E5C158 80%, #FFF8D5 100%)",
               filter: "drop-shadow(0 2px 8px rgba(245, 208, 97, 0.3))",
             }}
           >
@@ -541,7 +547,8 @@ const BottomText = () => {
         href="tel:7202967711"
         className="font-semibold transition-colors underline decoration-[#E5C158]/40 underline-offset-4 hover:decoration-[#E5C158]"
         style={{
-          background: "linear-gradient(135deg, #FFF8D5 0%, #F5D061 50%, #E5C158 100%)",
+          background:
+            "linear-gradient(135deg, #FFF8D5 0%, #F5D061 50%, #E5C158 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8))",
