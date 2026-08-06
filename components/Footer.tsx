@@ -242,12 +242,12 @@ export default function Footer() {
             className="flex items-center gap-6"
             style={{ color: "var(--text-muted)" }}
           >
-            <a
-              href="#privacy"
+            <Link
+              href="/privacy-policy"
               className="hover:text-[var(--gold)] transition-colors focus:outline-none focus-visible:underline"
             >
               Privacy Policy
-            </a>
+            </Link>
             <span className="opacity-30">•</span>
             <a
               href="#terms"
