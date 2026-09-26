@@ -68,15 +68,53 @@ function BeforeAfterSlider({
   afterImage,
   beforeAlt,
   afterAlt,
+  priority = false,
 }: {
   beforeImage: string;
   afterImage: string;
   beforeAlt: string;
   afterAlt: string;
+  priority?: boolean;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+
+  // Progressive preloader: start fetching both images 500px before entering viewport
+  // Pre-decodes beforeImage into memory so dragging the slider is instant!
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const preload = () => {
+      const img = new window.Image();
+      img.src = beforeImage;
+    };
+
+    if (priority) {
+      preload();
+      return;
+    }
+
+    const el = containerRef.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      preload();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          preload();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "500px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [priority, beforeImage]);
+
   const updateSlider = useCallback((clientX: number) => {
     const container = containerRef.current;
     if (!container) return;
@@ -131,7 +169,7 @@ function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full select-none overflow-hidden cursor-col-resize"
+      className="relative w-full h-full select-none overflow-hidden cursor-col-resize bg-[#14110e]"
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
@@ -150,7 +188,8 @@ function BeforeAfterSlider({
         alt={afterAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
         decoding="async"
       />
       <div
@@ -167,7 +206,6 @@ function BeforeAfterSlider({
             maxWidth: "none",
           }}
           draggable={false}
-          loading="lazy"
           decoding="async"
         />
       </div>
@@ -251,7 +289,7 @@ function FeaturedCard({
     <motion.div
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "150px 0px" }}
       transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
       className="group relative flex-1 min-w-0 rounded-2xl overflow-hidden"
@@ -290,13 +328,14 @@ function FeaturedCard({
           {title}
         </span>
       </div>
-      <div className="relative w-full aspect-[16/10] overflow-hidden">
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#14110e]">
         <div className="absolute inset-0 group-hover:scale-[1.015] transition-transform duration-500 ease-out h-full w-full">
           <BeforeAfterSlider
             beforeImage={beforeImage}
             afterImage={afterImage}
             beforeAlt={`${title} before`}
             afterAlt={`${title} after`}
+            priority={true}
           />
         </div>
       </div>
@@ -496,7 +535,7 @@ function ServiceCard({
     <motion.div
       initial={{ opacity: 0, y: 36 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "150px 0px" }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -7, transition: { duration: 0.25, ease: "easeOut" } }}
       className="group relative flex flex-col items-center"
@@ -647,7 +686,7 @@ function TrustItem({
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "100px 0px" }}
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
       className="flex items-center gap-3"
     >
@@ -688,7 +727,7 @@ function TrustItem({
 // ─── Main Services Export ─────────────────────────────────────────────────────
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
 
   const featuredCards = [
     {
@@ -915,7 +954,7 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: true, margin: "150px 0px" }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 px-6 py-5 rounded-2xl"
           style={{

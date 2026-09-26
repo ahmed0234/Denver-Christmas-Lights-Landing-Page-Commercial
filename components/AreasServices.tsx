@@ -349,9 +349,9 @@ export default function AreasServices() {
   const cardsRef = useRef<HTMLDivElement>(null);
   const trustRef = useRef<HTMLDivElement>(null);
 
-  const topInView = useInView(topRef, { once: true, margin: "-80px" });
-  const cardsInView = useInView(cardsRef, { once: true, margin: "-60px" });
-  const trustInView = useInView(trustRef, { once: true, margin: "-40px" });
+  const topInView = useInView(topRef, { once: true, margin: "150px 0px" });
+  const cardsInView = useInView(cardsRef, { once: true, margin: "150px 0px" });
+  const trustInView = useInView(trustRef, { once: true, margin: "100px 0px" });
 
   return (
     <section

@@ -221,7 +221,7 @@ function BenefitCard({
     <motion.article
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "150px 0px" }}
       transition={{
         duration: 0.55,
         delay: col * 0.07 + row * 0.12,
@@ -326,7 +326,7 @@ function BenefitCard({
 // ─── Main Export ──────────────────────────────────────────────────────────────
 export default function WhyChooseUs() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headerInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const headerInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
 
   const containerBg = `linear-gradient(170deg, var(--container-bg-top) 0%, var(--container-bg-bottom) 100%) padding-box, var(--container-border) border-box`;
   const containerShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
@@ -601,7 +601,7 @@ export default function WhyChooseUs() {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: true, margin: "150px 0px" }}
           transition={{ duration: 0.5 }}
           className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-6"
         >
@@ -685,7 +685,7 @@ export default function WhyChooseUs() {
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: true, margin: "150px 0px" }}
                 transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
                 className="relative max-w-[620px]"
               >

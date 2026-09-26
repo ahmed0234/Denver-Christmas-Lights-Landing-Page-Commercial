@@ -69,15 +69,52 @@ function BeforeAfterSlider({
   afterImage,
   beforeAlt,
   afterAlt,
+  priority = false,
 }: {
   beforeImage: string;
   afterImage: string;
   beforeAlt: string;
   afterAlt: string;
+  priority?: boolean;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+
+  // Progressive preloader: start fetching both images 500px before entering viewport
+  // Pre-decodes beforeImage into memory so dragging the slider is instant!
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const preload = () => {
+      const img = new window.Image();
+      img.src = beforeImage;
+    };
+
+    if (priority) {
+      preload();
+      return;
+    }
+
+    const el = containerRef.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      preload();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          preload();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "500px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [priority, beforeImage]);
 
   const updateSlider = useCallback((clientX: number) => {
     const container = containerRef.current;
@@ -135,7 +172,7 @@ function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full select-none overflow-hidden cursor-col-resize"
+      className="relative w-full h-full select-none overflow-hidden cursor-col-resize bg-[#14110e]"
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
@@ -148,19 +185,22 @@ function BeforeAfterSlider({
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
+      {/* Primary visible after image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={afterImage}
         alt={afterAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
         decoding="async"
       />
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${sliderPos}%` }}
       >
+        {/* Comparison before image in clipped overlay */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={beforeImage}
@@ -171,7 +211,6 @@ function BeforeAfterSlider({
             maxWidth: "none",
           }}
           draggable={false}
-          loading="lazy"
           decoding="async"
         />
       </div>
@@ -251,10 +290,10 @@ function TransformationCard({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "150px 0px" }}
       transition={{
         duration: 0.58,
-        delay: (index % 3) * 0.1,
+        delay: (index % 3) * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
       whileHover={{ y: -4, transition: { duration: 0.22, ease: "easeOut" } }}
@@ -276,12 +315,13 @@ function TransformationCard({
         el.style.boxShadow = normalShadow;
       }}
     >
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#14110e]">
         <BeforeAfterSlider
           beforeImage={item.beforeImage}
           afterImage={item.afterImage}
           beforeAlt={`${item.title} before`}
           afterAlt={`${item.title} after`}
+          priority={index < 3}
         />
       </div>
       <div
@@ -344,7 +384,7 @@ function BottomCTA() {
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "150px 0px" }}
       transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       className="flex flex-col sm:flex-row items-center justify-between gap-6 px-7 py-6 rounded-2xl max-w-[1280px] mx-auto"
       style={{
@@ -435,7 +475,7 @@ const BOKEH = [
 // ─── Main Section ─────────────────────────────────────────────────────────────
 export default function BeforeandAfter() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
 
   return (
     <section

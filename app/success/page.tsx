@@ -81,7 +81,8 @@ const Background = () => {
           src="/HeroBackground.webp"
           alt="Commercial Christmas Lights Background"
           className="absolute inset-0 w-full h-full object-cover opacity-40"
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
           decoding="async"
         />
       </div>

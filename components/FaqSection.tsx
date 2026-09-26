@@ -121,7 +121,7 @@ const fadeUp = {
 
 export default function FaqSection() {
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-60px" });
+  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
 
   // Currently expanded accordion item ID (null if none expanded)
   const [openId, setOpenId] = useState<string | null>("cost");

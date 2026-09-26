@@ -65,7 +65,7 @@ function BentoCard({
   "aria-labelledby"?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-48px 0px" });
+  const isInView = useInView(ref, { once: true, margin: "100px 0px" });
 
   return (
     <motion.article

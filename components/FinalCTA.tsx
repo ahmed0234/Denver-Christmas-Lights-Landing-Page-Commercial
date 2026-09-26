@@ -208,7 +208,7 @@ function TrustItem({
 
 export default function FinalCTA() {
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-60px" });
+  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
 
   return (
     <section

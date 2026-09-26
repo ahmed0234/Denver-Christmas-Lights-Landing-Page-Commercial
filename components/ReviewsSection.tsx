@@ -254,7 +254,7 @@ const fadeUp = {
 
 export default function ReviewsSection() {
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-60px" });
+  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
 
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -581,23 +581,26 @@ export default function ReviewsSection() {
                     <div className="flex items-center gap-3 sm:gap-3.5">
                       {/* Avatar Circle with Unsplash Profile Photo */}
                       <div
-                        className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border overflow-hidden shrink-0 shadow-md transition-transform duration-300 group-hover:scale-105"
+                        className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border overflow-hidden shrink-0 shadow-md transition-transform duration-300 group-hover:scale-105 bg-amber-950/40 flex items-center justify-center"
                         style={{
                           borderColor: "var(--border-color)",
                           boxShadow: "0 0 10px var(--accent-glow-faint)",
                         }}
                       >
+                        <User size={18} className="text-amber-300/60 shrink-0" />
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={review.avatar}
                           alt={review.name}
                           width={40}
                           height={40}
-                          className="w-full h-full object-cover object-center"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
                           decoding="async"
+                          onError={(e) => {
+                            e.currentTarget.style.opacity = "0";
+                          }}
                         />
-
                       </div>
 
                       {/* Name, Role & Property — Enhanced commercial hierarchy */}

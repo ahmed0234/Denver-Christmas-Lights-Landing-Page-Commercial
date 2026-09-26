@@ -547,7 +547,7 @@ export default function QuoteForm() {
             height={540}
             className="w-full h-auto"
             style={{ mixBlendMode: "screen" }}
-            loading="lazy"
+            loading="eager"
             decoding="async"
           />
         </div>
