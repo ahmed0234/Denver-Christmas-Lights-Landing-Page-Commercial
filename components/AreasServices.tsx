@@ -10,8 +10,8 @@
  */
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useInView } from "motion/react";
+
 import {
   MapPin,
   Sparkle,
@@ -135,14 +135,16 @@ function LocationCard({ name, index }: { name: string; index: number }) {
     >
       {/* Subtle, muted decorative map background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/AreaSection/MapImage.webp"
           alt=""
-          fill
           aria-hidden="true"
-          className="object-cover object-center opacity-25 sm:opacity-30 group-hover:opacity-45 brightness-50 saturate-90 transition-all duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-25 sm:opacity-30 group-hover:opacity-45 brightness-50 saturate-90 transition-all duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
         />
+
         {/* Dark vignette tint to make location text pop */}
         <div
           className="absolute inset-0 transition-opacity duration-500"
@@ -363,14 +365,16 @@ export default function AreasServices() {
         className="pointer-events-none absolute right-0 top-0 h-[36rem] sm:h-[44rem] lg:h-[42rem] xl:h-[44rem] w-full lg:w-[58%] xl:w-[52%] overflow-hidden z-0"
         aria-hidden="true"
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/AreaSection/MapImage.webp"
           alt=""
-          fill
-          priority
-          className="object-cover object-center lg:object-right opacity-80 sm:opacity-85 lg:opacity-90 saturate-110 contrast-105"
-          quality={90}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center lg:object-right opacity-80 sm:opacity-85 lg:opacity-90 saturate-110 contrast-105"
+          loading="lazy"
+          decoding="async"
         />
+
 
         {/* Desktop Left-to-Right Edge Blend Gradient (melts smoothly from left text background) */}
         <div

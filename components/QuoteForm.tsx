@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+
+
 import { motion, AnimatePresence } from "motion/react";
 import {
   User,
@@ -531,31 +532,25 @@ export default function QuoteForm() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 50, y: 10 }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-      className="relative w-full max-w-[560px] mx-auto"
-    >
+    <div className="hero-animate-form relative w-full max-w-[560px] mx-auto">
       {/* Christmas Lights decoration */}
       <div
         className="absolute z-20 pointer-events-none"
         style={{ top: "-76px", left: "-18px", right: "-18px" }}
       >
-        <motion.div
-          animate={{ opacity: [0.88, 1, 0.88] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Image
+        <div className="lights-pulse">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/FormUpperLights.png"
             alt="Christmas string lights decoration"
             width={1320}
             height={540}
             className="w-full h-auto"
             style={{ mixBlendMode: "screen" }}
-            priority
+            loading="lazy"
+            decoding="async"
           />
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Card ─────────────────────────────────────────────────────────────── */}
@@ -769,6 +764,7 @@ export default function QuoteForm() {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
+

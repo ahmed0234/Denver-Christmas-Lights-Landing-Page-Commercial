@@ -150,6 +150,8 @@ function BeforeAfterSlider({
         alt={afterAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
+        loading="lazy"
+        decoding="async"
       />
       <div
         className="absolute inset-0 overflow-hidden"
@@ -165,8 +167,11 @@ function BeforeAfterSlider({
             maxWidth: "none",
           }}
           draggable={false}
+          loading="lazy"
+          decoding="async"
         />
       </div>
+
       <div
         className="absolute top-0 bottom-0 w-[2px] pointer-events-none"
         style={{

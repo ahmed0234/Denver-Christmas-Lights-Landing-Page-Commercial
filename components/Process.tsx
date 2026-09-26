@@ -36,8 +36,8 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { motion } from "motion/react";
+
 import {
   Snowflake,
   Sparkle,
@@ -312,15 +312,16 @@ export default function ProcessSection() {
     >
       {/* Background Image Layer */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/Process/Background.webp"
           alt=""
-          fill
-          priority
           aria-hidden="true"
-          className="object-cover object-center opacity-25 sm:opacity-85 md:opacity-95 brightness-75 saturate-95 contrast-105"
-          quality={95}
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-25 sm:opacity-85 md:opacity-95 brightness-75 saturate-95 contrast-105"
+          loading="lazy"
+          decoding="async"
         />
+
         {/* Dark Legibility Overlay across section to keep background subtle */}
         <div
           className="absolute inset-0"
@@ -359,10 +360,12 @@ export default function ProcessSection() {
 
       {/* Floating golden dust */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {DUST.map((p) => (
+        {DUST.map((p, idx) => (
           <span
             key={p.id}
-            className="absolute rounded-full bg-[var(--color-gold-light,#f8e3ab)]"
+            className={`absolute rounded-full bg-[var(--color-gold-light,#f8e3ab)] ${
+              idx > 8 ? "hidden sm:block" : ""
+            }`}
             style={{
               left: `${p.x}%`,
               top: `${p.y}%`,
@@ -375,6 +378,7 @@ export default function ProcessSection() {
             }}
           />
         ))}
+
         {/* Tiny sparkles */}
         {SPARKLES.map((s) => (
           <Sparkle

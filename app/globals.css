@@ -833,3 +833,200 @@ button:hover .btn-shine-sweep-effect {
   transform: translateX(200%) skewX(-18deg);
   transition: transform 0.55s ease;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   HIGH-PERFORMANCE GPU COMPOSITOR ANIMATIONS (Hero, Navbar, Quote Form)
+   ─────────────────────────────────────────────────────────────────────────────
+   Runs immediately on initial HTML/CSS load via GPU compositor thread.
+   Uses transform and opacity only. Zero layout thrashing, zero JS blocking.
+   Gracefully respects prefers-reduced-motion.
+══════════════════════════════════════════════════════════════════════════════ */
+
+@keyframes navbar-fade-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-squiggle {
+  0% {
+    stroke-dashoffset: 350;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes bokeh-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes lights-gentle-pulse {
+  0%, 100% {
+    opacity: 0.88;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes form-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(24px, 10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.animate-navbar-entrance {
+  animation: navbar-fade-down 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-animate-eyebrow {
+  animation: hero-fade-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.hero-animate-heading-1 {
+  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.hero-animate-heading-2 {
+  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+.hero-animate-squiggle {
+  stroke-dasharray: 350;
+  stroke-dashoffset: 350;
+  animation: hero-squiggle 1s ease-out 0.7s forwards;
+}
+
+.hero-animate-heading-3 {
+  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+.hero-animate-divider {
+  animation: hero-fade-in 0.5s ease-out 0.55s both;
+}
+
+.hero-animate-desc {
+  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.hero-animate-ctas {
+  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
+}
+
+.hero-animate-trust {
+  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
+}
+
+.hero-animate-badge-0 {
+  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
+}
+.hero-animate-badge-1 {
+  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.80s both;
+}
+.hero-animate-badge-2 {
+  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.88s both;
+}
+.hero-animate-badge-3 {
+  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.96s both;
+}
+
+.hero-bokeh-particle {
+  will-change: transform, opacity;
+  animation: bokeh-pulse var(--bokeh-dur, 3.5s) ease-in-out var(--bokeh-delay, 0s) infinite;
+}
+
+.lights-pulse {
+  will-change: opacity;
+  animation: lights-gentle-pulse 3s ease-in-out infinite;
+}
+
+.hero-animate-form {
+  animation: form-fade-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-navbar-entrance,
+  .hero-animate-eyebrow,
+  .hero-animate-heading-1,
+  .hero-animate-heading-2,
+  .hero-animate-heading-3,
+  .hero-animate-divider,
+  .hero-animate-desc,
+  .hero-animate-ctas,
+  .hero-animate-trust,
+  .hero-animate-badge-0,
+  .hero-animate-badge-1,
+  .hero-animate-badge-2,
+  .hero-animate-badge-3,
+  .hero-animate-form {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-animate-squiggle {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+  .hero-bokeh-particle,
+  .lights-pulse {
+    animation: none !important;
+    opacity: 0.6 !important;
+  }
+}
+

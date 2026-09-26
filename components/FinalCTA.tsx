@@ -19,8 +19,8 @@
  */
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useInView } from "motion/react";
+
 import {
   TreePine,
   Home,
@@ -544,15 +544,15 @@ export default function FinalCTA() {
                 custom={0.2}
                 className="absolute inset-0"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/FinalCta/BackgroundImage.webp"
                   alt="Beautifully decorated Denver commercial property with premium Christmas lights installed along the roofline and landscaping"
-                  fill
-                  priority
-                  className="object-cover object-center saturate-110 contrast-105 brightness-105"
-                  quality={95}
-                  sizes="(max-width: 1024px) 100vw, 54vw"
+                  className="absolute inset-0 w-full h-full object-cover object-center saturate-110 contrast-105 brightness-105"
+                  loading="lazy"
+                  decoding="async"
                 />
+
               </motion.div>
 
               {/* Left-edge horizontal gradient to smoothly blend image into card */}

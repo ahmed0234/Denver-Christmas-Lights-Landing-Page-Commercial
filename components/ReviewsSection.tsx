@@ -12,8 +12,8 @@
  */
 
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { motion, useInView } from "motion/react";
+
 import { Star, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -269,14 +269,16 @@ export default function ReviewsSection() {
     >
       {/* ── Background Image Layer ───────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/ReviewTestimonial/ReviewsBackground.webp"
           alt=""
-          fill
-          priority
-          className="object-cover object-center lg:object-right opacity-85 sm:opacity-90 saturate-110 contrast-105 brightness-95"
-          quality={95}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center lg:object-right opacity-85 sm:opacity-90 saturate-110 contrast-105 brightness-95"
+          loading="lazy"
+          decoding="async"
         />
+
 
         {/* Lighter, Natural Radial Overlay so House & Lights Shine Brightly */}
         <div
@@ -585,14 +587,17 @@ export default function ReviewsSection() {
                           boxShadow: "0 0 10px var(--accent-glow-faint)",
                         }}
                       >
-                        <Image
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           src={review.avatar}
                           alt={review.name}
-                          fill
-                          sizes="(max-width: 640px) 36px, 40px"
-                          className="object-cover object-center"
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
+
                       </div>
 
                       {/* Name, Role & Property — Enhanced commercial hierarchy */}

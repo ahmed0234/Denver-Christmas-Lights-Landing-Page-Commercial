@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useInView } from "motion/react";
+
 import {
   ShieldCheck,
   Award,
@@ -464,15 +464,15 @@ export default function WhyChooseUs() {
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 lg:left-[52%] lg:w-[48%]">
               <div className="relative w-full h-full lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0%_100%)]">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/WhyChooseUs/HeaderBackground.webp"
                   alt="Professionally decorated Christmas home at night"
-                  fill
-                  className="object-cover object-[80%_center] lg:object-center brightness-[1.22] contrast-[1.1] sm:brightness-110 sm:contrast-105 scale-105 transition-transform duration-700"
-                  quality={95}
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 48vw"
+                  className="absolute inset-0 w-full h-full object-cover object-[80%_center] lg:object-center brightness-[1.22] contrast-[1.1] sm:brightness-110 sm:contrast-105 scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
                 />
+
                 <div
                   className="absolute inset-0 lg:hidden"
                   style={{
@@ -635,14 +635,15 @@ export default function WhyChooseUs() {
             <div className="absolute inset-0 z-0">
               <div className="absolute inset-0 lg:left-[45%] lg:w-[55%]">
                 <div className="relative w-full h-full lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0%_100%)]">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src="/WhyChooseUs/BottomSectionBackground.webp"
                     alt="Beautifully decorated Christmas home"
-                    fill
-                    className="object-cover object-[75%_center] lg:object-right-center brightness-[1.06] scale-[1] transition-transform duration-700"
-                    quality={95}
-                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    className="absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-right-center brightness-[1.06] scale-[1] transition-transform duration-700"
+                    loading="lazy"
+                    decoding="async"
                   />
+
                   <div
                     className="absolute inset-0 lg:hidden"
                     style={{

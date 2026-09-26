@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+
 import { Check, Clock, Phone, Home } from "lucide-react";
 import { ThemeLogoIcon } from "@/components/ThemeLogo";
 
@@ -76,15 +76,16 @@ const Background = () => {
     <div className="fixed inset-0 -z-10">
       {/* Base image – replace with your preferred image from /public */}
       <div className="absolute inset-0 bg-[#0D0D0D]">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/HeroBackground.webp"
           alt="Commercial Christmas Lights Background"
-          fill
-          priority
-          className="object-cover opacity-40"
-          quality={90}
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          loading="lazy"
+          decoding="async"
         />
       </div>
+
 
       {/* Layer 1: Dark overlay */}
       <div className="absolute inset-0 bg-black/50" />
@@ -340,13 +341,15 @@ const CTAButtons = () => {
             "0 6px 24px rgba(0, 0, 0, 0.6), inset 0 1px 1.5px rgba(255, 248, 213, 0.3), 0 0 20px rgba(245, 208, 97, 0.12)",
         }}
       >
-        {/* Subtle Background Image inside button */}
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/BeforeAfter/BackGroundSubtle.webp"
           alt=""
-          fill
-          className="object-cover opacity-20 pointer-events-none rounded-full"
+          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none rounded-full"
+          loading="lazy"
+          decoding="async"
         />
+
 
         {/* 3D Top Edge Reflection */}
         <div
@@ -423,13 +426,15 @@ const GlassCard = () => {
         delay: 0.08,
       }}
     >
-      {/* Subtle Background Image Asset */}
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src="/BeforeAfter/BackGroundSubtle.webp"
         alt=""
-        fill
-        className="object-cover rounded-[28px] opacity-15 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover rounded-[28px] opacity-15 pointer-events-none"
+        loading="lazy"
+        decoding="async"
       />
+
 
       {/* Golden highlight edge */}
       <div

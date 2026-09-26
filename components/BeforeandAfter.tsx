@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 import { motion, useInView } from "motion/react";
+
 import {
   Sparkles,
   Building2,
@@ -154,6 +154,8 @@ function BeforeAfterSlider({
         alt={afterAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
+        loading="lazy"
+        decoding="async"
       />
       <div
         className="absolute inset-0 overflow-hidden"
@@ -169,8 +171,11 @@ function BeforeAfterSlider({
             maxWidth: "none",
           }}
           draggable={false}
+          loading="lazy"
+          decoding="async"
         />
       </div>
+
       <div
         className="absolute top-0 bottom-0 w-[2px] pointer-events-none"
         style={{
@@ -441,14 +446,16 @@ export default function BeforeandAfter() {
     >
       {/* Background image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/BeforeAfter/BackGroundSubtle.webp"
           alt=""
-          fill
           aria-hidden="true"
-          className="object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105"
-          quality={95}
+          className="absolute inset-0 w-full h-full object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105"
+          loading="lazy"
+          decoding="async"
         />
+
         <div
           className="absolute inset-0"
           style={{

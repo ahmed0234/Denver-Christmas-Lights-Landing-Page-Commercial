@@ -1,24 +1,18 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react";
 import { Phone, Sparkles } from "lucide-react";
 import { ThemeLogoIcon } from "@/components/ThemeLogo";
-import { handleGetQuoteClick } from "@/lib/scrollUtils";
+import QuoteCTAButton from "@/components/QuoteCTAButton";
 
 export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 md:pt-6 px-3 sm:px-6 lg:px-12 xl:px-16 2xl:px-24 pointer-events-none">
       <div className="w-full mx-auto pointer-events-auto">
-        <motion.nav
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex items-center justify-between px-3.5 sm:px-5 md:px-7 lg:px-9 h-[60px] sm:h-[68px] md:h-[74px] lg:h-[78px] xl:h-[82px] rounded-[20px] sm:rounded-[26px] md:rounded-[30px] overflow-hidden"
+        <nav
+          className="animate-navbar-entrance relative flex items-center justify-between px-3.5 sm:px-5 md:px-7 lg:px-9 h-[60px] sm:h-[68px] md:h-[74px] lg:h-[78px] xl:h-[82px] rounded-[20px] sm:rounded-[26px] md:rounded-[30px] overflow-hidden"
           style={{
             background: `linear-gradient(180deg, var(--bg-glass) 0%, var(--bg-overlay) 100%)`,
-            backdropFilter: "blur(22px) saturate(190%)",
-            WebkitBackdropFilter: "blur(22px) saturate(190%)",
+            backdropFilter: "blur(12px) saturate(150%)",
+            WebkitBackdropFilter: "blur(12px) saturate(150%)",
             border: "1px solid var(--border-color)",
             boxShadow:
               "0 20px 50px rgba(0,0,0,0.55), inset 0 1px 0 var(--highlight-surface), var(--shadow-ambient)",
@@ -63,18 +57,9 @@ export default function Navbar() {
           {/* ── RIGHT SIDE: Get Free Quote + Call Button ── */}
           <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 h-full shrink-0">
             {/* Premium "Get Free Quote" CTA Button */}
-            <motion.a
+            <QuoteCTAButton
               id="navbar-get-quote-btn"
-              href="#quote"
-              onClick={handleGetQuoteClick}
-              whileHover={{
-                scale: 1.03,
-                y: -1,
-                boxShadow:
-                  "0 8px 32px rgba(245, 200, 106, 0.5), 0 0 20px rgba(245, 200, 106, 0.35), inset 0 1.5px 0 rgba(255, 255, 255, 0.85), inset 0 -2.5px 4px rgba(80, 40, 0, 0.5)",
-              }}
-              whileTap={{ scale: 0.97, y: 0 }}
-              className="relative group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-full font-bold text-[11px] sm:text-xs md:text-sm tracking-wide overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 shrink-0 cursor-pointer select-none"
+              className="relative group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-full font-bold text-[11px] sm:text-xs md:text-sm tracking-wide overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 shrink-0 cursor-pointer select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
               style={{
                 background: `linear-gradient(180deg, #FFF4CE 0%, #F5C86A 32%, #E5A932 70%, #B87B15 100%)`,
                 border: "1px solid rgba(255, 235, 170, 0.85)",
@@ -106,19 +91,13 @@ export default function Navbar() {
               <span className="relative font-bold tracking-tight whitespace-nowrap">
                 Get Free Quote
               </span>
-            </motion.a>
+            </QuoteCTAButton>
 
             {/* Call Button (Hidden on mobile, visible on tablet & desktop) */}
-            <motion.a
+            <a
               id="navbar-call-btn"
               href="tel:7202967711"
-              whileHover={{
-                scale: 1.03,
-                boxShadow:
-                  "var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)",
-              }}
-              whileTap={{ scale: 0.97 }}
-              className="hidden sm:flex relative group items-center gap-1.5 sm:gap-2 md:gap-2.5 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-full font-medium text-[11px] sm:text-xs md:text-sm tracking-wide overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white shrink-0"
+              className="hidden sm:flex relative group items-center gap-1.5 sm:gap-2 md:gap-2.5 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-full font-medium text-[11px] sm:text-xs md:text-sm tracking-wide overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white shrink-0 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
               style={{
                 background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
                 border: "1px solid rgba(255,255,255,0.15)",
@@ -149,10 +128,11 @@ export default function Navbar() {
                   (720) 296-7711
                 </span>
               </span>
-            </motion.a>
+            </a>
           </div>
-        </motion.nav>
+        </nav>
       </div>
     </header>
   );
 }
+
