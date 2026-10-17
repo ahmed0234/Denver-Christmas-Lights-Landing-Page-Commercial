@@ -6,23 +6,22 @@
  *
  * Features:
  * - Glassmorphism cards with subtle gold border glow & backdrop blur
- * - Animated Plus / Minus icon rotation & smooth Framer Motion accordion height expansion
+ * - Animated Plus / Minus icon rotation & smooth 60fps CSS grid accordion height expansion
  * - Interactive Q icon badge on left, expandable answer reveal with high legibility
  * - High-converting bottom CTA glass card with gold gradient button
  * - Subtle winter ambience (floating sparkle particles, soft golden bokeh glow)
  * - Full ARIA accessibility, keyboard support, responsive breakpoints
+ * - Instant rendering without scroll-triggered blank states
  * - Uses global CSS design tokens for colors, borders, shadows & gradients
  */
 
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useInView } from "motion/react";
+import { useState } from "react";
 import {
   HelpCircle,
   Plus,
   Minus,
   CalendarCheck,
   ArrowRight,
-  Sparkle,
 } from "lucide-react";
 import { handleGetQuoteClick } from "@/lib/scrollUtils";
 
@@ -106,23 +105,9 @@ const PARTICLES = [
   { id: 4, left: "75%", top: "78%", size: "11px", dur: "7.5s", delay: "0.8s" },
 ];
 
-// ─── Motion Variants ─────────────────────────────────────────────────────────
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function FaqSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
-
   // Currently expanded accordion item ID (null if none expanded)
   const [openId, setOpenId] = useState<string | null>("cost");
 
@@ -132,7 +117,6 @@ export default function FaqSection() {
 
   return (
     <section
-      ref={containerRef}
       id="faq"
       className="relative w-full overflow-hidden py-14 sm:py-12 lg:py-12 font-sans"
       aria-label="Commercial Frequently Asked Questions"
@@ -177,13 +161,7 @@ export default function FaqSection() {
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-16">
           
           {/* Eyebrow Badge */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0}
-            className="flex items-center gap-3 mb-3"
-          >
+          <div className="flex items-center gap-3 mb-3">
             <div
               className="h-px w-8 sm:w-12"
               style={{
@@ -204,14 +182,10 @@ export default function FaqSection() {
                   "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
               }}
             />
-          </motion.div>
+          </div>
 
           {/* Heading */}
-          <motion.h2
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.1}
+          <h2
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-[1.15]"
             style={{ color: "var(--text-heading)" }}
           >
@@ -229,37 +203,27 @@ export default function FaqSection() {
             >
               Installation FAQs
             </span>
-          </motion.h2>
+          </h2>
 
           {/* Supporting Text */}
-          <motion.p
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.18}
+          <p
             className="text-xs sm:text-sm md:text-base leading-relaxed max-w-[42ch]"
             style={{ color: "var(--text-muted)" }}
           >
             Everything you need to know about our commercial Christmas light installation
             services in Denver.
-          </motion.p>
+          </p>
         </div>
 
         {/* ── FAQ ACCORDION LIST ─────────────────────────────────────────── */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={fadeUp}
-          custom={0.25}
-          className="flex flex-col gap-3.5 sm:gap-4 w-full"
-        >
-          {FAQ_ITEMS.map((item, index) => {
+        <div className="flex flex-col gap-3.5 sm:gap-4 w-full">
+          {FAQ_ITEMS.map((item) => {
             const isOpen = openId === item.id;
 
             return (
               <div
                 key={item.id}
-                className="group relative rounded-2xl sm:rounded-3xl border transition-all duration-500 overflow-hidden"
+                className="group relative rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden"
                 style={{
                   borderColor: isOpen
                     ? "var(--border-strong)"
@@ -335,9 +299,10 @@ export default function FaqSection() {
                         : "transparent",
                     }}
                   >
-                    <motion.div
-                      animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    <div
+                      className={`transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : "rotate-0"
+                      }`}
                     >
                       {isOpen ? (
                         <Minus
@@ -350,65 +315,42 @@ export default function FaqSection() {
                           style={{ color: "var(--text-muted)" }}
                         />
                       )}
-                    </motion.div>
+                    </div>
                   </div>
                 </button>
 
-                {/* Animated Accordion Answer Content */}
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={`faq-answer-${item.id}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{
-                        height: "auto",
-                        opacity: 1,
-                        transition: {
-                          height: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-                          opacity: { duration: 0.25, delay: 0.1 },
-                        },
-                      }}
-                      exit={{
-                        height: 0,
-                        opacity: 0,
-                        transition: {
-                          height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-                          opacity: { duration: 0.15 },
-                        },
-                      }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-4 sm:px-5 md:px-6 pb-5 sm:pb-6 pt-0">
-                        {/* Divider Line inside open card */}
-                        <div
-                          className="h-px w-full mb-4 opacity-40"
-                          style={{ background: "var(--border-color)" }}
-                        />
-                        <p
-                          className="text-xs sm:text-sm md:text-base leading-relaxed pl-12 sm:pl-14"
-                          style={{ color: "var(--text-body)" }}
-                        >
-                          {item.answer}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Smooth 60fps CSS Grid Accordion Expansion */}
+                <div
+                  id={`faq-answer-${item.id}`}
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-4 sm:px-5 md:px-6 pb-5 sm:pb-6 pt-0">
+                      {/* Divider Line inside open card */}
+                      <div
+                        className="h-px w-full mb-4 opacity-40"
+                        style={{ background: "var(--border-color)" }}
+                      />
+                      <p
+                        className="text-xs sm:text-sm md:text-base leading-relaxed pl-12 sm:pl-14"
+                        style={{ color: "var(--text-body)" }}
+                      >
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* ── BOTTOM HIGH-CONVERTING CTA CARD ──────────────────────────────── */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={fadeUp}
-          custom={0.35}
-          className="mt-12 sm:mt-16 w-full"
-        >
+        <div className="mt-12 sm:mt-16 w-full">
           <div
-            className="group relative rounded-2xl sm:rounded-3xl border p-6 sm:p-8 md:p-10 transition-all duration-500 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left"
+            className="group relative rounded-2xl sm:rounded-3xl border p-6 sm:p-8 md:p-10 transition-all duration-300 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left"
             style={{
               borderColor: "var(--border-color)",
               background:
@@ -470,28 +412,23 @@ export default function FaqSection() {
 
             {/* Right Content Area: Luxury Gold Gradient Button */}
             <div className="z-10 relative w-full md:w-auto shrink-0">
-              <motion.a
+              <a
                 href="#quote"
                 onClick={handleGetQuoteClick}
-                className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase overflow-hidden w-full md:w-auto cursor-pointer shadow-lg transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase overflow-hidden w-full md:w-auto cursor-pointer shadow-lg transition-all duration-200 hover:scale-[1.04] active:scale-[0.97]"
                 style={{
                   background:
                     "linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 50%, var(--gradient-btn-bottom) 100%)",
                   color: "var(--bg-primary)",
                   boxShadow: "var(--shadow-btn)",
                 }}
-                whileHover={{
-                  scale: 1.04,
-                  boxShadow: "var(--shadow-btn-hover)",
-                }}
-                whileTap={{ scale: 0.97 }}
               >
                 <span>GET A FREE QUOTE</span>
                 <ArrowRight size={15} className="sm:w-4 sm:h-4" />
-              </motion.a>
+              </a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

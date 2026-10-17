@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-
+import Image from "next/image";
 import {
   ShieldCheck,
   Award,
@@ -33,21 +31,6 @@ const BOKEH = [
   { left: "74%", top: "90%", size: 4, dur: 3.7, delay: 0.4 },
 ];
 
-const SNOW = [
-  { left: "10%", top: "15%", size: 2, dur: 6, delay: 0 },
-  { left: "30%", top: "5%", size: 2, dur: 8, delay: 1 },
-  { left: "55%", top: "20%", size: 1, dur: 7, delay: 2 },
-  { left: "75%", top: "8%", size: 2, dur: 9, delay: 0.5 },
-  { left: "90%", top: "25%", size: 1, dur: 6, delay: 1.5 },
-  { left: "20%", top: "50%", size: 2, dur: 8, delay: 3 },
-  { left: "68%", top: "55%", size: 1, dur: 7, delay: 2.5 },
-  { left: "42%", top: "70%", size: 2, dur: 9, delay: 1.2 },
-  { left: "85%", top: "72%", size: 1, dur: 6, delay: 0.8 },
-  { left: "6%", top: "82%", size: 2, dur: 7, delay: 3.5 },
-  { left: "60%", top: "90%", size: 1, dur: 8, delay: 2.2 },
-  { left: "38%", top: "35%", size: 2, dur: 7, delay: 4 },
-];
-
 const TRUST_ITEMS = [
   { icon: ShieldCheck, label: "Fully Insured" },
   { icon: Award, label: "5-Star Rated" },
@@ -76,7 +59,7 @@ const CARDS = [
     num: "03",
     icon: Sparkles,
     heading: "Get a Clean Professional Look",
-    body: "Perfectly straight rooflines, balanced spacing, and a professionally designed display that enhances your home's curb appeal.",
+    body: "Perfectly straight rooflines, balanced spacing, and a professionally designed display that enhances your property's curb appeal.",
     badge: "Premium Finish",
     badgeIcon: Sparkles,
   },
@@ -108,7 +91,7 @@ const CARDS = [
     num: "07",
     icon: Palette,
     heading: "Custom Lighting Designs",
-    body: "Every home receives a personalized lighting design tailored to its architecture, landscaping, and your preferred holiday style.",
+    body: "Every property receives a personalized lighting design tailored to its architecture, landscaping, and your preferred holiday style.",
     badge: "Designed For You",
     badgeIcon: Palette,
   },
@@ -126,7 +109,6 @@ const CARDS = [
 function Theme3DDivider({ skewAngle = "-14deg" }: { skewAngle?: string }) {
   return (
     <>
-      {/* Layer 1: Ambient Backlit Soft Glow (Diffused light on surrounding card) */}
       <div
         className="hidden lg:block absolute inset-y-0 pointer-events-none z-[9]"
         aria-hidden="true"
@@ -141,7 +123,6 @@ function Theme3DDivider({ skewAngle = "-14deg" }: { skewAngle?: string }) {
         }}
       />
 
-      {/* Layer 2: Main 3D Metallic Core Stem with Theme Accent Gradient */}
       <div
         className="hidden lg:block absolute inset-y-0 pointer-events-none z-10"
         style={{
@@ -156,7 +137,6 @@ function Theme3DDivider({ skewAngle = "-14deg" }: { skewAngle?: string }) {
           transformOrigin: "bottom left",
         }}
       >
-        {/* Layer 3: 3D Specular Highlight Edge (Reflective Bevel) */}
         <div
           className="absolute inset-y-0 left-0 w-[1.2px] pointer-events-none z-20"
           style={{
@@ -166,7 +146,6 @@ function Theme3DDivider({ skewAngle = "-14deg" }: { skewAngle?: string }) {
           }}
         />
 
-        {/* Layer 4: Dark Cast Shadow on Trailing Edge for Parallax Depth */}
         <div
           className="absolute inset-y-0 left-full w-5 pointer-events-none z-10"
           style={{
@@ -202,51 +181,25 @@ function SectionEyebrow({ text }: { text: string }) {
 // ─── Benefit Card ─────────────────────────────────────────────────────────────
 function BenefitCard({
   card,
-  index,
 }: {
   card: (typeof CARDS)[0];
   index: number;
 }) {
   const Icon = card.icon;
   const BadgeIcon = card.badgeIcon;
-  const col = index % 4;
-  const row = Math.floor(index / 4);
 
   const baseBg = `linear-gradient(165deg, var(--gradient-card-top) 0%, var(--bg-card) 50%, var(--gradient-card-bottom) 100%) padding-box, var(--container-border) border-box`;
-  const hoverBg = `linear-gradient(165deg, var(--bg-elevated) 0%, var(--bg-card) 50%, var(--gradient-card-bottom) 100%) padding-box, linear-gradient(135deg, var(--accent) 0%, var(--gold-light) 30%, var(--border-color) 65%, var(--gold) 100%) border-box`;
   const baseShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card)`;
-  const hoverShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px 0px" }}
-      transition={{
-        duration: 0.55,
-        delay: col * 0.07 + row * 0.12,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
-      className="group relative flex flex-col gap-0 cursor-pointer min-h-[240px] sm:min-h-[260px]"
+    <article
+      className="group relative flex flex-col gap-0 cursor-pointer min-h-[240px] sm:min-h-[260px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
       style={{
         background: baseBg,
         border: "1.5px solid transparent",
         borderRadius: "28px",
         padding: "32px",
         boxShadow: baseShadow,
-        transition:
-          "box-shadow 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s cubic-bezier(0.22,1,0.36,1)",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.background = hoverBg;
-        el.style.boxShadow = hoverShadow;
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.background = baseBg;
-        el.style.boxShadow = baseShadow;
       }}
     >
       {/* Top inner highlight line */}
@@ -301,78 +254,43 @@ function BenefitCard({
         {card.body}
       </p>
 
-      {/* Badge */}
-      <div
-        className="flex items-center gap-1.5 mt-auto w-fit"
-        style={{
-          border: "1px solid var(--border-color)",
-          borderRadius: "6px",
-          padding: "4px 10px",
-          background: "var(--accent-glow-faint)",
-        }}
-      >
-        <BadgeIcon size={11} style={{ color: "var(--accent)" }} />
+      {/* Badge at bottom */}
+      <div className="flex items-center gap-1.5 pt-3 border-t border-white/5">
+        <BadgeIcon size={13} style={{ color: "var(--accent)" }} />
         <span
-          className="text-[10px] font-semibold tracking-[0.14em] uppercase"
-          style={{ color: "var(--text-muted)" }}
+          className="text-xs font-semibold tracking-wide"
+          style={{ color: "var(--accent)" }}
         >
           {card.badge}
         </span>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
-// ─── Main Export ──────────────────────────────────────────────────────────────
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function WhyChooseUs() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
-
-  const containerBg = `linear-gradient(170deg, var(--container-bg-top) 0%, var(--container-bg-bottom) 100%) padding-box, var(--container-border) border-box`;
-  const containerShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
+  const containerBg = `linear-gradient(160deg, var(--container-bg-top) 0%, var(--container-bg-bottom) 100%) padding-box, var(--container-border) border-box`;
+  const containerShadow = `0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 var(--highlight-surface)`;
 
   return (
     <section
-      ref={sectionRef}
       id="why-choose-us"
       className="relative w-full overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
-      {/* Atmospheric glows */}
+      {/* Background glow effects */}
       <div
         className="absolute pointer-events-none z-0"
         aria-hidden="true"
         style={{
-          top: "-10%",
-          left: "30%",
-          width: "45%",
-          height: "50%",
+          top: "10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "80%",
+          height: "450px",
           background:
             "radial-gradient(ellipse at center, var(--accent-glow-soft) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute pointer-events-none z-0"
-        aria-hidden="true"
-        style={{
-          top: "38%",
-          left: "-5%",
-          width: "35%",
-          height: "40%",
-          background:
-            "radial-gradient(ellipse at center, var(--accent-glow-faint) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute pointer-events-none z-0"
-        aria-hidden="true"
-        style={{
-          bottom: "5%",
-          right: "-5%",
-          width: "45%",
-          height: "40%",
-          background:
-            "radial-gradient(ellipse at center, var(--accent-glow-faint) 0%, transparent 70%)",
         }}
       />
 
@@ -382,51 +300,21 @@ export default function WhyChooseUs() {
         aria-hidden="true"
       >
         {BOKEH.map((b, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute rounded-full"
-            style={{
-              left: b.left,
-              top: b.top,
-              width: b.size,
-              height: b.size,
-              backgroundColor: "var(--accent)",
-              filter: "blur(2.5px)",
-            }}
-            animate={{ opacity: [0.06, 0.38, 0.06], scale: [1, 1.6, 1] }}
-            transition={{
-              duration: b.dur,
-              repeat: Infinity,
-              delay: b.delay,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Snow */}
-      <div
-        className="absolute inset-0 pointer-events-none overflow-hidden z-0 hidden sm:block"
-        aria-hidden="true"
-      >
-        {SNOW.map((s, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              left: s.left,
-              top: s.top,
-              width: s.size,
-              height: s.size,
-              backgroundColor: "rgba(255,255,255,0.55)",
-            }}
-            animate={{ opacity: [0, 0.55, 0], y: [0, 18, 36] }}
-            transition={{
-              duration: s.dur,
-              repeat: Infinity,
-              delay: s.delay,
-              ease: "easeInOut",
-            }}
+            className="absolute rounded-full hero-bokeh-particle"
+            style={
+              {
+                left: b.left,
+                top: b.top,
+                width: b.size,
+                height: b.size,
+                backgroundColor: "var(--accent)",
+                filter: "blur(2.5px)",
+                "--bokeh-dur": `${b.dur}s`,
+                "--bokeh-delay": `${b.delay}s`,
+              } as React.CSSProperties
+            }
           />
         ))}
       </div>
@@ -464,13 +352,13 @@ export default function WhyChooseUs() {
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 lg:left-[52%] lg:w-[48%]">
               <div className="relative w-full h-full lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0%_100%)]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/WhyChooseUs/HeaderBackground.webp"
                   alt="Professionally decorated Christmas home at night"
-                  className="absolute inset-0 w-full h-full object-cover object-[80%_center] lg:object-center brightness-[1.22] contrast-[1.1] sm:brightness-110 sm:contrast-105 scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-[80%_center] lg:object-center brightness-[1.22] contrast-[1.1] sm:brightness-110 sm:contrast-105"
                   loading="lazy"
-                  decoding="async"
                 />
 
                 <div
@@ -511,72 +399,79 @@ export default function WhyChooseUs() {
 
           {/* Left column content */}
           <div className="relative z-10 w-full lg:max-w-[48%] p-7 sm:p-10 lg:p-14 xl:p-16 flex flex-col justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.05 }}
-              className="mb-5 sm:mb-6"
-            >
+            <div className="mb-5 sm:mb-6">
               <SectionEyebrow text="WHY CHOOSE US" />
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.7,
-                delay: 0.15,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="font-bold leading-[1.01] tracking-tight mb-5 sm:mb-6"
+            </div>
+
+            <h2
+              className="font-bold leading-[0.98] mb-4 sm:mb-5 tracking-tight font-sans"
               style={{
                 color: "var(--text-heading)",
-                fontSize: "clamp(36px, 4.8vw, 50px)",
+                fontSize: "clamp(32px, 3.8vw, 54px)",
               }}
             >
-              Why Denver{" "}
-              <span className="text-accent-gradient"> Property Teams</span>
-              <br />
-              Choose Denver Christmas Lights
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.28 }}
-              className="text-base sm:text-lg leading-relaxed mb-7 sm:mb-8"
-              style={{ color: "var(--text-muted)", maxWidth: "520px" }}
+              Professional Commercial <br />
+              <span className="text-accent-gradient">
+                Christmas Light Installation
+              </span>
+            </h2>
+
+            <p
+              className="text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 font-normal"
+              style={{ color: "var(--text-body)", maxWidth: "520px" }}
             >
               Every proposal is based on the actual layout, priorities and
-              requirements of the commercial property. Your team has a clear
-              contact for project coordination, installation questions and
-              covered seasonal support.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.38 }}
-              className="flex flex-wrap gap-3.5 sm:gap-0 sm:flex-nowrap items-center"
-            >
-              <div
-                className="flex items-center gap-2.5 py-2.5 px-3.5 rounded-xl backdrop-blur-md"
+              requirements of the commercial property so you get a polished
+              holiday presence without the stress.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <a
+                href="#quote"
+                id="why-hero-quote"
+                onClick={handleGetQuoteClick}
+                className="relative flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide overflow-hidden cursor-pointer select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
                 style={{
-                  border: "1px solid var(--accent)",
-                  background: `linear-gradient(135deg, var(--accent-glow-soft) 0%, var(--accent-glow-faint) 100%)`,
-                  boxShadow: "inset 0 1px 0 var(--highlight-surface)",
+                  background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
+                  boxShadow: `var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#fff",
                 }}
               >
-                <Shield size={18} style={{ color: "var(--accent)" }} />
                 <span
-                  className="text-xs font-semibold uppercase tracking-[0.14em]"
-                  style={{ color: "var(--text-heading)" }}
-                >
-                  PROFESSIONAL. INSURED. RELIABLE.
+                  className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, var(--btn-inner-highlight) 0%, transparent 100%)",
+                  }}
+                />
+                <span className="relative text-amber-950 font-semibold">
+                  Get Free Quote
                 </span>
-              </div>
-              <div
-                className="hidden sm:block w-px h-8 mx-4"
-                style={{ background: "var(--border-color)" }}
-              />
-              {TRUST_ITEMS.slice(1).map((t) => {
+                <ArrowRight size={15} className="relative text-amber-950" />
+              </a>
+
+              <a
+                href="tel:7202967711"
+                id="why-hero-call"
+                className="flex items-center gap-2 px-5 py-3.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide border cursor-pointer select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
+                style={{
+                  borderColor: "var(--accent)",
+                  backgroundColor: "var(--accent-glow-faint)",
+                  backdropFilter: "blur(4px)",
+                  WebkitBackdropFilter: "blur(4px)",
+                  color: "var(--accent)",
+                }}
+              >
+                <Phone size={15} />
+                <span>Call (720) 296-7711</span>
+              </a>
+            </div>
+
+            {/* Trust items row */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-4 border-t border-white/10">
+              {TRUST_ITEMS.map((t) => {
                 const TIcon = t.icon;
                 return (
                   <div
@@ -593,22 +488,16 @@ export default function WhyChooseUs() {
                   </div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* ── BENEFITS GRID ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "150px 0px" }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-6"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-6">
           {CARDS.map((card, i) => (
             <BenefitCard key={card.num} card={card} index={i} />
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* ── BOTTOM CTA CARD ── */}
@@ -635,13 +524,13 @@ export default function WhyChooseUs() {
             <div className="absolute inset-0 z-0">
               <div className="absolute inset-0 lg:left-[45%] lg:w-[55%]">
                 <div className="relative w-full h-full lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0%_100%)]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/WhyChooseUs/BottomSectionBackground.webp"
-                    alt="Beautifully decorated Christmas home"
-                    className="absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-right-center brightness-[1.06] scale-[1] transition-transform duration-700"
+                    alt="Beautifully decorated Christmas property"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    className="object-cover object-[75%_center] lg:object-right-center brightness-[1.06]"
                     loading="lazy"
-                    decoding="async"
                   />
 
                   <div
@@ -667,7 +556,6 @@ export default function WhyChooseUs() {
                   />
                 </div>
 
-                {/* 3D Theme-Aware Divider */}
                 <Theme3DDivider />
               </div>
 
@@ -682,13 +570,7 @@ export default function WhyChooseUs() {
 
             {/* CTA content */}
             <div className="relative z-10 p-8 sm:p-12 lg:p-16 py-14 sm:py-16">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "150px 0px" }}
-                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                className="relative max-w-[620px]"
-              >
+              <div className="relative max-w-[620px]">
                 <SectionEyebrow text="Ready to Get Started?" />
                 <h2
                   className="font-bold leading-[0.98] mt-5 mb-4"
@@ -715,16 +597,11 @@ export default function WhyChooseUs() {
 
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                   {/* Primary CTA */}
-                  <motion.a
+                  <a
                     href="#quote"
                     id="why-cta-quote"
                     onClick={handleGetQuoteClick}
-                    whileHover={{
-                      scale: 1.03,
-                      boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)`,
-                    }}
-                    whileTap={{ scale: 0.97 }}
-                    className="relative flex items-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm tracking-wide overflow-hidden"
+                    className="relative flex items-center gap-2.5 px-7 py-4 rounded-xl font-bold text-sm tracking-wide overflow-hidden cursor-pointer select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
                     style={{
                       background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
                       boxShadow: `var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
@@ -743,16 +620,16 @@ export default function WhyChooseUs() {
                       GET MY FREE QUOTE
                     </span>
                     <ArrowRight size={16} className="relative text-amber-950" />
-                  </motion.a>
+                  </a>
 
                   {/* Phone */}
                   <a
                     href="tel:7202967711"
-                    className="flex items-center gap-3 group"
+                    className="flex items-center gap-3 group cursor-pointer"
                     id="why-cta-call"
                   >
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-md"
+                      className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-md transition-transform duration-200 group-hover:scale-105"
                       style={{
                         border: "1px solid var(--accent)",
                         background: `linear-gradient(135deg, var(--accent-glow-soft) 0%, var(--accent-glow-faint) 100%)`,
@@ -777,7 +654,7 @@ export default function WhyChooseUs() {
                     </div>
                   </a>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "motion/react";
 import {
   ClipboardList,
   Settings2,
@@ -22,19 +20,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
 
-// ─── Reduced-motion hook (native, version-agnostic) ───────────────────────────
-function usePrefersReducedMotion(): boolean {
-  const [prefersReduced, setPrefersReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return prefersReduced;
-}
-
 // ─── Shared card surface styles ───────────────────────────────────────────────
 const cardBase: React.CSSProperties = {
   background:
@@ -51,47 +36,21 @@ function BentoCard({
   children,
   className = "",
   id,
-  index,
-  prefersReducedMotion,
   style,
   "aria-labelledby": ariaLabelledby,
 }: {
   children: React.ReactNode;
   className?: string;
   id?: string;
-  index: number;
-  prefersReducedMotion: boolean;
+  index?: number;
+  prefersReducedMotion?: boolean;
   style?: React.CSSProperties;
   "aria-labelledby"?: string;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "100px 0px" });
-
   return (
-    <motion.article
-      ref={ref}
+    <article
       id={id}
-      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-      animate={
-        isInView
-          ? { opacity: 1, y: 0 }
-          : { opacity: 0, y: prefersReducedMotion ? 0 : 20 }
-      }
-      transition={{
-        duration: 0.48,
-        delay: prefersReducedMotion ? 0 : index * 0.055,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={
-        prefersReducedMotion
-          ? {}
-          : {
-              y: -3,
-              boxShadow:
-                "0 18px 56px rgba(0,0,0,0.85), 0 4px 18px rgba(0,0,0,0.5), inset 0 1px 0 var(--highlight-card)",
-            }
-      }
-      className={`relative overflow-hidden group ${className}`}
+      className={`relative overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${className}`}
       style={{ ...cardBase, ...style }}
       aria-labelledby={ariaLabelledby}
     >
@@ -111,7 +70,7 @@ function BentoCard({
         aria-hidden="true"
       />
       {children}
-    </motion.article>
+    </article>
   );
 }
 
@@ -244,8 +203,6 @@ function PageBackground() {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function PrivacyPolicyPage() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <PageBackground />
@@ -266,8 +223,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 1. Header / Title Card (col-span-2) ── */}
           <BentoCard
-            index={0}
-            prefersReducedMotion={prefersReducedMotion}
             className="md:col-span-2 lg:col-span-2"
             style={{
               ...cardBase,
@@ -347,8 +302,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 2. Information We Collect (col-span-1, taller) ── */}
           <BentoCard
-            index={1}
-            prefersReducedMotion={prefersReducedMotion}
             className="md:col-span-1"
             id="information-we-collect"
             aria-labelledby="collect-heading"
@@ -386,8 +339,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 3. How We Use Info ── */}
           <BentoCard
-            index={2}
-            prefersReducedMotion={prefersReducedMotion}
             id="how-we-use-information"
             aria-labelledby="use-heading"
           >
@@ -411,8 +362,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 4. Google Ads & Analytics ── */}
           <BentoCard
-            index={3}
-            prefersReducedMotion={prefersReducedMotion}
             id="google-ads-analytics"
             aria-labelledby="google-heading"
           >
@@ -442,8 +391,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 5. Cookies ── */}
           <BentoCard
-            index={4}
-            prefersReducedMotion={prefersReducedMotion}
             id="cookies"
             aria-labelledby="cookies-heading"
           >
@@ -466,8 +413,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 6. Information Sharing (col-span-2) ── */}
           <BentoCard
-            index={5}
-            prefersReducedMotion={prefersReducedMotion}
             className="md:col-span-2 lg:col-span-2"
             id="information-sharing"
             aria-labelledby="sharing-heading"
@@ -502,8 +447,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 7. Data Security ── */}
           <BentoCard
-            index={6}
-            prefersReducedMotion={prefersReducedMotion}
             id="data-security"
             aria-labelledby="security-heading"
           >
@@ -526,8 +469,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 8. Third-Party Links ── */}
           <BentoCard
-            index={7}
-            prefersReducedMotion={prefersReducedMotion}
             id="third-party-links"
             aria-labelledby="thirdparty-heading"
           >
@@ -545,8 +486,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 9. Your Rights ── */}
           <BentoCard
-            index={8}
-            prefersReducedMotion={prefersReducedMotion}
             id="your-rights"
             aria-labelledby="rights-heading"
           >
@@ -571,8 +510,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 10. Consent ── */}
           <BentoCard
-            index={9}
-            prefersReducedMotion={prefersReducedMotion}
             id="consent"
             aria-labelledby="consent-heading"
           >
@@ -591,8 +528,6 @@ export default function PrivacyPolicyPage() {
 
           {/* ── 11. Contact Card (full width) ── */}
           <BentoCard
-            index={10}
-            prefersReducedMotion={prefersReducedMotion}
             className="md:col-span-2 lg:col-span-3"
             id="contact-us"
             aria-labelledby="contact-heading"

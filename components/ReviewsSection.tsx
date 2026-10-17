@@ -11,8 +11,8 @@
  * - Mobile (< 640px): 1 card
  */
 
-import { useRef, useState } from "react";
-import { motion, useInView } from "motion/react";
+import { useState } from "react";
+import Image from "next/image";
 
 import { Star, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -239,29 +239,12 @@ const REVIEWS: ReviewItem[] = [
   },
 ];
 
-// ─── Animation Variants ───────────────────────────────────────────────────────
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
-
-// ─── Main Component ───────────────────────────────────────────────────────────
-
 export default function ReviewsSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
-
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <section
-      ref={containerRef}
       id="reviews"
       className="relative w-full overflow-hidden py-8 sm:py-10 lg:py-8 font-sans"
       aria-label="Customer Reviews"
@@ -269,14 +252,14 @@ export default function ReviewsSection() {
     >
       {/* ── Background Image Layer ───────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/ReviewTestimonial/ReviewsBackground.webp"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center lg:object-right opacity-85 sm:opacity-90 saturate-110 contrast-105 brightness-95"
+          fill
+          sizes="100vw"
+          className="object-cover object-center lg:object-right opacity-85 sm:opacity-90 saturate-110 contrast-105 brightness-95"
           loading="lazy"
-          decoding="async"
         />
 
 
@@ -353,13 +336,7 @@ export default function ReviewsSection() {
         {/* ── SECTION HEADER ────────────────────────────────────────────── */}
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-16">
           {/* Eyebrow Badge */}
-          <motion.div
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0}
-            className="flex flex-col items-center gap-1.5"
-          >
+          <div className="flex flex-col items-center gap-1.5">
             <div className="flex items-center gap-3">
               <div
                 className="h-px w-8 sm:w-12"
@@ -390,14 +367,10 @@ export default function ReviewsSection() {
             >
               ✻
             </div>
-          </motion.div>
+          </div>
 
           {/* Heading */}
-          <motion.h2
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.1}
+          <h2
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl font-bold tracking-tight mt-3 mb-4 leading-[1.15]"
             style={{
               fontFamily: "var(--font-playfair, Georgia, serif)",
@@ -417,30 +390,20 @@ export default function ReviewsSection() {
             >
               Property Teams
             </span>
-          </motion.h2>
+          </h2>
 
           {/* Supporting Text */}
-          <motion.p
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.18}
+          <p
             className="text-xs sm:text-sm md:text-base leading-relaxed max-w-[48ch]"
             style={{ color: "var(--text-muted)" }}
           >
             Real feedback from property managers, asset leaders, and business
             owners across Metro Denver who trust us for hassle-free holiday lighting.
-          </motion.p>
+          </p>
         </div>
 
         {/* ── TESTIMONIALS SWIPER CAROUSEL ────────────────────────────────── */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={fadeUp}
-          custom={0.25}
-          className="w-full relative px-0"
-        >
+        <div className="w-full relative px-0">
           {/* Custom Navigation Arrows (Desktop Only) */}
           <button
             onClick={() => swiperRef?.slidePrev()}
@@ -588,18 +551,13 @@ export default function ReviewsSection() {
                         }}
                       >
                         <User size={18} className="text-amber-300/60 shrink-0" />
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={review.avatar}
                           alt={review.name}
                           width={40}
                           height={40}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            e.currentTarget.style.opacity = "0";
-                          }}
                         />
                       </div>
 
@@ -674,7 +632,7 @@ export default function ReviewsSection() {
               }}
             />
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── BOTTOM DECORATIVE GOLDEN CURVE ─────────────────────────────────── */}

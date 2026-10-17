@@ -43,15 +43,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
-        {/* Preload Critical LCP Hero Background Image */}
-        <link
-          rel="preload"
-          as="image"
-          href="/HeroBackground.webp"
-          type="image/webp"
-          fetchPriority="high"
-        />
-
         {/* DNS prefetch & preconnect for third-party analytics */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

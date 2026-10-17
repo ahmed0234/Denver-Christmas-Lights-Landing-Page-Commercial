@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 
+import Image from "next/image";
 import { Check, Clock, Phone, Home } from "lucide-react";
 import { ThemeLogoIcon } from "@/components/ThemeLogo";
 
@@ -74,16 +75,15 @@ const FloatingParticles = () => {
 const Background = () => {
   return (
     <div className="fixed inset-0 -z-10">
-      {/* Base image – replace with your preferred image from /public */}
+      {/* Base image */}
       <div className="absolute inset-0 bg-[#0D0D0D]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/HeroBackground.webp"
           alt="Commercial Christmas Lights Background"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
+          fill
+          sizes="100vw"
+          className="object-cover opacity-40"
+          priority
         />
       </div>
 
@@ -342,13 +342,12 @@ const CTAButtons = () => {
             "0 6px 24px rgba(0, 0, 0, 0.6), inset 0 1px 1.5px rgba(255, 248, 213, 0.3), 0 0 20px rgba(245, 208, 97, 0.12)",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/BeforeAfter/BackGroundSubtle.webp"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none rounded-full"
-          loading="lazy"
-          decoding="async"
+          fill
+          sizes="240px"
+          className="object-cover opacity-20 pointer-events-none rounded-full"
         />
 
 
@@ -427,13 +426,12 @@ const GlassCard = () => {
         delay: 0.08,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/BeforeAfter/BackGroundSubtle.webp"
         alt=""
-        className="absolute inset-0 w-full h-full object-cover rounded-[28px] opacity-15 pointer-events-none"
-        loading="lazy"
-        decoding="async"
+        fill
+        sizes="(max-width: 640px) 100vw, 580px"
+        className="object-cover rounded-[28px] opacity-15 pointer-events-none"
       />
 
 

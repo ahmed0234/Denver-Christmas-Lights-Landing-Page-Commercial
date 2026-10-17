@@ -1,17 +1,6 @@
 "use client";
 
-/**
- * AreasServices.tsx
- * "Areas We Serve" — Residential Christmas Light Installation section.
- *
- * Responsive, full-width section with integrated background map & single grid sequence.
- *
- * Stack: Next.js (App Router) · Tailwind CSS · Motion for React · Lucide React
- */
-
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-
+import Image from "next/image";
 import {
   MapPin,
   Sparkle,
@@ -61,26 +50,6 @@ const TRUST_ITEMS = [
   },
 ];
 
-// ─── Animation Variants ───────────────────────────────────────────────────────
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function Eyebrow() {
@@ -116,33 +85,26 @@ function Eyebrow() {
 }
 
 /** Location Card with subtle background map slice */
-function LocationCard({ name, index }: { name: string; index: number }) {
+function LocationCard({ name }: { name: string; index: number }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      custom={0.04 * index}
-      className="group relative overflow-hidden rounded-xl sm:rounded-2xl border cursor-default select-none transition-all duration-300"
+    <div
+      className="group relative overflow-hidden rounded-xl sm:rounded-2xl border cursor-default select-none transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
       style={{
         borderColor: "var(--border-color)",
         boxShadow: "var(--shadow-card)",
         background: "var(--bg-card)",
       }}
-      whileHover={{
-        y: -4,
-        scale: 1.02,
-        transition: { duration: 0.25, ease: "easeOut" },
-      }}
     >
       {/* Subtle, muted decorative map background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/AreaSection/MapImage.webp"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-25 sm:opacity-30 group-hover:opacity-45 brightness-50 saturate-90 transition-all duration-500 group-hover:scale-105"
+          fill
+          sizes="250px"
+          className="object-cover object-center opacity-25 sm:opacity-30 group-hover:opacity-45 brightness-50 saturate-90 transition-all duration-500 group-hover:scale-105"
           loading="lazy"
-          decoding="async"
         />
 
         {/* Dark vignette tint to make location text pop */}
@@ -184,16 +146,15 @@ function LocationCard({ name, index }: { name: string; index: number }) {
           {name}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 /** CTA Card: Clean, minimal, conversion-focused */
 function CTACard() {
   return (
-    <motion.div
-      variants={scaleIn}
-      className="group relative overflow-hidden rounded-xl sm:rounded-2xl border flex flex-col items-center justify-between p-5 sm:p-7 md:p-8 text-center h-full min-h-[16rem] sm:min-h-[18rem] lg:min-h-0 lg:col-start-6 lg:row-start-1 lg:row-span-2 col-span-2 sm:col-span-3 lg:col-span-1"
+    <div
+      className="group relative overflow-hidden rounded-xl sm:rounded-2xl border flex flex-col items-center justify-between p-5 sm:p-7 md:p-8 text-center h-full min-h-[16rem] sm:min-h-[18rem] lg:min-h-0 lg:col-start-6 lg:row-start-1 lg:row-span-2 col-span-2 sm:col-span-3 lg:col-span-1 transition-all duration-300 hover:-translate-y-1"
       style={{
         borderColor: "var(--border-color)",
         background:
@@ -270,28 +231,22 @@ function CTACard() {
 
       {/* Bottom Section — CTA Button */}
       <div className="relative z-10 pb-1 sm:pb-2 w-full flex justify-center">
-        <motion.a
+        <a
           href="tel:7202967711"
-          className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-wide overflow-hidden w-full max-w-[12rem] sm:max-w-[13rem]"
+          className="inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-wide overflow-hidden w-full max-w-[12rem] sm:max-w-[13rem] transition-all duration-200 hover:scale-[1.04] active:scale-[0.97]"
           style={{
             background:
               "linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 50%, var(--gradient-btn-bottom) 100%)",
             color: "var(--bg-primary)",
             boxShadow: "var(--shadow-btn)",
           }}
-          whileHover={{
-            scale: 1.04,
-            boxShadow: "var(--shadow-btn-hover)",
-            transition: { duration: 0.2 },
-          }}
-          whileTap={{ scale: 0.97 }}
         >
           <Phone size={14} className="sm:w-4 sm:h-4" />
           <span>Call Us</span>
           <ArrowRight size={13} className="sm:w-3.5 sm:h-3.5" />
-        </motion.a>
+        </a>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -345,14 +300,6 @@ function TrustItem({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function AreasServices() {
-  const topRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const trustRef = useRef<HTMLDivElement>(null);
-
-  const topInView = useInView(topRef, { once: true, margin: "150px 0px" });
-  const cardsInView = useInView(cardsRef, { once: true, margin: "150px 0px" });
-  const trustInView = useInView(trustRef, { once: true, margin: "100px 0px" });
-
   return (
     <section
       id="areas-we-serve"
@@ -365,16 +312,15 @@ export default function AreasServices() {
         className="pointer-events-none absolute right-0 top-0 h-[36rem] sm:h-[44rem] lg:h-[42rem] xl:h-[44rem] w-full lg:w-[58%] xl:w-[52%] overflow-hidden z-0"
         aria-hidden="true"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/AreaSection/MapImage.webp"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center lg:object-right opacity-80 sm:opacity-85 lg:opacity-90 saturate-110 contrast-105"
+          fill
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className="object-cover object-center lg:object-right opacity-80 sm:opacity-85 lg:opacity-90 saturate-110 contrast-105"
           loading="lazy"
-          decoding="async"
         />
-
 
         {/* Desktop Left-to-Right Edge Blend Gradient (melts smoothly from left text background) */}
         <div
@@ -427,26 +373,14 @@ export default function AreasServices() {
       {/* Section Container */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-12 sm:py-16 lg:py-24">
         {/* ── TOP SECTION — Left text column (Over clean background) ────────────── */}
-        <div
-          ref={topRef}
-          className="relative z-10 max-w-2xl lg:max-w-2xl xl:max-w-3xl flex flex-col items-center text-center lg:items-start lg:text-left gap-4 sm:gap-6 pb-10 sm:pb-14 lg:pb-16 mx-auto lg:mx-0"
-        >
-          <motion.div
-            initial="hidden"
-            animate={topInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0}
-          >
+        <div className="relative z-10 max-w-2xl lg:max-w-2xl xl:max-w-3xl flex flex-col items-center text-center lg:items-start lg:text-left gap-4 sm:gap-6 pb-10 sm:pb-14 lg:pb-16 mx-auto lg:mx-0">
+          <div>
             <Eyebrow />
-          </motion.div>
+          </div>
 
-          <motion.h2
+          <h2
             className="text-4xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold leading-[1.18] sm:leading-[1.15] tracking-tight pb-1"
             style={{ color: "var(--text-heading)" }}
-            initial="hidden"
-            animate={topInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.1}
           >
             Commercial Christmas
             <br />
@@ -464,15 +398,9 @@ export default function AreasServices() {
             >
               Across Metro Denver
             </span>
-          </motion.h2>
+          </h2>
 
-          <motion.div
-            className="flex items-center gap-2"
-            initial="hidden"
-            animate={topInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.18}
-          >
+          <div className="flex items-center gap-2">
             <div
               className="h-px w-10 sm:w-12"
               style={{
@@ -491,43 +419,32 @@ export default function AreasServices() {
                   "linear-gradient(90deg, var(--accent), transparent)",
               }}
             />
-          </motion.div>
+          </div>
 
-          <motion.p
+          <p
             className="text-sm sm:text-base lg:text-lg leading-relaxed max-w-[36ch] sm:max-w-[42ch]"
             style={{ color: "var(--text-muted)" }}
-            initial="hidden"
-            animate={topInView ? "visible" : "hidden"}
-            variants={fadeUp}
-            custom={0.24}
           >
             Denver Christmas Lights serves eligible commercial properties
             throughout Denver and surrounding areas
-          </motion.p>
+          </p>
         </div>
 
         {/* ── BOTTOM SECTION — Location Cards Grid (Single Grid Rendered Once) ─ */}
-        <motion.div
-          ref={cardsRef}
-          className="w-full"
-          initial="hidden"
-          animate={cardsInView ? "visible" : "hidden"}
-          variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
-        >
+        <div className="w-full">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
             {/* Render all 10 location cards */}
             {LOCATIONS.map((name, i) => (
               <LocationCard key={name} name={name} index={i} />
             ))}
 
-            {/* CTACard — rendered as the 11th item; on Desktop (lg:) CSS Grid positions it in col 6 spanning 2 rows */}
+            {/* CTACard */}
             <CTACard />
           </div>
-        </motion.div>
+        </div>
 
         {/* ── TRUST BAR ────────────────────────────────────────────────────── */}
-        <motion.div
-          ref={trustRef}
+        <div
           className="mt-6 sm:mt-8 w-full overflow-hidden rounded-xl sm:rounded-2xl border"
           style={{
             borderColor: "var(--border-color)",
@@ -536,20 +453,6 @@ export default function AreasServices() {
             boxShadow:
               "var(--shadow-card), inset 0 1px 0 var(--highlight-surface)",
           }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={
-            trustInView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.6,
-                    ease: [0.22, 1, 0.36, 1],
-                    delay: 0.12,
-                  },
-                }
-              : { opacity: 0, y: 20 }
-          }
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-color)]">
             {TRUST_ITEMS.map((item) => (
@@ -561,7 +464,7 @@ export default function AreasServices() {
               />
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   TreePine,
   Phone,
@@ -138,16 +139,14 @@ export default function HeroSection() {
     >
       {/* ── Background Image (High-Priority Direct LCP) ── */}
       <div className="absolute inset-0 z-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/HeroBackground.webp"
           alt="Beautiful Christmas-lit commercial property at night in Denver"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          fetchPriority="high"
-          loading="eager"
-          decoding="async"
-          width={1920}
-          height={1080}
+          fill
+          priority
+          sizes="100vw"
+          quality={85}
+          className="object-cover object-center"
         />
         {/* Directional overlay */}
         <div
@@ -213,41 +212,35 @@ export default function HeroSection() {
               </span>
             </div>
 
-            {/* Main Heading */}
+            {/* Single Semantic Primary Heading */}
             <h1
-              className="hero-animate-heading-1 text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight mb-1 font-sans"
+              className="hero-heading text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1.04] tracking-tight mb-2 font-sans"
               style={{ color: "var(--text-heading)" }}
             >
-              Make Your Property
-            </h1>
-
-            {/* "The Destination" */}
-            <div className="hero-animate-heading-2 relative inline-block mb-1">
-              <span className="text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight italic font-playfair text-accent-gradient">
-                The Destination
-              </span>
-              <svg
-                viewBox="0 0 320 18"
-                fill="none"
-                className="absolute -bottom-2 left-0 w-full"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M4 10 C40 2, 80 18, 120 10 C160 2, 200 18, 240 10 C280 2, 316 15, 316 10"
-                  stroke="var(--accent)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
+              <span>Make Your Property </span>
+              <span className="relative inline-block my-1">
+                <span className="italic font-playfair text-accent-gradient">
+                  The Destination
+                </span>
+                <svg
+                  viewBox="0 0 320 18"
                   fill="none"
-                  className="hero-animate-squiggle"
-                />
-              </svg>
-            </div>
-
-            <h1
-              className="hero-animate-heading-3 text-5xl md:text-6xl xl:text-7xl 2xl:text-7xl font-bold leading-[1] tracking-tight font-sans"
-              style={{ color: "var(--text-heading)" }}
-            >
-              This Holiday Season
+                  className="absolute -bottom-2 left-0 w-full pointer-events-none"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 10 C40 2, 80 18, 120 10 C160 2, 200 18, 240 10 C280 2, 316 15, 316 10"
+                    stroke="var(--accent)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    fill="none"
+                    className="hero-animate-squiggle"
+                  />
+                </svg>
+              </span>
+              <br />
+              <span>This Holiday Season</span>
             </h1>
 
             {/* Divider */}

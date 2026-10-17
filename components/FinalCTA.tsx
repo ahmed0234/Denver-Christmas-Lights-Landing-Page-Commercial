@@ -13,14 +13,12 @@
  * - Lucide Snowflake icon scattered as floating ambient particles
  * - Premium animated primary gold gradient button + dark glass secondary call button
  * - Three trust badges with elegant separators
- * - Smooth Framer Motion scroll-triggered entrance animations
  * - Fully accessible: semantic HTML, ARIA labels, keyboard-navigable
+ * - Instant rendering without scroll-triggered blank states
  * - Fully responsive: stacks vertically on mobile (heading → paragraph → CTA → trust)
  */
 
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-
+import Image from "next/image";
 import {
   TreePine,
   Home,
@@ -100,25 +98,6 @@ const AMBIENT_FLAKES = [
     delay: "0.5s",
   },
 ];
-
-// ─── Animation Variants ───────────────────────────────────────────────────────
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (delay: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: (delay: number = 0) => ({
-    opacity: 1,
-    transition: { duration: 0.9, ease: "easeOut", delay },
-  }),
-};
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -207,12 +186,8 @@ function TrustItem({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function FinalCTA() {
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "150px 0px" });
-
   return (
     <section
-      ref={containerRef}
       id="final-cta"
       className="relative w-full overflow-hidden py-10 sm:py-8 lg:py-6 font-sans"
       aria-label="Get a free commercial Christmas light installation quote"
@@ -264,11 +239,7 @@ export default function FinalCTA() {
       {/* ── Main Content Wrapper ────────────────────────────────────────────── */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
         {/* ── LUXURY FLOATING CONTAINER ─────────────────────────────────────── */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={fadeUp}
-          custom={0}
+        <div
           className="relative w-full rounded-[24px] sm:rounded-[32px] overflow-hidden border"
           style={{
             borderColor: "var(--border-color)",
@@ -300,13 +271,7 @@ export default function FinalCTA() {
             {/* ── LEFT COLUMN: All Content ──────────────────────────────────── */}
             <div className="relative z-10 flex flex-col justify-center gap-5 sm:gap-6 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-14 py-10 sm:py-12 lg:py-14 w-full lg:w-[54%] xl:w-[52%]">
               {/* Eyebrow Divider Row */}
-              <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.1}
-                className="flex items-center gap-3"
-              >
+              <div className="flex items-center gap-3">
                 <GoldDivider />
                 <span
                   className="text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase whitespace-nowrap"
@@ -319,14 +284,10 @@ export default function FinalCTA() {
                       "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
                   }}
                 />
-              </motion.div>
+              </div>
 
               {/* Main Heading */}
-              <motion.h2
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.15}
+              <h2
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]"
                 style={{ fontFamily: "var(--font-sans, Georgia, serif)" }}
               >
@@ -349,28 +310,18 @@ export default function FinalCTA() {
                 <span style={{ color: "var(--text-heading)" }}>
                   For Denver Businesses
                 </span>
-              </motion.h2>
+              </h2>
 
               {/* Supporting Description */}
-              <motion.p
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.22}
+              <p
                 className="text-sm sm:text-base leading-relaxed max-w-[44ch]"
                 style={{ color: "var(--text-body)" }}
               >
                 Transform your commercial property with turnkey holiday displays that attract customers, boost foot traffic, and elevate your brand image hassle-free.
-              </motion.p>
+              </p>
 
               {/* Thin Separator + Home Icon Quote Row */}
-              <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.28}
-                className="flex flex-col gap-3.5"
-              >
+              <div className="flex flex-col gap-3.5">
                 {/* Thin gold divider */}
                 <div
                   className="h-px w-20"
@@ -407,35 +358,22 @@ export default function FinalCTA() {
                     Tell us about your property and receive a custom commercial Christmas light installation estimate.
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* CTA Buttons */}
-              <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.34}
-                className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full"
-              >
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
                 {/* Primary: Gold Gradient Button */}
-                <motion.a
+                <a
                   href="#quote"
                   onClick={handleGetQuoteClick}
                   aria-label="Get a free commercial Christmas light installation quote"
-                  className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase overflow-hidden w-full sm:w-auto cursor-pointer"
+                  className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase overflow-hidden w-full sm:w-auto cursor-pointer transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
                   style={{
                     background:
                       "linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 50%, var(--gradient-btn-bottom) 100%)",
                     color: "var(--bg-primary)",
                     boxShadow: "var(--shadow-btn)",
                   }}
-                  whileHover={{
-                    scale: 1.03,
-                    boxShadow: "var(--shadow-btn-hover)",
-                    y: -2,
-                  }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                   {/* Shine overlay on hover */}
                   <span
@@ -447,24 +385,16 @@ export default function FinalCTA() {
                   />
                   <Sparkles size={15} className="shrink-0" />
                   <span>Get A Commercial Lighting Quote</span>
-                  <motion.span
-                    className="inline-flex shrink-0"
-                    animate={{ x: [0, 3, 0] }}
-                    transition={{
-                      duration: 1.4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
+                  <span className="inline-flex shrink-0 transition-transform duration-300 group-hover:translate-x-1">
                     <ArrowRight size={15} />
-                  </motion.span>
-                </motion.a>
+                  </span>
+                </a>
 
                 {/* Secondary: Dark Glass Phone Button */}
-                <motion.a
+                <a
                   href="tel:7202967711"
                   aria-label="Call us for commercial lighting"
-                  className="group inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase border w-full sm:w-auto cursor-pointer transition-all duration-300"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-full px-5 sm:px-6 py-3.5 text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase border w-full sm:w-auto cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.97]"
                   style={{
                     borderColor: "var(--border-color)",
                     background: "var(--bg-glass)",
@@ -472,15 +402,6 @@ export default function FinalCTA() {
                     backdropFilter: "blur(10px)",
                     boxShadow: "var(--shadow-card)",
                   }}
-                  whileHover={{
-                    scale: 1.02,
-                    y: -2,
-                    borderColor: "var(--accent)",
-                    boxShadow:
-                      "var(--shadow-card-hover), 0 0 16px var(--accent-glow-soft)",
-                  }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                   <Phone
                     size={14}
@@ -488,17 +409,11 @@ export default function FinalCTA() {
                     style={{ color: "var(--accent)" }}
                   />
                   <span>Call (720) 296-7711</span>
-                </motion.a>
-              </motion.div>
+                </a>
+              </div>
 
               {/* Trust Badges Row */}
-              <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeUp}
-                custom={0.42}
-                className="flex flex-col sm:flex-row items-center gap-4 sm:gap-0 w-full pt-1"
-              >
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-0 w-full pt-1">
                 {/* Top divider */}
                 <div
                   className="w-full sm:hidden h-px mb-1"
@@ -531,29 +446,19 @@ export default function FinalCTA() {
                   icon={Star}
                   label="Tailored For Commercial Properties & HOAs"
                 />
-              </motion.div>
+              </div>
             </div>
 
             {/* ── RIGHT COLUMN: Background Image ────────────────────────────── */}
             <div className="relative lg:absolute lg:right-0 lg:top-0 lg:bottom-0 w-full lg:w-[52%] xl:w-[54%] h-56 sm:h-72 lg:h-auto overflow-hidden">
-              {/* Image */}
-              <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={fadeIn}
-                custom={0.2}
-                className="absolute inset-0"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/FinalCta/BackgroundImage.webp"
-                  alt="Beautifully decorated Denver commercial property with premium Christmas lights installed along the roofline and landscaping"
-                  className="absolute inset-0 w-full h-full object-cover object-center saturate-110 contrast-105 brightness-105"
-                  loading="lazy"
-                  decoding="async"
-                />
-
-              </motion.div>
+              <Image
+                src="/FinalCta/BackgroundImage.webp"
+                alt="Beautifully decorated Denver commercial property with premium Christmas lights installed along the roofline and landscaping"
+                fill
+                sizes="(max-width: 1024px) 100vw, 54vw"
+                className="object-cover object-center saturate-110 contrast-105 brightness-105"
+                quality={85}
+              />
 
               {/* Left-edge horizontal gradient to smoothly blend image into card */}
               <div
@@ -587,9 +492,8 @@ export default function FinalCTA() {
             className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
             style={{ background: "var(--card-border-gradient)" }}
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
-

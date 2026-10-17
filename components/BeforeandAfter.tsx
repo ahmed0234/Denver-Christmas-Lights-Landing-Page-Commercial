@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { motion, useInView } from "motion/react";
-
+import Image from "next/image";
 import {
   Sparkles,
   Building2,
@@ -12,10 +11,9 @@ import {
   ShoppingBag,
   Gift,
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import { handleGetQuoteClick } from "@/lib/scrollUtils";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 // ─── Transformation Data ──────────────────────────────────────────────────────
 const transformations = [
@@ -63,218 +61,9 @@ const transformations = [
   },
 ];
 
-// ─── Slider ───────────────────────────────────────────────────────────────────
-function BeforeAfterSlider({
-  beforeImage,
-  afterImage,
-  beforeAlt,
-  afterAlt,
-  priority = false,
-}: {
-  beforeImage: string;
-  afterImage: string;
-  beforeAlt: string;
-  afterAlt: string;
-  priority?: boolean;
-}) {
-  const [sliderPos, setSliderPos] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-
-  // Progressive preloader: start fetching both images 500px before entering viewport
-  // Pre-decodes beforeImage into memory so dragging the slider is instant!
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const preload = () => {
-      const img = new window.Image();
-      img.src = beforeImage;
-    };
-
-    if (priority) {
-      preload();
-      return;
-    }
-
-    const el = containerRef.current;
-    if (!el || !("IntersectionObserver" in window)) {
-      preload();
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          preload();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "500px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [priority, beforeImage]);
-
-  const updateSlider = useCallback((clientX: number) => {
-    const container = containerRef.current;
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    setSliderPos(
-      (Math.max(0, Math.min(clientX - rect.left, rect.width)) / rect.width) *
-        100,
-    );
-  }, []);
-
-  const onMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      isDragging.current = true;
-      updateSlider(e.clientX);
-    },
-    [updateSlider],
-  );
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      if (isDragging.current) updateSlider(e.clientX);
-    };
-    const onMouseUp = () => {
-      isDragging.current = false;
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-    };
-  }, [updateSlider]);
-
-  const onTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      isDragging.current = true;
-      updateSlider(e.touches[0].clientX);
-    },
-    [updateSlider],
-  );
-  const onTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (isDragging.current) updateSlider(e.touches[0].clientX);
-    },
-    [updateSlider],
-  );
-  const onTouchEnd = useCallback(() => {
-    isDragging.current = false;
-  }, []);
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") setSliderPos((p) => Math.max(0, p - 2));
-    if (e.key === "ArrowRight") setSliderPos((p) => Math.min(100, p + 2));
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-full select-none overflow-hidden cursor-col-resize bg-[#14110e]"
-      onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      role="slider"
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={Math.round(sliderPos)}
-      aria-label="Before and after comparison slider"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
-    >
-      {/* Primary visible after image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={afterImage}
-        alt={afterAlt}
-        className="absolute inset-0 w-full h-full object-cover"
-        draggable={false}
-        loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
-        decoding="async"
-      />
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${sliderPos}%` }}
-      >
-        {/* Comparison before image in clipped overlay */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={beforeImage}
-          alt={beforeAlt}
-          className="absolute inset-0 h-full object-cover"
-          style={{
-            width: `${10000 / Math.max(sliderPos, 0.1)}%`,
-            maxWidth: "none",
-          }}
-          draggable={false}
-          decoding="async"
-        />
-      </div>
-
-      <div
-        className="absolute top-0 bottom-0 w-[2px] pointer-events-none"
-        style={{
-          left: `${sliderPos}%`,
-          transform: "translateX(-50%)",
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.88) 18%, rgba(255,255,255,0.88) 82%, rgba(255,255,255,0) 100%)",
-        }}
-      />
-      <div
-        className="absolute top-1/2 z-10 pointer-events-none"
-        style={{ left: `${sliderPos}%`, transform: "translate(-50%, -50%)" }}
-      >
-        <div
-          className="w-9 h-9 rounded-full flex items-center justify-center"
-          style={{
-            background: "rgba(255,255,255,0.96)",
-            boxShadow:
-              "0 2px 16px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(255,255,255,0.35)",
-          }}
-        >
-          <ChevronLeft
-            size={11}
-            className="text-neutral-700"
-            style={{ marginRight: "-1px" }}
-          />
-          <ChevronRight
-            size={11}
-            className="text-neutral-700"
-            style={{ marginLeft: "-1px" }}
-          />
-        </div>
-      </div>
-      <div
-        className="absolute top-3 left-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
-        style={{
-          background: "rgba(10,8,8,0.72)",
-          backdropFilter: "blur(6px)",
-          border: "1px solid rgba(255,255,255,0.1)",
-        }}
-      >
-        Before
-      </div>
-      <div
-        className="absolute top-3 right-3 px-2.5 py-1 rounded text-xs font-semibold text-white tracking-wide pointer-events-none"
-        style={{
-          background: "var(--accent)",
-          boxShadow: "0 2px 8px var(--accent-glow-soft)",
-        }}
-      >
-        After
-      </div>
-    </div>
-  );
-}
-
 // ─── Transformation Card ───────────────────────────────────────────────────────
 function TransformationCard({
   item,
-  index,
 }: {
   item: (typeof transformations)[0];
   index: number;
@@ -282,37 +71,15 @@ function TransformationCard({
   const Icon = item.icon;
 
   const normalBg = `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`;
-  const hoverBg = `linear-gradient(160deg, var(--bg-elevated) 0%, var(--bg-card) 100%) padding-box, var(--card-border-gradient) border-box`;
   const normalShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card)`;
-  const hoverShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px 0px" }}
-      transition={{
-        duration: 0.58,
-        delay: (index % 3) * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{ y: -4, transition: { duration: 0.22, ease: "easeOut" } }}
-      className="group flex flex-col rounded-xl overflow-hidden"
+    <div
+      className="group flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
       style={{
         background: normalBg,
         border: "2px solid transparent",
         boxShadow: normalShadow,
-        transition: "background 0.35s ease, box-shadow 0.35s ease",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.background = hoverBg;
-        el.style.boxShadow = hoverShadow;
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.background = normalBg;
-        el.style.boxShadow = normalShadow;
       }}
     >
       <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#14110e]">
@@ -321,7 +88,6 @@ function TransformationCard({
           afterImage={item.afterImage}
           beforeAlt={`${item.title} before`}
           afterAlt={`${item.title} after`}
-          priority={index < 3}
         />
       </div>
       <div
@@ -346,29 +112,29 @@ function TransformationCard({
           {item.title}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// ─── Section Eyebrow ──────────────────────────────────────────────────────────
+// ─── Eyebrow ──────────────────────────────────────────────────────────────────
 function SectionEyebrow() {
   return (
-    <div className="flex items-center gap-3 justify-center">
+    <div className="flex items-center gap-3">
       <div
-        className="h-px w-12 sm:w-20"
+        className="h-px w-8 sm:w-12"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--accent) 100%)",
         }}
       />
       <span
-        className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase whitespace-nowrap"
+        className="text-xs font-semibold tracking-[0.22em] uppercase"
         style={{ color: "var(--accent)" }}
       >
-        ✦ What's Included ✦
+        Proven Results
       </span>
       <div
-        className="h-px w-12 sm:w-20"
+        className="h-px w-8 sm:w-12"
         style={{
           background:
             "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
@@ -378,25 +144,20 @@ function SectionEyebrow() {
   );
 }
 
-// ─── Bottom CTA Bar ───────────────────────────────────────────────────────────
+// ─── Bottom CTA Banner ────────────────────────────────────────────────────────
 function BottomCTA() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px 0px" }}
-      transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className="flex flex-col sm:flex-row items-center justify-between gap-6 px-7 py-6 rounded-2xl max-w-[1280px] mx-auto"
+    <div
+      className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-2xl relative overflow-hidden"
       style={{
         background: `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`,
-        backdropFilter: "blur(12px)",
-        border: "2px solid transparent",
-        boxShadow: `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`,
+        border: "1.5px solid transparent",
+        boxShadow: `inset 0 1px 0 var(--highlight-card), var(--shadow-card)`,
       }}
     >
-      <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+      <div className="flex items-center gap-4">
         <div
-          className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
           style={{
             background: `linear-gradient(135deg, var(--accent-glow-soft) 0%, var(--bg-elevated) 100%)`,
             border: "1px solid var(--border-color)",
@@ -428,16 +189,11 @@ function BottomCTA() {
         </div>
       </div>
 
-      <motion.a
+      <a
         href="#quote"
         id="before-after-cta-quote"
         onClick={handleGetQuoteClick}
-        whileHover={{
-          scale: 1.04,
-          boxShadow: `var(--shadow-btn-hover), inset 0 1px 0 var(--highlight-btn)`,
-        }}
-        whileTap={{ scale: 0.97 }}
-        className="relative flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide whitespace-nowrap w-full sm:w-auto justify-center flex-shrink-0 overflow-hidden"
+        className="relative flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide whitespace-nowrap w-full sm:w-auto justify-center flex-shrink-0 overflow-hidden cursor-pointer select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
         style={{
           background: `linear-gradient(180deg, var(--gradient-btn-top) 0%, var(--gradient-btn-mid) 45%, var(--gradient-btn-bottom) 100%)`,
           boxShadow: `var(--shadow-btn), inset 0 1px 0 var(--highlight-btn), inset 0 -2px 4px var(--btn-inner-shadow)`,
@@ -456,8 +212,8 @@ function BottomCTA() {
           Get Your Free Quote
         </span>
         <ArrowRight size={15} className="relative text-amber-950" />
-      </motion.a>
-    </motion.div>
+      </a>
+    </div>
   );
 }
 
@@ -474,26 +230,22 @@ const BOKEH = [
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 export default function BeforeandAfter() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
-
   return (
     <section
-      ref={sectionRef}
       id="before-after"
       className="relative w-full overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
       {/* Background image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/BeforeAfter/BackGroundSubtle.webp"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105"
-          loading="lazy"
-          decoding="async"
+          fill
+          sizes="100vw"
+          quality={75}
+          className="object-cover object-[50%_30%] md:object-center opacity-65 md:opacity-90 brightness-90 saturate-90 contrast-105"
         />
 
         <div
@@ -534,24 +286,21 @@ export default function BeforeandAfter() {
         aria-hidden="true"
       >
         {BOKEH.map((b, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute rounded-full"
-            style={{
-              left: b.left,
-              top: b.top,
-              width: b.size,
-              height: b.size,
-              backgroundColor: b.gold ? "var(--gold)" : "var(--accent)",
-              filter: "blur(2px)",
-            }}
-            animate={{ opacity: [0.12, 0.5, 0.12], scale: [1, 1.5, 1] }}
-            transition={{
-              duration: b.dur,
-              repeat: Infinity,
-              delay: b.delay,
-              ease: "easeInOut",
-            }}
+            className="absolute rounded-full hero-bokeh-particle"
+            style={
+              {
+                left: b.left,
+                top: b.top,
+                width: b.size,
+                height: b.size,
+                backgroundColor: b.gold ? "var(--gold)" : "var(--accent)",
+                filter: "blur(2px)",
+                "--bokeh-dur": `${b.dur}s`,
+                "--bokeh-delay": `${b.delay}s`,
+              } as React.CSSProperties
+            }
           />
         ))}
       </div>
@@ -559,32 +308,17 @@ export default function BeforeandAfter() {
       {/* Main content */}
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pt-8 pb-8">
         <div className="flex flex-col items-center text-center mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-5"
-          >
+          <div className="mb-5">
             <SectionEyebrow />
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 22 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.65,
-              delay: 0.15,
-              ease: [0.22, 1, 0.36, 1],
-            }}
+          </div>
+          <h2
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-bold leading-[1.08] tracking-tight mb-5 font-playfair"
             style={{ color: "var(--text-heading)" }}
           >
             Commercial Holiday{" "}
             <span className="text-accent-gradient">Transformations</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: 0.26 }}
+          </h2>
+          <p
             className="text-base sm:text-lg max-w-2xl"
             style={{ color: "var(--text-muted)" }}
           >
@@ -592,7 +326,7 @@ export default function BeforeandAfter() {
             properties into festive destinations that attract attention, delight
             visitors, and leave a lasting impression throughout the holiday
             season
-          </motion.p>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-14">

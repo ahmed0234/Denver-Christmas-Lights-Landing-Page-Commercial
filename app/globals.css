@@ -933,55 +933,41 @@ button:hover .btn-shine-sweep-effect {
   animation: navbar-fade-down 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.hero-heading {
+  opacity: 1;
+  transform: none;
+}
+
 .hero-animate-eyebrow {
-  animation: hero-fade-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-
-.hero-animate-heading-1 {
-  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
-}
-
-.hero-animate-heading-2 {
-  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+  opacity: 1;
 }
 
 .hero-animate-squiggle {
   stroke-dasharray: 350;
-  stroke-dashoffset: 350;
-  animation: hero-squiggle 1s ease-out 0.7s forwards;
-}
-
-.hero-animate-heading-3 {
-  animation: hero-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+  stroke-dashoffset: 0;
 }
 
 .hero-animate-divider {
-  animation: hero-fade-in 0.5s ease-out 0.55s both;
+  opacity: 1;
 }
 
 .hero-animate-desc {
-  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+  opacity: 1;
 }
 
 .hero-animate-ctas {
-  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
+  opacity: 1;
 }
 
 .hero-animate-trust {
-  animation: hero-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
+  opacity: 1;
 }
 
-.hero-animate-badge-0 {
-  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
-}
-.hero-animate-badge-1 {
-  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.80s both;
-}
-.hero-animate-badge-2 {
-  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.88s both;
-}
+.hero-animate-badge-0,
+.hero-animate-badge-1,
+.hero-animate-badge-2,
 .hero-animate-badge-3 {
-  animation: hero-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.96s both;
+  opacity: 1;
 }
 
 .hero-bokeh-particle {
@@ -995,7 +981,7 @@ button:hover .btn-shine-sweep-effect {
 }
 
 .hero-animate-form {
-  animation: form-fade-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  opacity: 1;
 }
 
 /* Reduced motion accessibility */

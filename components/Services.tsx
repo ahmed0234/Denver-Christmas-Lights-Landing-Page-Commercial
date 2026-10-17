@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { motion, useInView } from "motion/react";
+import Image from "next/image";
 import {
   Snowflake,
   Home,
@@ -62,211 +62,7 @@ function SectionEyebrow() {
   );
 }
 
-// ─── Before / After Slider (inline, for Featured Cards) ───────────────────────
-function BeforeAfterSlider({
-  beforeImage,
-  afterImage,
-  beforeAlt,
-  afterAlt,
-  priority = false,
-}: {
-  beforeImage: string;
-  afterImage: string;
-  beforeAlt: string;
-  afterAlt: string;
-  priority?: boolean;
-}) {
-  const [sliderPos, setSliderPos] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-
-  // Progressive preloader: start fetching both images 500px before entering viewport
-  // Pre-decodes beforeImage into memory so dragging the slider is instant!
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const preload = () => {
-      const img = new window.Image();
-      img.src = beforeImage;
-    };
-
-    if (priority) {
-      preload();
-      return;
-    }
-
-    const el = containerRef.current;
-    if (!el || !("IntersectionObserver" in window)) {
-      preload();
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          preload();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "500px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [priority, beforeImage]);
-
-  const updateSlider = useCallback((clientX: number) => {
-    const container = containerRef.current;
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    setSliderPos(
-      (Math.max(0, Math.min(clientX - rect.left, rect.width)) / rect.width) *
-        100,
-    );
-  }, []);
-  const onMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      isDragging.current = true;
-      updateSlider(e.clientX);
-    },
-    [updateSlider],
-  );
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      if (isDragging.current) updateSlider(e.clientX);
-    };
-    const onMouseUp = () => {
-      isDragging.current = false;
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-    };
-  }, [updateSlider]);
-  const onTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      isDragging.current = true;
-      updateSlider(e.touches[0].clientX);
-    },
-    [updateSlider],
-  );
-  const onTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (isDragging.current) updateSlider(e.touches[0].clientX);
-    },
-    [updateSlider],
-  );
-  const onTouchEnd = useCallback(() => {
-    isDragging.current = false;
-  }, []);
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") setSliderPos((p) => Math.max(0, p - 2));
-    if (e.key === "ArrowRight") setSliderPos((p) => Math.min(100, p + 2));
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-full select-none overflow-hidden cursor-col-resize bg-[#14110e]"
-      onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      role="slider"
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={Math.round(sliderPos)}
-      aria-label="Before and after comparison slider"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={afterImage}
-        alt={afterAlt}
-        className="absolute inset-0 w-full h-full object-cover"
-        draggable={false}
-        loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
-        decoding="async"
-      />
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${sliderPos}%` }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={beforeImage}
-          alt={beforeAlt}
-          className="absolute inset-0 h-full object-cover"
-          style={{
-            width: `${10000 / Math.max(sliderPos, 0.1)}%`,
-            maxWidth: "none",
-          }}
-          draggable={false}
-          decoding="async"
-        />
-      </div>
-
-      <div
-        className="absolute top-0 bottom-0 w-[2px] pointer-events-none"
-        style={{
-          left: `${sliderPos}%`,
-          transform: "translateX(-50%)",
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 15%, rgba(255,255,255,0.9) 85%, rgba(255,255,255,0) 100%)",
-        }}
-      />
-      <div
-        className="absolute top-1/2 z-10 pointer-events-none"
-        style={{ left: `${sliderPos}%`, transform: "translate(-50%, -50%)" }}
-      >
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center"
-          style={{
-            background: "rgba(255,255,255,0.95)",
-            boxShadow:
-              "0 2px 16px rgba(0,0,0,0.65), 0 0 0 1.5px rgba(255,255,255,0.4)",
-          }}
-        >
-          <ChevronLeft
-            size={10}
-            className="text-neutral-700"
-            style={{ marginRight: "-1px" }}
-          />
-          <ChevronRight
-            size={10}
-            className="text-neutral-700"
-            style={{ marginLeft: "-1px" }}
-          />
-        </div>
-      </div>
-      <div
-        className="absolute bottom-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-[0.15em] uppercase text-white pointer-events-none"
-        style={{
-          background: "rgba(9,7,7,0.78)",
-          backdropFilter: "blur(4px)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: "4px",
-        }}
-      >
-        BEFORE
-      </div>
-      <div
-        className="absolute bottom-3 right-3 px-2.5 py-1 text-[10px] font-bold tracking-[0.15em] uppercase text-white pointer-events-none"
-        style={{
-          background: "var(--accent)",
-          boxShadow: "0 2px 10px var(--accent-glow-soft)",
-          borderRadius: "4px",
-        }}
-      >
-        AFTER
-      </div>
-    </div>
-  );
-}
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 // ─── Featured Card ─────────────────────────────────────────────────────────────
 function FeaturedCard({
@@ -274,35 +70,20 @@ function FeaturedCard({
   icon: Icon,
   beforeImage,
   afterImage,
-  delay = 0,
 }: {
   title: string;
   icon: React.ElementType;
   beforeImage: string;
   afterImage: string;
-  delay?: number;
 }) {
   const baseShadow = `var(--shadow-card), inset 0 1px 0 var(--highlight-card)`;
-  const hoverShadow = `var(--shadow-card-hover), 0 0 0 1px var(--accent), inset 0 1px 0 var(--highlight-card)`;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px 0px" }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
-      className="group relative flex-1 min-w-0 rounded-2xl overflow-hidden"
+    <div
+      className="group relative flex-1 min-w-0 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
       style={{
         border: "1px solid var(--border-color)",
         boxShadow: baseShadow,
-        transition: "box-shadow 0.3s ease",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = hoverShadow;
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = baseShadow;
       }}
     >
       {/* Title Badge */}
@@ -335,11 +116,13 @@ function FeaturedCard({
             afterImage={afterImage}
             beforeAlt={`${title} before`}
             afterAlt={`${title} after`}
-            priority={true}
+            badgePosition="bottom"
+            handleSize="sm"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -513,7 +296,6 @@ interface ServiceCardProps {
   icon: React.ElementType;
   title: string;
   description: string;
-  delay?: number;
   hasStringLights?: boolean;
   hasLightStrand?: boolean;
 }
@@ -522,24 +304,15 @@ function ServiceCard({
   icon: Icon,
   title,
   description,
-  delay = 0,
   hasStringLights = false,
   hasLightStrand = false,
 }: ServiceCardProps) {
   const clipPath =
     "polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)";
   const baseShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card)`;
-  const hoverShadow = `inset 0 1px 0 var(--highlight-card), var(--shadow-card-hover)`;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px 0px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -7, transition: { duration: 0.25, ease: "easeOut" } }}
-      className="group relative flex flex-col items-center"
-    >
+    <div className="group relative flex flex-col items-center transition-all duration-300 hover:-translate-y-1.5">
       {/* Floating icon above card */}
       <div className="relative z-20 mb-[-26px] flex-shrink-0">
         <div
@@ -551,49 +324,30 @@ function ServiceCard({
           }}
         >
           <Icon
-            size={22}
+            size={24}
             style={{
               color: "var(--accent)",
               filter: "drop-shadow(0 0 6px var(--accent-glow))",
             }}
-            className="group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
           />
         </div>
       </div>
 
       {/* Card body */}
       <div
-        className="service-card-border relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden transition-all duration-300"
         style={{
           clipPath,
-          background: `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--bg-card) 50%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`,
-          border: "1.5px solid transparent",
+          background: `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`,
+          border: "1px solid transparent",
           boxShadow: baseShadow,
-          transition: "box-shadow 0.35s ease",
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.boxShadow = hoverShadow;
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLDivElement).style.boxShadow = baseShadow;
         }}
       >
-        {/* Inner radial glow from top */}
         <div
-          className="absolute inset-0 pointer-events-none z-[1]"
-          aria-hidden="true"
+          className="absolute inset-x-8 top-0 h-px pointer-events-none z-10"
           style={{
             background:
-              "radial-gradient(ellipse 70% 45% at 50% 0%, var(--accent-glow-faint) 0%, transparent 70%)",
-          }}
-        />
-        {/* Top highlight line */}
-        <div
-          className="absolute inset-x-10 top-0 h-px pointer-events-none z-[2]"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, var(--highlight-card), transparent)",
+              "linear-gradient(90deg, transparent, var(--gold), transparent)",
           }}
         />
 
@@ -618,7 +372,6 @@ function ServiceCard({
           >
             {description}
           </p>
-          {/* Decorative accent */}
           <div className="flex items-center gap-2.5 mt-auto opacity-45 group-hover:opacity-100 transition-opacity duration-500">
             <div
               className="w-6 h-px"
@@ -666,7 +419,7 @@ function ServiceCard({
           }}
         />
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -675,21 +428,13 @@ function TrustItem({
   icon: Icon,
   title,
   subtitle,
-  delay = 0,
 }: {
   icon: React.ElementType;
   title: string;
   subtitle: string;
-  delay?: number;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "100px 0px" }}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="flex items-center gap-3"
-    >
+    <div className="flex items-center gap-3">
       <div
         className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
         style={{
@@ -720,15 +465,12 @@ function TrustItem({
           {subtitle}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 // ─── Main Services Export ─────────────────────────────────────────────────────
 export default function Services() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "150px 0px" });
-
   const featuredCards = [
     {
       title: "Office Buildings & Corporate Campuses",
@@ -737,14 +479,12 @@ export default function Services() {
         "/BeforeAfter/services/OfficeBuilding/OfficeBuildingsBefore.webp",
       afterImage:
         "/BeforeAfter/services/OfficeBuilding/OfficeBuildingsAfter.webp",
-      delay: 0.1,
     },
     {
       title: "Apartment Buildings & HOAs",
       icon: Building2,
       beforeImage: "/BeforeAfter/services/Hoas/before.webp",
       afterImage: "/BeforeAfter/services/Hoas/after.webp",
-      delay: 0.2,
     },
   ];
 
@@ -754,36 +494,32 @@ export default function Services() {
       title: "Maintenance\n& Support",
       description:
         "We keep your lights shining all season long. Quick response for any issue, replacements, and tune-ups whenever you need.",
-      delay: 0.1,
       hasStringLights: false,
       hasLightStrand: false,
     },
     {
       icon: PackageOpen,
-      title: "Take Down\n& Storage",
+      title: "Post-Season\nTakedown",
       description:
-        "We handle the takedown, careful packing, and off-season storage so your lights are safe and ready for next year.",
-      delay: 0.2,
-      hasStringLights: true,
-      hasLightStrand: false,
+        "Prompt, careful removal once the holidays conclude. Everything packed and organized for next year with zero hassle for you.",
+      hasStringLights: false,
+      hasLightStrand: true,
     },
     {
       icon: PenTool,
       title: "Custom Design\n& Planning",
       description:
-        "Every property is unique. We create custom lighting designs tailored to your home or business for the perfect look.",
-      delay: 0.3,
-      hasStringLights: false,
+        "Tailored holiday lighting concepts to match your home's unique architecture. Full 3D rendering preview before we begin.",
+      hasStringLights: true,
       hasLightStrand: false,
     },
     {
       icon: Gem,
-      title: "Premium Lights\n& Materials",
+      title: "Commercial-Grade\nLighting",
       description:
-        "We use commercial-grade LED lights that are brighter, safer, and built to withstand Colorado winters.",
-      delay: 0.4,
+        "Energy-efficient, ultra-durable LEDs built to withstand Denver's harsh winters with brilliant, unwavering illumination.",
       hasStringLights: false,
-      hasLightStrand: true,
+      hasLightStrand: false,
     },
   ];
 
@@ -791,12 +527,12 @@ export default function Services() {
     {
       icon: ShieldCheck,
       title: "Fully Insured",
-      subtitle: "For Your Peace of Mind",
+      subtitle: "$2M Liability Coverage",
     },
     {
       icon: Star,
-      title: "Satisfaction Guaranteed",
-      subtitle: "We're Not Happy Until You Are",
+      title: "5-Star Rated",
+      subtitle: "100+ Happy Denver Clients",
     },
     {
       icon: Clock,
@@ -812,7 +548,6 @@ export default function Services() {
 
   return (
     <section
-      ref={sectionRef}
       id="services"
       className="relative w-full overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
@@ -833,24 +568,21 @@ export default function Services() {
         aria-hidden="true"
       >
         {SERVICE_BOKEH.map((b, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute rounded-full"
-            style={{
-              left: b.left,
-              top: b.top,
-              width: b.size,
-              height: b.size,
-              backgroundColor: b.gold ? "var(--gold)" : "var(--accent)",
-              filter: "blur(2px)",
-            }}
-            animate={{ opacity: [0.07, 0.38, 0.07], scale: [1, 1.5, 1] }}
-            transition={{
-              duration: b.dur,
-              repeat: Infinity,
-              delay: b.delay,
-              ease: "easeInOut",
-            }}
+            className="absolute rounded-full hero-bokeh-particle"
+            style={
+              {
+                left: b.left,
+                top: b.top,
+                width: b.size,
+                height: b.size,
+                backgroundColor: b.gold ? "var(--gold)" : "var(--accent)",
+                filter: "blur(2px)",
+                "--bokeh-dur": `${b.dur}s`,
+                "--bokeh-delay": `${b.delay}s`,
+              } as React.CSSProperties
+            }
           />
         ))}
       </div>
@@ -869,20 +601,10 @@ export default function Services() {
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-14 xl:px-20 2xl:px-28 pt-24 pb-20">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-4"
-          >
+          <div className="mb-4">
             <SectionEyebrow />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.45, delay: 0.18 }}
-            className="mb-5"
-          >
+          </div>
+          <div className="mb-5">
             <Snowflake
               size={18}
               style={{
@@ -890,17 +612,8 @@ export default function Services() {
                 filter: "drop-shadow(0 0 8px var(--accent-glow))",
               }}
             />
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 22 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.7,
-              delay: 0.24,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[55px] font-bold leading-[1.08] tracking-tight mb-6 font-sans"
-          >
+          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[55px] font-bold leading-[1.08] tracking-tight mb-6 font-sans">
             <span style={{ color: "var(--text-heading)" }}>
               Complete Commercial{" "}
             </span>
@@ -908,17 +621,14 @@ export default function Services() {
               Christmas Light Installation
             </span>{" "}
             in Denver
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.36 }}
+          </h2>
+          <p
             className="text-base sm:text-lg leading-relaxed max-w-[540px]"
             style={{ color: "var(--text-muted)" }}
           >
             We review your property, high visibility areas, power access,
             installation requirements, timelines and project goals
-          </motion.p>
+          </p>
         </div>
 
         {/* Featured cards */}
@@ -930,7 +640,6 @@ export default function Services() {
               icon={card.icon}
               beforeImage={card.beforeImage}
               afterImage={card.afterImage}
-              delay={card.delay}
             />
           ))}
         </div>
@@ -943,7 +652,6 @@ export default function Services() {
               icon={card.icon}
               title={card.title}
               description={card.description}
-              delay={card.delay}
               hasStringLights={card.hasStringLights}
               hasLightStrand={card.hasLightStrand}
             />
@@ -951,11 +659,7 @@ export default function Services() {
         </div>
 
         {/* Trust bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "150px 0px" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 px-6 py-5 rounded-2xl"
           style={{
             background: `linear-gradient(160deg, var(--gradient-card-top) 0%, var(--gradient-card-bottom) 100%) padding-box, var(--card-border-gradient) border-box`,
@@ -980,12 +684,11 @@ export default function Services() {
                   icon={item.icon}
                   title={item.title}
                   subtitle={item.subtitle}
-                  delay={0.15 + i * 0.08}
                 />
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Bottom fade */}

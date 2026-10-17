@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-
 
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -486,23 +486,20 @@ export default function QuoteForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        "https://denverchristmaslightslandingpagecom.vercel.app/api/contact",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: trimmedName,
-            email: trimmedEmail,
-            propertyType,
-            zip: zip.trim(),
-            message: message.trim(),
-          }),
-        }
-      );
-// 
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail,
+          propertyType,
+          zip: zip.trim(),
+          message: message.trim(),
+        }),
+      });
+
       const data = await response.json();
 
       if (response.ok && (data.success || data.ok)) {
@@ -539,16 +536,14 @@ export default function QuoteForm() {
         style={{ top: "-76px", left: "-18px", right: "-18px" }}
       >
         <div className="lights-pulse">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/FormUpperLights.png"
+          <Image
+            src="/FormUpperLights.webp"
             alt="Christmas string lights decoration"
             width={1320}
-            height={540}
+            height={880}
+            priority
             className="w-full h-auto"
             style={{ mixBlendMode: "screen" }}
-            loading="eager"
-            decoding="async"
           />
         </div>
       </div>
