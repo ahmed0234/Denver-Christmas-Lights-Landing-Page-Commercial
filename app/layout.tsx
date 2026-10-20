@@ -23,11 +23,8 @@ export const metadata: Metadata = {
     "Commercial Christmas Light Installation Denver | Denver Christmas Lights",
   description:
     "Commercial Christmas light installation in Denver for retail centers, HOAs, offices, hotels and commercial properties. Request a custom lighting proposal",
-  icons: {
-    icon: "/NavbarLogo.png",
-    shortcut: "/NavbarLogo.png",
-    apple: "/NavbarLogo.png",
-  },
+  // Icons come from the app/ file conventions (favicon.ico, icon.png,
+  // apple-icon.png) generated from public/NewLogo.png; see also manifest.ts.
 };
 
 export default function RootLayout({
