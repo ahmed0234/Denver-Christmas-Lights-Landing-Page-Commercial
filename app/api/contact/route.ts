@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import {
+  COMMERCIAL_FORM_TYPE,
+  commercialLeadHtml,
+  commercialLeadSubject,
+  parseCommercialLead,
+} from "@/lib/contact/commercial";
+import { getBusinessRecipients } from "@/lib/contact/recipients";
 
 export const runtime = "nodejs";
 
@@ -220,30 +227,76 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 2. Extract Data
-  const name = String(rawBody.name || rawBody.fullName || "").trim();
-  const email = String(rawBody.email || "").trim();
-  const zip = String(rawBody.zip || rawBody.zipCode || "").trim();
-  const propertyType = String(rawBody.propertyType || rawBody.property_type || rawBody.type || "").trim();
-  const message = String(rawBody.message || rawBody.comments || "").trim();
+  // 2. Extract + validate. Commercial leads have their own fields and template.
+  let lead: { name: string; email: string; subject: string; html: string };
 
-  console.log("[contact API] Step 2: Extracted Fields ->", { name, email, zip, propertyType, message });
+  if (rawBody.formType === COMMERCIAL_FORM_TYPE) {
+    const parsed = parseCommercialLead(rawBody);
+    if (!parsed.ok) {
+      console.warn("[contact API] Commercial validation failed:", parsed.error);
+      return NextResponse.json(
+        { ok: false, success: false, error: parsed.error },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    console.log("[contact API] Step 2: Commercial lead ->", parsed.lead);
+    lead = {
+      name: parsed.lead.name,
+      email: parsed.lead.email,
+      subject: commercialLeadSubject(parsed.lead),
+      html: commercialLeadHtml(parsed.lead),
+    };
+  } else {
+    const name = String(rawBody.name || rawBody.fullName || "").trim();
+    const email = String(rawBody.email || "").trim();
+    const zip = String(rawBody.zip || rawBody.zipCode || "").trim();
+    const propertyType = String(rawBody.propertyType || rawBody.property_type || rawBody.type || "").trim();
+    const message = String(rawBody.message || rawBody.comments || "").trim();
 
-  // 3. Validation
-  if (!name || name.length < 2) {
-    console.warn("[contact API] Validation Failed: Missing or short name");
-    return NextResponse.json(
-      { ok: false, success: false, error: "Please enter your full name." },
-      { status: 400, headers: corsHeaders }
-    );
+    console.log("[contact API] Step 2: Extracted Fields ->", { name, email, zip, propertyType, message });
+
+    if (!name || name.length < 2) {
+      console.warn("[contact API] Validation Failed: Missing or short name");
+      return NextResponse.json(
+        { ok: false, success: false, error: "Please enter your full name." },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      console.warn("[contact API] Validation Failed: Invalid email format:", email);
+      return NextResponse.json(
+        { ok: false, success: false, error: "Please enter a valid email address." },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    lead = {
+      name,
+      email,
+      subject: `🎄 New Commercial Christmas Light Quote Request — ${name}`,
+      html: getBusinessEmailHtml({ name, email, zip, propertyType, message }),
+    };
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !emailRegex.test(email)) {
-    console.warn("[contact API] Validation Failed: Invalid email format:", email);
+  // 3. Recipients: BUSINESS_EMAIL_1 / BUSINESS_EMAIL_2 are optional, blanks skipped
+  const recipients = getBusinessRecipients();
+  console.log("[contact API] Step 3: Business Inbox Recipients ->", recipients);
+
+  if (recipients.length === 0) {
+    // Accept the submission so the visitor isn't blocked; nothing to deliver to.
+    console.warn(
+      "[contact API] WARNING: BUSINESS_EMAIL_1 and BUSINESS_EMAIL_2 are both unset. Lead accepted but NOT emailed:",
+      { name: lead.name, email: lead.email }
+    );
     return NextResponse.json(
-      { ok: false, success: false, error: "Please enter a valid email address." },
-      { status: 400, headers: corsHeaders }
+      {
+        ok: true,
+        success: true,
+        message: "Message received. We'll be in touch soon.",
+      },
+      { status: 200, headers: corsHeaders }
     );
   }
 
@@ -256,39 +309,25 @@ export async function POST(req: NextRequest) {
       { status: 500, headers: corsHeaders }
     );
   }
-  console.log("[contact API] Step 3: RESEND_API_KEY Loaded Successfully (Prefix:", resendApiKey.substring(0, 6) + "...)");
-
-  const business1 = process.env.BUSINESS_EMAIL ?? "";
-  const business2 = process.env.BUSINESS_EMAIL_2 ?? "";
-  const recipients = [business1, business2].filter(Boolean);
-
-  console.log("[contact API] Step 4: Business Inbox Recipients ->", recipients);
-
-  if (recipients.length === 0) {
-    console.error("[contact API] CRITICAL ERROR: No recipients found in BUSINESS_EMAIL or BUSINESS_EMAIL_2");
-    return NextResponse.json(
-      { ok: false, success: false, error: "Server configuration error: No business recipients set." },
-      { status: 500, headers: corsHeaders }
-    );
-  }
+  console.log("[contact API] Step 4: RESEND_API_KEY Loaded Successfully (Prefix:", resendApiKey.substring(0, 6) + "...)");
 
   try {
     const resend = getResend();
 
     // Standardized sender using verified domain mailbox support@ikhtiyaar.com
-    const fromAddress = formatFromAddress(name || "Website Lead", "support@ikhtiyaar.com");
+    const fromAddress = formatFromAddress(lead.name || "Website Lead", "support@ikhtiyaar.com");
 
     console.log(`[contact API] Step 5: Sending Business Notification Email via Resend to ${recipients.length} recipients...`);
     console.log(`[contact API] From: ${fromAddress}`);
     console.log(`[contact API] To: ${JSON.stringify(recipients)}`);
-    console.log(`[contact API] ReplyTo: ${email}`);
+    console.log(`[contact API] ReplyTo: ${lead.email}`);
 
     const businessPayload = {
       from: fromAddress,
       to: recipients,
-      replyTo: email,
-      subject: `🎄 New Commercial Christmas Light Quote Request — ${name}`,
-      html: getBusinessEmailHtml({ name, email, zip, propertyType, message }),
+      replyTo: lead.email,
+      subject: lead.subject,
+      html: lead.html,
     };
 
     /* Send ONLY to business recipients defined in environment variables */
