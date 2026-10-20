@@ -92,13 +92,13 @@ export const REVIEWS: { rating: string; quote: string; name: string; location: s
   },
   {
     rating: "4.8",
-    quote: "Prompt, safe, and professional installation. The warm gold glow on our roofline created a holiday atmosphere that exceeded all expectations.",
+    quote: "Prompt, safe, and professional installation. The warm gold glow on our home's roofline created a holiday atmosphere that exceeded all expectations.",
     name: "Michael & Elena B.",
     location: "Wash Park, Denver",
   },
   {
     rating: "4.9",
-    quote: "Extremely impressive attention to detail. No visible clips, straight lines, and hassle-free post-season removal. Will definitely use them every year!",
+    quote: "Extremely impressive attention to detail on our house. No visible clips, straight lines, and hassle-free post-season removal. Will definitely use them every year!",
     name: "Robert H.",
     location: "Littleton, CO",
   },
@@ -110,7 +110,7 @@ export const REVIEWS: { rating: string; quote: string; name: string; location: s
   },
   {
     rating: "4.9",
-    quote: "Super reliable and great communication from start to finish. They showed up when they said they would, and our lights look absolutely stunning. Highly recommend!",
+    quote: "Super reliable and great communication from start to finish. They showed up when they said they would, and our home looks absolutely stunning. Highly recommend to any homeowner!",
     name: "Brandon T.",
     location: "Parker, CO",
   },
