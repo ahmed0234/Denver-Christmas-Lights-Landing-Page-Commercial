@@ -7,6 +7,7 @@ import { PHONE_DISPLAY, PHONE_HREF } from "./content";
 
 const LINKS = [
   ["#services", "Services"],
+  ["#work", "Our Work"],
   ["#process", "How It Works"],
   ["#reviews", "Reviews"],
   ["#areas", "Service Areas"],
@@ -32,9 +33,13 @@ export default function SiteHeader() {
           ))}
         </ul>
         <div className="nav-cta">
-          <a href={PHONE_HREF} className="btn btn-outline">
+          <a
+            href={PHONE_HREF}
+            className="btn btn-outline"
+            aria-label={`Call ${PHONE_DISPLAY}`}
+          >
             <LineIcon name="phone" />
-            {PHONE_DISPLAY}
+            <span className="nav-phone">{PHONE_DISPLAY}</span>
           </a>
           <a href="#quote" className="btn btn-red">
             <LineIcon name="cal" />

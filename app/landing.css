@@ -234,6 +234,57 @@ body:has(.dcl) {
 .dcl .mobile-menu {
   display: none;
 }
+/* six links + two CTAs: tighten progressively before the burger takes over */
+@media (max-width: 1320px) {
+  .dcl .nav {
+    gap: 16px;
+  }
+  .dcl .menu {
+    gap: 20px;
+  }
+  .dcl header .brand {
+    font-size: 17px;
+  }
+  .dcl header .brand-logo {
+    width: 54px;
+    height: 54px;
+  }
+}
+@media (max-width: 1200px) {
+  .dcl .menu {
+    gap: 16px;
+  }
+  .dcl .menu a {
+    font-size: 14px;
+  }
+  .dcl .nav-cta .btn {
+    padding: 9px 13px;
+  }
+  /* phone button collapses to its icon; aria-label keeps the number */
+  .dcl .nav-phone {
+    display: none;
+  }
+}
+@media (max-width: 1120px) {
+  .dcl .nav {
+    gap: 12px;
+  }
+  .dcl .menu {
+    gap: 13px;
+  }
+  .dcl header .brand {
+    font-size: 15px;
+    gap: 10px;
+  }
+  .dcl header .brand-logo {
+    width: 46px;
+    height: 46px;
+  }
+}
+.dcl .menu a,
+.dcl header .brand {
+  white-space: nowrap;
+}
 
 /* string lights */
 .dcl .lights {

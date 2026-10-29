@@ -324,7 +324,7 @@ export default function Commercial() {
       </section>
 
       {/* SERVICE DETAILS */}
-      <section className="bg-pink">
+      <section className="bg-pink" id="work">
         <div className="wrap details">
           <aside className="side">
             <h2>Commercial Christmas Light Installation Services</h2>
