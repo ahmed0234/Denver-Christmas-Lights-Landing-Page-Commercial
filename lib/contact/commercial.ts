@@ -14,7 +14,7 @@ export type CommercialLead = {
   email: string;
   phone: string;
   business: string;
-  zip: string;
+  address: string;
   services: string[];
   message: string;
   /** Google Ads click ID; empty when the visitor didn't arrive from an ad. */
@@ -54,7 +54,8 @@ export function parseCommercialLead(body: Record<string, unknown>): ParseResult 
       email,
       phone,
       business: str(body.business, 200),
-      zip: str(body.zip, 20),
+      // Falls back to `zip` so payloads from an older cached form still carry it
+      address: str(body.address, 300) || str(body.zip, 20),
       services,
       message: str(body.message, 5000),
       gclid: sanitizeGclid(body.gclid),
@@ -81,7 +82,7 @@ export function commercialLeadHtml(lead: CommercialLead) {
     email: escapeHtml(lead.email),
     phone: escapeHtml(lead.phone),
     business: escapeHtml(lead.business),
-    zip: escapeHtml(lead.zip),
+    address: escapeHtml(lead.address),
     message: escapeHtml(lead.message).replace(/\n/g, "<br />"),
   };
   const tel = lead.phone.replace(/[^\d+]/g, "");
@@ -127,7 +128,7 @@ export function commercialLeadHtml(lead: CommercialLead) {
                   ${row("Business / property", e.business)}
                   ${row("Email", `<a href="mailto:${e.email}" style="color:#cc2628;">${e.email}</a>`)}
                   ${row("Phone", `<a href="tel:${tel}" style="color:#cc2628;">${e.phone}</a>`)}
-                  ${row("ZIP code", e.zip)}
+                  ${row("Address", e.address)}
                   ${lead.gclid ? row("GCLID", `<span style="font-family:Consolas,Menlo,monospace;font-size:13px;word-break:break-all;">${escapeHtml(lead.gclid)}</span>`) : ""}
                 </table>
                 <div style="margin:24px 0 8px;font-size:12px;font-weight:800;letter-spacing:1.5px;color:#a61f21;text-transform:uppercase;">Services needed</div>

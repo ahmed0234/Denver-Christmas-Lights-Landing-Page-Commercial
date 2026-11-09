@@ -81,7 +81,7 @@ export default function QuoteForm({ variant }: { variant: Variant }) {
           email: field("email"),
           phone: field("phone"),
           business: field("business"),
-          zip: field("zip"),
+          address: field("address"),
           services,
           message: field("message"),
           gclid: field("gclid") || null,
@@ -164,14 +164,13 @@ export default function QuoteForm({ variant }: { variant: Variant }) {
         {variant === "hero" ? (
           <>
             <div>
-              <label htmlFor="zip">ZIP code *</label>
+              <label htmlFor="address">Address *</label>
               <input
-                id="zip"
-                name="zip"
-                inputMode="numeric"
+                id="address"
+                name="address"
                 required
-                autoComplete="postal-code"
-                placeholder="80202"
+                autoComplete="street-address"
+                placeholder="123 Main St, Denver, CO 80202"
               />
             </div>
             <div className="full">
