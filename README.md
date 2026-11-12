@@ -12,7 +12,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Resend](https://img.shields.io/badge/Email-Resend-000000?logo=resend&logoColor=white)
 ![Google Ads](https://img.shields.io/badge/Google_Ads-Conversion_Tracking-4285F4?logo=googleads&logoColor=white)
-![Lighthouse](https://img.shields.io/badge/Lighthouse-[ADD]-lightgrey?logo=lighthouse&logoColor=white)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-95-lightgrey?logo=lighthouse&logoColor=white)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
 
 ![Homepage](./docs/screenshots/hero.png)
@@ -32,7 +32,6 @@
 - [Email & Lead Infrastructure](#-email--lead-infrastructure)
 - [Tracking & Attribution](#-tracking--attribution)
 - [SEO & Performance](#-seo--performance)
-- [Screenshots](#-screenshots)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [Roadmap](#-roadmap)
@@ -52,9 +51,9 @@ This site is built around one action: **get a qualified commercial prospect to r
 
 | Metric | Value |
 |---|---|
-| Lighthouse Performance (mobile) | `[ADD: score]` |
-| Lighthouse Accessibility / Best Practices / SEO | `[ADD: scores]` |
-| Largest Contentful Paint (mobile) | `[ADD: LCP]` |
+| Lighthouse Performance (mobile) | `95` |
+| Lighthouse Accessibility / Best Practices / SEO | `98 / 100 / 100` |
+| Largest Contentful Paint (mobile) | `1.2s` |
 | Landing page conversion rate | `[ADD: conversion rate]` |
 | Cost per lead | `[ADD: cost per lead]` |
 | Leads per season | `[ADD: lead volume]` |
@@ -244,18 +243,6 @@ Payloads without `formType: "commercial"` fall through to a legacy residential h
 - **Lean runtime**: server components by default, deferred third-party scripts, `poweredByHeader` disabled, compression on.
 
 ![Lighthouse report](./docs/screenshots/lighthouse.png)
-
----
-
-## 🖼️ Screenshots
-
-| Desktop homepage | Mobile view |
-|---|---|
-| ![Desktop homepage](./docs/screenshots/desktop-home.png) | ![Mobile view](./docs/screenshots/mobile-home.png) |
-| **Quote form** | **Thank-you page** |
-| ![Quote form](./docs/screenshots/quote-form.png) | ![Thank-you page](./docs/screenshots/thank-you.png) |
-| **Lead notification email** | **Before / after gallery** |
-| ![Lead email](./docs/screenshots/lead-email.png) | ![Before and after](./docs/screenshots/before-after.png) |
 
 ---
 
