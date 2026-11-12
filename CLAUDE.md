@@ -38,6 +38,7 @@ Env vars (`.env.local`): `RESEND_API_KEY`; `BUSINESS_EMAIL_1` / `BUSINESS_EMAIL_
 - `app/layout.tsx` loads gtag (`AW-959322441`) and the phone-call conversion config.
 - `app/success/layout.tsx` fires the form-submission conversion event, so `/success` must only be reached after a successful submit. Keep the event in that layout, not in `page.tsx`.
 - `lib/gtag.ts` exposes `reportPhoneConversion()` for click-to-call tracking.
+- The business phone number is also hardcoded outside `content.ts`: in the `phone_conversion_number` gtag config in `app/layout.tsx` and in `tel:` links across the legacy components and `app/privacy-policy/`. If the number changes, grep for `296-7711` / `7202967711`.
 
 ## Theming (legacy routes only)
 
