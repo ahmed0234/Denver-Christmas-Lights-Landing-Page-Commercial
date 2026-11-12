@@ -4,7 +4,7 @@
 
 **A conversion-focused lead generation site that turns Google Ads clicks from Denver property managers into qualified quote requests and phone calls.**
 
-[**Live site →**]([ADD: live URL])
+[**Live site →**](https://commercial.christmascolorado.com/)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
@@ -54,10 +54,6 @@ This site is built around one action: **get a qualified commercial prospect to r
 | Lighthouse Performance (mobile) | `95` |
 | Lighthouse Accessibility / Best Practices / SEO | `98 / 100 / 100` |
 | Largest Contentful Paint (mobile) | `1.2s` |
-| Landing page conversion rate | `[ADD: conversion rate]` |
-| Cost per lead | `[ADD: cost per lead]` |
-| Leads per season | `[ADD: lead volume]` |
-| Phone calls tracked from ads | `[ADD: call volume]` |
 
 ---
 
