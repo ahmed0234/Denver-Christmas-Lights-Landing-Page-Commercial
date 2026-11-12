@@ -366,10 +366,10 @@ I build websites that bring in business for service companies: fast landing page
 
 **Need a site that brings in leads, not just compliments?** Let's talk.
 
-**[ADD: Your name]** · 📧 [ADD: email] · 🌐 [ADD: portfolio URL] · 💼 [ADD: LinkedIn URL]
+**Ahmed Hassan** · 📧 [ahmedkiller0234@gmail.com](mailto:ahmedkiller0234@gmail.com) · 🌐 [ahmedhportfolio.vercel.app](https://ahmedhportfolio.vercel.app/)
 
 ---
 
 <div align="center">
-<sub>© [ADD: year] [ADD: owner]. All rights reserved. Built for Denver Christmas Lights.</sub>
+<sub>© 2026 Ahmed Hassan. All rights reserved. Built for Denver Christmas Lights.</sub>
 </div>
