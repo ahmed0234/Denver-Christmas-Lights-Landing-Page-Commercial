@@ -15,7 +15,7 @@
 ![Lighthouse](https://img.shields.io/badge/Lighthouse-95-lightgrey?logo=lighthouse&logoColor=white)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
 
-![Homepage](./docs/screenshots/hero.png)
+
 
 </div>
 
@@ -169,7 +169,7 @@ flowchart LR
 | Email | **Resend** | Simple API, verified sending domain, good deliverability |
 | Tracking | **Google Ads gtag.js** | Native form and phone-call conversions that feed bidding directly |
 | Images | **next/image** (AVIF/WebP) | Smaller payloads on mobile, where most ad traffic comes from |
-| Hosting | `[ADD: hosting provider]` | `[ADD: reason]` |
+
 
 ---
 
@@ -224,7 +224,7 @@ Payloads without `formType: "commercial"` fall through to a legacy residential h
 - **GCLID capture**: `lib/gclid.ts` reads `?gclid=` from the landing URL, sanitizes it and stores it in `sessionStorage`, so it survives reloads and in-tab navigation. The server sanitizes it again before it goes into the lead email.
 - **Form conversions**: the conversion event fires from `app/success/layout.tsx`, and `/success` is only reached after the API confirms the lead was accepted, so the count only includes real leads.
 - **Phone-call conversions**: gtag's `phone_conversion_number` config lets Google Ads swap in a forwarding number and record calls from ad visitors. `lib/gtag.ts` also exposes `reportPhoneConversion()` for click-to-call events.
-- **Closing the loop**: since every lead email includes its GCLID, closed deals can be uploaded back to Google Ads as offline conversions. `[ADD: whether offline conversion import is in use]`
+
 
 ---
 
